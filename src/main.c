@@ -24,14 +24,16 @@
 
 #include <gtk/gtk.h>
 
-
 struct task {
 	int id;
 	char *description;
 	char *status;
+	char *uuid;
 };
 
 static struct task **tasks;
+static GtkTextView *w_description;
+static GtkTreeView *w_treeview;
 
 static char *task_exec(char *opts)
 {
@@ -44,6 +46,8 @@ static char *task_exec(char *opts)
 	cmd = malloc(strlen("task rc.json.array=on ") + strlen(opts) + 1);
 	strcpy(cmd, "task rc.json.array=on ");
 	strcat(cmd, opts);
+
+	printf("execute: %s\n", cmd);
 
 	f = popen(cmd, "r");
 
@@ -120,6 +124,9 @@ static struct task **get_all_tasks()
 
 		json = json_object_object_get(jtask, "status");
 		tasks[i]->status = strdup(json_object_get_string(json));
+
+		json = json_object_object_get(jtask, "uuid");
+		tasks[i]->uuid = strdup(json_object_get_string(json));
 	}
 
 	tasks[n] = NULL;
@@ -129,13 +136,12 @@ static struct task **get_all_tasks()
 	return tasks;
 }
 
-static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
+static struct task *get_selected_task(GtkTreeView *treeview)
 {
 	GtkTreePath *path;
 	GtkTreeViewColumn *cols;
 	gint *i;
-
-	printf("cursor_changed_cbk\n");
+	struct task *task;
 
 	gtk_tree_view_get_cursor(treeview, &path, &cols);
 
@@ -144,18 +150,109 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 		
 		if (i)
 			printf("row selected: %d\n", *i);
-		
+
+		task = tasks[*i];
+
+		gtk_tree_path_free(path);
+
+		return task;
+	}
+
+	return NULL;
+}
+
+static char *escape(char *txt)
+{
+	char *result;
+	char *c;
+
+	result = malloc(2*strlen(txt)+1);
+	c = result;
+
+	while(*txt) {
+		switch(*txt) {
+		case '"':
+			*c = '\\'; c++;
+			*c = '"';
+			break;
+		case '$':
+			*c = '\\'; c++;
+			*c = '$';
+			break;
+		case '&':
+			*c = '\\'; c++;
+			*c = '&';
+			break;
+		default:
+			*c = *txt;
+		}
+		c++;
+		txt++;
+	}
+
+	*c = '\0';
+
+	return result;
+}
+
+static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	struct task *task;
+	GtkTextBuffer *buf;
+	char *txt, *opts;
+	GtkTextIter sIter, eIter;
+
+	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
+
+	printf("tasksave_clicked_cbk %d\n", task->id);	
+
+	buf = gtk_text_view_get_buffer(w_description);
+
+	gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
+	gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
+	txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
+
+	txt = escape(txt);
+
+	printf("%s\n", txt);
+
+	opts = malloc(1
+		      + strlen(task->uuid)
+		      + strlen(" modify description:\"")
+		      + strlen(txt)
+		      + strlen("\"")
+		      + 1);
+	sprintf(opts, " %s modify \"%s\"", task->uuid, txt);
+
+	task_exec(opts);
+	
+	return FALSE;
+}
+
+static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
+{
+	struct task *task;
+	GtkTextBuffer *buf;
+
+	printf("cursor_changed_cbk\n");
+
+	task = get_selected_task(treeview);
+
+	if (task) {
+		buf = gtk_text_view_get_buffer(w_description);
+		gtk_text_buffer_set_text(buf,
+					 task->description,
+					 strlen(task->description));
 
 	}
 
-	gtk_tree_path_free(path);
-
 	return FALSE;
 }
+
 int main(int argc, char **argv)
 {
 	GtkWidget *window;
-	GtkWidget *treeview;
+	GtkWidget *btn;
 	GtkBuilder *builder;
 	GtkTreeIter iter;
 	int i;
@@ -171,9 +268,12 @@ int main(int argc, char **argv)
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
 	printf("%p\n", window);
 
-	treeview = GTK_WIDGET(gtk_builder_get_object(builder, "treeview"));
+	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
 
-	model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
+	w_description = GTK_TEXT_VIEW(gtk_builder_get_object(builder,
+							     "taskdescription"));
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 
 	tasks = get_all_tasks();
 
@@ -186,8 +286,12 @@ int main(int argc, char **argv)
 				   -1);
 	}
 
-	g_signal_connect(treeview,
+	g_signal_connect(w_treeview,
 			 "cursor-changed", (GCallback)cursor_changed_cbk, tasks);
+
+	btn = GTK_WIDGET(gtk_builder_get_object(builder, "tasksave"));
+	g_signal_connect(btn,
+			 "clicked", (GCallback)tasksave_clicked_cbk, tasks);
 
 	g_object_unref(G_OBJECT(builder));
 
