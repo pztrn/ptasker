@@ -1,5 +1,6 @@
 SUBDIRS = po \
-	src 
+	src \
+	tests
 
 dist_doc_DATA = AUTHORS \
 	COPYING \

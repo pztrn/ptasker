@@ -54,6 +54,7 @@ AC_CONFIG_FILES([
  Makefile
  po/Makefile.in
  src/Makefile
+ tests/Makefile
 ])
 
 AC_CHECK_PROGS([HELP2MAN], [help2man])
