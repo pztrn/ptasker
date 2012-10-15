@@ -1,3 +1,5 @@
+SUBDIRS=glade
+
 AM_LDFLAGS = -Wl,--as-needed 
 
 AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)

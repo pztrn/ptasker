@@ -22,6 +22,14 @@
 
 #include <json/json.h>
 
+#include <gtk/gtk.h>
+
+struct task {
+	int id;
+	char *description;
+	char *status;
+};
+
 static char *task_exec(char *opts)
 {
 	FILE *f;
@@ -69,25 +77,94 @@ static struct json_object *task_exec_json(char *opts)
 {
 	struct json_object *o;
 	char *str;
-	
+
 	str = task_exec(opts);
 
 	if (str) {
 		o = json_tokener_parse(str);
 		free(str);
 		return o;
-	} 
+	}
 
 	return NULL;
 }
 
+static struct task **get_all_tasks()
+{
+	int i, n;
+	struct json_object *jtasks, *jtask, *json;
+	struct task **tasks;
+
+	jtasks = task_exec_json("export");
+
+	if (!jtasks)
+		return NULL;
+
+	n = json_object_array_length(jtasks);
+
+	tasks = malloc((n + 1) * sizeof(struct task *));
+
+	for (i = 0; i < n; i++) {
+		jtask = json_object_array_get_idx(jtasks, i);
+
+		tasks[i] = malloc(sizeof(struct task));
+
+		json = json_object_object_get(jtask, "id");
+		tasks[i]->id = json_object_get_int(json);
+
+		json = json_object_object_get(jtask, "description");
+		tasks[i]->description = strdup(json_object_get_string(json));
+
+		json = json_object_object_get(jtask, "status");
+		tasks[i]->status = strdup(json_object_get_string(json));
+	}
+
+	tasks[n] = NULL;
+
+	json_object_put(jtasks);
+
+	return tasks;
+}
+
 int main(int argc, char **argv)
 {
-	struct json_object *o;
+	GtkWidget *window;
+	GtkWidget *treeview;
+	GtkBuilder *builder;
+	GtkTreeIter iter;
+	int i;
+	GtkTreeModel *model;
+	struct task **tasks, **tasks_cur;
 
-	o = task_exec_json("export");
+	gtk_init(NULL, NULL);
+	builder = gtk_builder_new();
+	gtk_builder_add_from_file
+		(builder,
+		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "gtask.glade",
+		 NULL);
+	window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
+	printf("%p\n", window);
 
-	printf("%s\n", json_object_to_json_string(o));
+	treeview = GTK_WIDGET(gtk_builder_get_object(builder, "treeview"));
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
+
+	tasks = get_all_tasks();
+
+	for (tasks_cur = tasks, i = 0; *tasks_cur; tasks_cur++, i++) {
+		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
+		gtk_list_store_set(GTK_LIST_STORE(model),
+				   &iter,
+				   0, (*tasks_cur)->id,
+				   1, (*tasks_cur)->description,
+				   -1);
+	}
+
+	g_object_unref(G_OBJECT(builder));
+
+	gtk_widget_show_all(window);
+
+	gtk_main();
 
 	exit(EXIT_SUCCESS);
 }

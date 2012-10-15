@@ -54,6 +54,7 @@ AC_CONFIG_FILES([
  Makefile
  po/Makefile.in
  src/Makefile
+ src/glade/Makefile
  tests/Makefile
 ])
 
