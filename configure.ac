@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.64])
-AC_INIT([psensor], [0.0.x],[jeanfi@gmail.com],[psensor],[http://wpitchoune.net/gtask])
+AC_INIT([gtask], [0.0.x],[jeanfi@gmail.com],[gtask],[http://wpitchoune.net/gtask])
 
 AM_INIT_AUTOMAKE([-Wall -Werror gnu])
 
