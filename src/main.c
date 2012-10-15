@@ -24,11 +24,14 @@
 
 #include <gtk/gtk.h>
 
+
 struct task {
 	int id;
 	char *description;
 	char *status;
 };
+
+static struct task **tasks;
 
 static char *task_exec(char *opts)
 {
@@ -126,6 +129,29 @@ static struct task **get_all_tasks()
 	return tasks;
 }
 
+static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
+{
+	GtkTreePath *path;
+	GtkTreeViewColumn *cols;
+	gint *i;
+
+	printf("cursor_changed_cbk\n");
+
+	gtk_tree_view_get_cursor(treeview, &path, &cols);
+
+	if (path) {
+		i = gtk_tree_path_get_indices(path);
+		
+		if (i)
+			printf("row selected: %d\n", *i);
+		
+
+	}
+
+	gtk_tree_path_free(path);
+
+	return FALSE;
+}
 int main(int argc, char **argv)
 {
 	GtkWidget *window;
@@ -134,7 +160,7 @@ int main(int argc, char **argv)
 	GtkTreeIter iter;
 	int i;
 	GtkTreeModel *model;
-	struct task **tasks, **tasks_cur;
+	struct task **tasks_cur;
 
 	gtk_init(NULL, NULL);
 	builder = gtk_builder_new();
@@ -159,6 +185,9 @@ int main(int argc, char **argv)
 				   1, (*tasks_cur)->description,
 				   -1);
 	}
+
+	g_signal_connect(treeview,
+			 "cursor-changed", (GCallback)cursor_changed_cbk, tasks);
 
 	g_object_unref(G_OBJECT(builder));
 
