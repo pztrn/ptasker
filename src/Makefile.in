@@ -248,7 +248,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = glade
-AM_LDFLAGS = -Wl,--as-needed 
+AM_LDFLAGS = -Wl,--as-needed  -export-dynamic
 AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)
 gtask_SOURCES = main.c \
 	tw.c tw.h

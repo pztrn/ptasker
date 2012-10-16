@@ -1,6 +1,7 @@
 SUBDIRS=glade
 
-AM_LDFLAGS = -Wl,--as-needed 
+# -export-dynamic is need for defining handlers in the glade file.
+AM_LDFLAGS = -Wl,--as-needed  -export-dynamic
 
 AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)
 

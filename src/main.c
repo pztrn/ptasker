@@ -164,7 +164,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
-static int refresh_clicked_cbk(GtkButton *btn, gpointer data)
+int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	printf("refresh_clicked_cbk\n");
 	refresh();
@@ -243,6 +243,8 @@ int main(int argc, char **argv)
 
 	refresh();
 
+	gtk_builder_connect_signals(builder, NULL);
+
 	g_signal_connect(w_treeview,
 			 "cursor-changed", (GCallback)cursor_changed_cbk,
 			 tasks);
@@ -255,9 +257,9 @@ int main(int argc, char **argv)
 	gtk_widget_set_sensitive(btn, 0);
 	w_tasksave_btn = btn;
 
-	btn = GTK_WIDGET(gtk_builder_get_object(builder, "refresh"));
+	/*btn = GTK_WIDGET(gtk_builder_get_object(builder, "refresh"));
 	g_signal_connect(btn,
-			 "clicked", (GCallback)refresh_clicked_cbk, tasks);
+	"clicked", (GCallback)refresh_clicked_cbk, tasks);*/
 
 	g_object_unref(G_OBJECT(builder));
 
