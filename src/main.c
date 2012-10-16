@@ -97,13 +97,13 @@ static void refresh()
 	
 	switch (status) {
 	case 0:
-		tasks = get_all_tasks("pending");
+		tasks = tw_get_all_tasks("pending");
 		break;
 	case 1:
-		tasks = get_all_tasks("completed");
+		tasks = tw_get_all_tasks("completed");
 		break;
 	default:
-		tasks = get_all_tasks("pending");
+		tasks = tw_get_all_tasks("pending");
 	}
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
@@ -131,7 +131,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	struct task *task;
 	GtkTextBuffer *buf;
-	char *txt, *opts;
+	char *txt;
 	GtkTextIter sIter, eIter;
 	const char *ctxt;
 
@@ -152,19 +152,12 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	}
 
 	ctxt = gtk_entry_get_text(w_description);
-	txt = escape(ctxt);
+	if (!task->description || strcmp(ctxt, task->description))
+	    tw_modify_description(task->uuid, ctxt);
 
-	opts = malloc(1
-		      + strlen(task->uuid)
-		      + strlen(" modify description:\"")
-		      + strlen(txt)
-		      + strlen("\"")
-		      + 1);
-	sprintf(opts, " %s modify \"%s\"", task->uuid, txt);
-
-	task_exec(opts);
-
-	free(txt);
+	ctxt = gtk_entry_get_text(w_project);
+	if (!task->project || strcmp(ctxt, task->project))
+	    tw_modify_project(task->uuid, ctxt);
 
 	refresh();
 

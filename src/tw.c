@@ -86,7 +86,7 @@ static struct json_object *task_exec_json(char *opts)
 	return NULL;
 }
 
-struct task **get_all_tasks(const char *status)
+struct task **tw_get_all_tasks(const char *status)
 {
 	int i, n;
 	struct json_object *jtasks, *jtask, *json;
@@ -174,3 +174,44 @@ char *escape(const char *txt)
 	return result;
 }
 
+void tw_modify_description(const char *uuid, const char *newdesc)
+{
+	char *str;
+	char *opts;
+
+	str = escape(newdesc);
+
+	opts = malloc(1
+		      + strlen(uuid)
+		      + strlen(" modify :\"")
+		      + strlen(str)
+		      + strlen("\"")
+		      + 1);
+	sprintf(opts, " %s modify \"%s\"", uuid, str);
+
+	task_exec(opts);
+
+	free(str);
+	free(opts);
+}
+
+void tw_modify_project(const char *uuid, const char *newproject)
+{
+	char *str;
+	char *opts;
+
+	str = escape(newproject);
+
+	opts = malloc(1
+		      + strlen(uuid)
+		      + strlen(" modify project:\"")
+		      + strlen(str)
+		      + strlen("\"")
+		      + 1);
+	sprintf(opts, " %s modify project:\"%s\"", uuid, str);
+
+	task_exec(opts);
+
+	free(str);
+	free(opts);
+}

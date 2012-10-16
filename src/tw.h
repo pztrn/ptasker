@@ -29,7 +29,10 @@ struct task {
 	char *project;
 };
 
-struct task **get_all_tasks(const char *status);
+struct task **tw_get_all_tasks(const char *status);
+void tw_modify_description(const char *uuid, const char *newdesc);
+void tw_modify_project(const char *uuid, const char *newproj);
+
 char *task_exec(char *opts);
 char *escape(const char *txt);
 
