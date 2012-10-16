@@ -101,6 +101,26 @@
       <action-widget response="0">button2</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkListStore" id="prioritystore">
+    <columns>
+      <!-- column-name priority -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">High</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Medium</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Low</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="statusstore">
     <columns>
       <!-- column-name gchararray1 -->
@@ -124,6 +144,8 @@
       <!-- column-name project -->
       <column type="gchararray"/>
       <!-- column-name uuid -->
+      <column type="gchararray"/>
+      <!-- column-name priority -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -258,7 +280,6 @@
                     <property name="margin_top">4</property>
                     <property name="margin_bottom">4</property>
                     <property name="model">taskstore</property>
-                    <property name="headers_clickable">False</property>
                     <property name="expander_column">treeviewcolumn1</property>
                     <property name="search_column">1</property>
                     <property name="enable_grid_lines">both</property>
@@ -275,6 +296,18 @@
                           <object class="GtkCellRendererText" id="cellrenderertext1"/>
                           <attributes>
                             <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="Priority">
+                        <property name="title" translatable="yes">priority</property>
+                        <property name="sort_column_id">4</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext5"/>
+                          <attributes>
+                            <attribute name="text">4</attribute>
                           </attributes>
                         </child>
                       </object>
@@ -365,7 +398,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">2</property>
+                        <property name="top_attach">3</property>
                         <property name="width">1</property>
                         <property name="height">1</property>
                       </packing>
@@ -389,7 +422,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">2</property>
+                        <property name="top_attach">3</property>
                         <property name="width">1</property>
                         <property name="height">1</property>
                       </packing>
@@ -425,7 +458,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
+                        <property name="top_attach">2</property>
                         <property name="width">1</property>
                         <property name="height">1</property>
                       </packing>
@@ -438,6 +471,48 @@
                         <property name="margin_right">4</property>
                         <property name="margin_top">4</property>
                         <property name="invisible_char">•</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">2</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label6">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="margin_left">4</property>
+                        <property name="margin_right">4</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="label" translatable="yes">Priority:</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">1</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="taskpriority">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">4</property>
+                        <property name="margin_right">4</property>
+                        <property name="margin_top">4</property>
+                        <property name="margin_bottom">4</property>
+                        <property name="model">prioritystore</property>
+                        <property name="active">0</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext6"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>

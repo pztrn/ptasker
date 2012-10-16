@@ -33,6 +33,7 @@ static GtkEntry *w_project;
 static GtkTreeView *w_treeview;
 static GtkWidget *w_tasksave_btn;
 static GtkComboBox *w_status;
+static GtkComboBox *w_priority;
 
 enum {
 	COL_ID,
@@ -88,6 +89,9 @@ static void clear_task_panel()
 
 	gtk_entry_set_text(w_project, "");
 	gtk_widget_set_sensitive(GTK_WIDGET(w_project), 0);
+
+	gtk_combo_box_set_active(w_priority, 0);
+	gtk_widget_set_sensitive(GTK_WIDGET(w_priority), 0);
 }
 
 static void refresh()
@@ -142,9 +146,10 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	struct task *task;
 	GtkTextBuffer *buf;
-	char *txt;
+	char *txt, *pri;
 	GtkTextIter sIter, eIter;
 	const char *ctxt;
+	int priority;
 
 	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
 
@@ -169,6 +174,26 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	ctxt = gtk_entry_get_text(w_project);
 	if (!task->project || strcmp(ctxt, task->project))
 		tw_modify_project(task->uuid, ctxt);
+
+	priority = gtk_combo_box_get_active(w_priority);
+	printf("priority: %d\n", priority);
+
+	switch (priority) {
+	case 1:
+		pri = "H";
+		break;
+	case 2:
+		pri = "M";
+		break;
+	case 3:
+		pri = "L";
+		break;
+	default:
+		pri = "";
+	}
+
+	if (strcmp(task->priority, pri))
+		tw_modify_priority(task->uuid, pri);
 
 	refresh();
 
@@ -236,6 +261,7 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
 	struct task *task;
 	GtkTextBuffer *buf;
+	int priority;
 
 	printf("cursor_changed_cbk\n");
 
@@ -262,6 +288,18 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 		gtk_widget_set_sensitive(GTK_WIDGET(w_project), 1);
 
 		gtk_widget_set_sensitive(w_tasksave_btn, 1);
+
+		gtk_widget_set_sensitive(GTK_WIDGET(w_priority), 1);
+		if (!strcmp(task->priority, "H"))
+			priority = 1;
+		else if (!strcmp(task->priority, "M"))
+			priority = 2;
+		else if (!strcmp(task->priority, "L"))
+			priority = 3;
+		else
+			priority = 0;
+
+		gtk_combo_box_set_active(w_priority, priority);
 	} else {
 		printf("clear task widgets\n");
 		clear_task_panel();
@@ -292,6 +330,8 @@ int main(int argc, char **argv)
 							 "taskdescription"));
 	w_project = GTK_ENTRY(gtk_builder_get_object(builder, "taskproject"));
 	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
+	w_priority = GTK_COMBO_BOX(gtk_builder_get_object(builder,
+							  "taskpriority"));
 
 	refresh();
 
