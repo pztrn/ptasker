@@ -38,7 +38,8 @@ enum {
 	COL_ID,
 	COL_DESCRIPTION,
 	COL_PROJECT,
-	COL_UUID
+	COL_UUID,
+	COL_PRIORITY
 };
 
 static struct task *get_selected_task(GtkTreeView *treeview)
@@ -62,7 +63,7 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 
 		uuid = g_value_get_string(&value);
 
-		for(tasks_cur = tasks; *tasks_cur; tasks_cur++)
+		for (tasks_cur = tasks; *tasks_cur; tasks_cur++)
 			if (!strcmp((*tasks_cur)->uuid, uuid))
 				return *tasks_cur;
 
@@ -132,6 +133,7 @@ static void refresh()
 				   COL_ID, (*tasks_cur)->id,
 				   COL_DESCRIPTION, (*tasks_cur)->description,
 				   COL_UUID, (*tasks_cur)->uuid,
+				   COL_PRIORITY, (*tasks_cur)->priority,
 				   -1);
 	}
 }

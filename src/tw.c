@@ -127,6 +127,13 @@ struct task **tw_get_all_tasks(const char *status)
 		else
 			tasks[i]->project = NULL;
 
+		json = json_object_object_get(jtask, "priority");
+		if (json)
+			tasks[i]->priority
+				= strdup(json_object_get_string(json));
+		else
+			tasks[i]->priority = strdup("");
+
 		json = json_object_object_get(jtask, "uuid");
 		tasks[i]->uuid = strdup(json_object_get_string(json));
 
@@ -209,6 +216,27 @@ void tw_modify_project(const char *uuid, const char *newproject)
 		      + strlen("\"")
 		      + 1);
 	sprintf(opts, " %s modify project:\"%s\"", uuid, str);
+
+	task_exec(opts);
+
+	free(str);
+	free(opts);
+}
+
+void tw_modify_priority(const char *uuid, const char *priority)
+{
+	char *str;
+	char *opts;
+
+	str = escape(priority);
+
+	opts = malloc(1
+		      + strlen(uuid)
+		      + strlen(" modify priority:\"")
+		      + strlen(str)
+		      + strlen("\"")
+		      + 1);
+	sprintf(opts, " %s modify priority:\"%s\"", uuid, str);
 
 	task_exec(opts);
 

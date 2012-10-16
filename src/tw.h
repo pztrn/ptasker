@@ -27,11 +27,13 @@ struct task {
 	char *uuid;
 	char *note;
 	char *project;
+	char *priority;
 };
 
 struct task **tw_get_all_tasks(const char *status);
 void tw_modify_description(const char *uuid, const char *newdesc);
 void tw_modify_project(const char *uuid, const char *newproj);
+void tw_modify_priority(const char *uuid, const char *priority);
 void tw_add(const char *newdesc);
 
 char *task_exec(char *opts);
