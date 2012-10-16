@@ -86,13 +86,18 @@ static struct json_object *task_exec_json(char *opts)
 	return NULL;
 }
 
-struct task **get_all_tasks()
+struct task **get_all_tasks(const char *status)
 {
 	int i, n;
 	struct json_object *jtasks, *jtask, *json;
 	struct task **tasks;
+	char *opts;
 
-	jtasks = task_exec_json("export");
+	opts = malloc(strlen("export status:") + strlen(status) + 1);
+	sprintf(opts, "export status:%s", status);
+
+	jtasks = task_exec_json(opts);
+	free(opts);
 
 	if (!jtasks)
 		return NULL;

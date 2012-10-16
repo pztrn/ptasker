@@ -29,8 +29,10 @@
 static struct task **tasks;
 static GtkTextView *w_note;
 static GtkEntry *w_description;
+static GtkEntry *w_project;
 static GtkTreeView *w_treeview;
 static GtkWidget *w_tasksave_btn;
+static GtkComboBox *w_status;
 
 static struct task *get_selected_task(GtkTreeView *treeview)
 {
@@ -62,6 +64,23 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 	return task;
 }
 
+static void clear_task_panel()
+{
+	GtkTextBuffer *buf;
+
+	gtk_widget_set_sensitive(w_tasksave_btn, 0);
+	
+	buf = gtk_text_view_get_buffer(w_note);
+	gtk_text_buffer_set_text(buf, "", 0);
+	gtk_widget_set_sensitive(GTK_WIDGET(w_note), 0);
+	
+	gtk_entry_set_text(w_description, "");
+	gtk_widget_set_sensitive(GTK_WIDGET(w_description), 0);
+	
+	gtk_entry_set_text(w_project, "");
+	gtk_widget_set_sensitive(GTK_WIDGET(w_project), 0);
+}
+
 static void refresh()
 {
 	GtkTreeModel *model;
@@ -69,8 +88,23 @@ static void refresh()
 	struct task *task;
 	int i;
 	GtkTreeIter iter;
+	int status;
 
-	tasks = get_all_tasks();
+	clear_task_panel();
+
+	status = gtk_combo_box_get_active(w_status);
+	printf("status: %d\n", status);
+	
+	switch (status) {
+	case 0:
+		tasks = get_all_tasks("pending");
+		break;
+	case 1:
+		tasks = get_all_tasks("completed");
+		break;
+	default:
+		tasks = get_all_tasks("pending");
+	}
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_list_store_clear(GTK_LIST_STORE(model));
@@ -145,6 +179,14 @@ static int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
+static int status_changed_cbk(GtkComboBox *w, gpointer data)
+{
+	printf("status_changed_cbk\n");
+	refresh();
+
+	return FALSE;
+}
+
 static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
 	struct task *task;
@@ -156,17 +198,28 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 
 	if (task) {
 
-		if (task->note) {
-			buf = gtk_text_view_get_buffer(w_note);
+		buf = gtk_text_view_get_buffer(w_note);
+		if (task->note)
 			gtk_text_buffer_set_text(buf,
 						 task->note,
 						 strlen(task->note));
-		}
+		else
+			gtk_text_buffer_set_text(buf, "", 0);
+		gtk_widget_set_sensitive(GTK_WIDGET(w_note), 1);
 
 		gtk_entry_set_text(w_description, task->description);
+		gtk_widget_set_sensitive(GTK_WIDGET(w_description), 1);
+
+		if (task->project)
+			gtk_entry_set_text(w_project, task->project);
+		else
+			gtk_entry_set_text(w_project, "");
+		gtk_widget_set_sensitive(GTK_WIDGET(w_project), 1);
+
 		gtk_widget_set_sensitive(w_tasksave_btn, 1);
 	} else {
-		gtk_widget_set_sensitive(w_tasksave_btn, 0);
+		printf("clear task widgets\n");
+		clear_task_panel();
 	}
 
 	return FALSE;
@@ -192,13 +245,17 @@ int main(int argc, char **argv)
 
 	w_description = GTK_ENTRY(gtk_builder_get_object(builder,
 							 "taskdescription"));
+	w_project = GTK_ENTRY(gtk_builder_get_object(builder, "taskproject"));
+	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
 
 	refresh();
 
 	g_signal_connect(w_treeview,
 			 "cursor-changed", (GCallback)cursor_changed_cbk,
 			 tasks);
-
+	g_signal_connect(w_status,
+			 "changed", (GCallback)status_changed_cbk,
+			 tasks);
 	btn = GTK_WIDGET(gtk_builder_get_object(builder, "tasksave"));
 	g_signal_connect(btn,
 			 "clicked", (GCallback)tasksave_clicked_cbk, tasks);

@@ -29,7 +29,7 @@ struct task {
 	char *project;
 };
 
-struct task **get_all_tasks();
+struct task **get_all_tasks(const char *status);
 char *task_exec(char *opts);
 char *escape(const char *txt);
 
