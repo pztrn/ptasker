@@ -30,6 +30,7 @@ static struct task **tasks;
 static GtkTextView *w_note;
 static GtkEntry *w_description;
 static GtkTreeView *w_treeview;
+static GtkWidget *w_tasksave_btn;
 
 static struct task *get_selected_task(GtkTreeView *treeview)
 {
@@ -168,6 +169,9 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 		}
 
 		gtk_entry_set_text(w_description, task->description);
+		gtk_widget_set_sensitive(w_tasksave_btn, 1);
+	} else {
+		gtk_widget_set_sensitive(w_tasksave_btn, 0);
 	}
 
 	return FALSE;
@@ -203,6 +207,8 @@ int main(int argc, char **argv)
 	btn = GTK_WIDGET(gtk_builder_get_object(builder, "tasksave"));
 	g_signal_connect(btn,
 			 "clicked", (GCallback)tasksave_clicked_cbk, tasks);
+	gtk_widget_set_sensitive(btn, 0);
+	w_tasksave_btn = btn;
 
 	btn = GTK_WIDGET(gtk_builder_get_object(builder, "refresh"));
 	g_signal_connect(btn,
