@@ -45,20 +45,23 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 
 	if (path) {
 		i = gtk_tree_path_get_indices(path);
-		
-		if (i)
+
+		if (i) {
 			printf("row selected: %d\n", *i);
 
-		task = tasks[*i];
+			task = tasks[*i];
+		} else {
+			task = NULL;
+		}
 
 		gtk_tree_path_free(path);
-
-		return task;
+	} else {
+		task = NULL;
 	}
 
 	printf("get_selected_task returns NULL\n");
 
-	return NULL;
+	return task;
 }
 
 static void refresh()
@@ -77,7 +80,7 @@ static void refresh()
 		task = (*tasks_cur);
 
 		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
-		
+
 		if (task->project)
 			gtk_list_store_set(GTK_LIST_STORE(model),
 					   &iter,
@@ -102,7 +105,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
 
-	printf("tasksave_clicked_cbk %d\n", task->id);	
+	printf("tasksave_clicked_cbk %d\n", task->id);
 
 	if (task->note) {
 		buf = gtk_text_view_get_buffer(w_note);
@@ -126,11 +129,11 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 		      + strlen("\"")
 		      + 1);
 	sprintf(opts, " %s modify \"%s\"", task->uuid, txt);
-	
+
 	task_exec(opts);
 
 	free(txt);
-	
+
 	refresh();
 
 	return FALSE;
@@ -184,7 +187,6 @@ int main(int argc, char **argv)
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "gtask.glade",
 		 NULL);
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-	printf("%p\n", window);
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
 
@@ -196,7 +198,8 @@ int main(int argc, char **argv)
 	refresh();
 
 	g_signal_connect(w_treeview,
-			 "cursor-changed", (GCallback)cursor_changed_cbk, tasks);
+			 "cursor-changed", (GCallback)cursor_changed_cbk,
+			 tasks);
 
 	btn = GTK_WIDGET(gtk_builder_get_object(builder, "tasksave"));
 	g_signal_connect(btn,

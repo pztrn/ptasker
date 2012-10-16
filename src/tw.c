@@ -21,17 +21,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <json/json.h>
-
-#include "tw.h"
 
 char *task_exec(char *opts)
 {
 	FILE *f;
-	int ret, s;
+	int ret;
+	size_t s;
 	char *str, *tmp, *cmd, buf[1024];
-
-	str = NULL;
 
 	cmd = malloc(strlen("task rc.json.array=on ") + strlen(opts) + 1);
 	strcpy(cmd, "task rc.json.array=on ");
@@ -43,13 +39,13 @@ char *task_exec(char *opts)
 
 	if (!f) {
 		perror("popen");
+		str = NULL;
 		goto exit_free;
 	}
 
-	str = malloc(1);
-	str[0] = '\0';
+	str = strdup("");
 	while ((s = fread(buf, 1, 1024, f))) {
-		tmp = malloc(strlen(str) + s + 1);
+		tmp = malloc(strlen(str) + s + (size_t)1);
 		memcpy(tmp, str, strlen(str));
 		memcpy(tmp + strlen(str), buf, s);
 		tmp[strlen(str) + s] = '\0';
@@ -69,6 +65,10 @@ char *task_exec(char *opts)
 
 	return str;
 }
+
+#include <json/json.h>
+
+#include "tw.h"
 
 static struct json_object *task_exec_json(char *opts)
 {
@@ -143,8 +143,8 @@ char *escape(const char *txt)
 	result = malloc(2*strlen(txt)+1);
 	c = result;
 
-	while(*txt) {
-		switch(*txt) {
+	while (*txt) {
+		switch (*txt) {
 		case '"':
 			*c = '\\'; c++;
 			*c = '"';
