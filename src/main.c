@@ -29,10 +29,13 @@ struct task {
 	char *description;
 	char *status;
 	char *uuid;
+	char *note;
+	char *project;
 };
 
 static struct task **tasks;
-static GtkTextView *w_description;
+static GtkTextView *w_note;
+static GtkEntry *w_description;
 static GtkTreeView *w_treeview;
 
 static char *task_exec(char *opts)
@@ -125,8 +128,17 @@ static struct task **get_all_tasks()
 		json = json_object_object_get(jtask, "status");
 		tasks[i]->status = strdup(json_object_get_string(json));
 
+		json = json_object_object_get(jtask, "project");
+		if (json)
+			tasks[i]->project
+				= strdup(json_object_get_string(json));
+		else
+			tasks[i]->project = NULL;
+
 		json = json_object_object_get(jtask, "uuid");
 		tasks[i]->uuid = strdup(json_object_get_string(json));
+
+		tasks[i]->note = NULL;
 	}
 
 	tasks[n] = NULL;
@@ -161,7 +173,7 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 	return NULL;
 }
 
-static char *escape(char *txt)
+static char *escape(const char *txt)
 {
 	char *result;
 	char *c;
@@ -201,20 +213,26 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	GtkTextBuffer *buf;
 	char *txt, *opts;
 	GtkTextIter sIter, eIter;
+	const char *ctxt;
 
 	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
 
 	printf("tasksave_clicked_cbk %d\n", task->id);	
 
-	buf = gtk_text_view_get_buffer(w_description);
+	if (task->note) {
+		buf = gtk_text_view_get_buffer(w_note);
 
-	gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
-	gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
-	txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
+		gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
+		gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
+		txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
 
-	txt = escape(txt);
+		txt = escape(txt);
 
-	printf("%s\n", txt);
+		printf("%s\n", txt);
+	}
+
+	ctxt = gtk_entry_get_text(w_description);
+	txt = escape(ctxt);
 
 	opts = malloc(1
 		      + strlen(task->uuid)
@@ -223,8 +241,10 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 		      + strlen("\"")
 		      + 1);
 	sprintf(opts, " %s modify \"%s\"", task->uuid, txt);
-
+	
 	task_exec(opts);
+
+	free(txt);
 	
 	return FALSE;
 }
@@ -239,11 +259,15 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 	task = get_selected_task(treeview);
 
 	if (task) {
-		buf = gtk_text_view_get_buffer(w_description);
-		gtk_text_buffer_set_text(buf,
-					 task->description,
-					 strlen(task->description));
 
+		if (task->note) {
+			buf = gtk_text_view_get_buffer(w_note);
+			gtk_text_buffer_set_text(buf,
+						 task->note,
+						 strlen(task->note));
+		}
+
+		gtk_entry_set_text(w_description, task->description);
 	}
 
 	return FALSE;
@@ -258,6 +282,7 @@ int main(int argc, char **argv)
 	int i;
 	GtkTreeModel *model;
 	struct task **tasks_cur;
+	struct task *task;
 
 	gtk_init(NULL, NULL);
 	builder = gtk_builder_new();
@@ -270,15 +295,26 @@ int main(int argc, char **argv)
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
 
-	w_description = GTK_TEXT_VIEW(gtk_builder_get_object(builder,
-							     "taskdescription"));
+	w_note = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "tasknote"));
+
+	w_description = GTK_ENTRY(gtk_builder_get_object(builder,
+							 "taskdescription"));
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 
 	tasks = get_all_tasks();
 
 	for (tasks_cur = tasks, i = 0; *tasks_cur; tasks_cur++, i++) {
+		task = (*tasks_cur);
+
 		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
+		
+		if (task->project)
+			gtk_list_store_set(GTK_LIST_STORE(model),
+					   &iter,
+					   2, task->project,
+					   -1);
+
 		gtk_list_store_set(GTK_LIST_STORE(model),
 				   &iter,
 				   0, (*tasks_cur)->id,
