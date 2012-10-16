@@ -10,7 +10,8 @@ LIBS = $(JSON_LIBS) $(GTK_LIBS)
 
 bin_PROGRAMS = gtask
 
-gtask_SOURCES = main.c
+gtask_SOURCES = main.c \
+	tw.c tw.h
 
 #dist_man_MANS = gtask.1
 

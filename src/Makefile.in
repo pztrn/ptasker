@@ -63,7 +63,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_gtask_OBJECTS = main.$(OBJEXT)
+am_gtask_OBJECTS = main.$(OBJEXT) tw.$(OBJEXT)
 gtask_OBJECTS = $(am_gtask_OBJECTS)
 gtask_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -250,7 +250,9 @@ top_srcdir = @top_srcdir@
 SUBDIRS = glade
 AM_LDFLAGS = -Wl,--as-needed 
 AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)
-gtask_SOURCES = main.c
+gtask_SOURCES = main.c \
+	tw.c tw.h
+
 all: all-recursive
 
 .SUFFIXES:
@@ -336,6 +338,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tw.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
