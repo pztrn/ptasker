@@ -69,14 +69,14 @@ static void clear_task_panel()
 	GtkTextBuffer *buf;
 
 	gtk_widget_set_sensitive(w_tasksave_btn, 0);
-	
+
 	buf = gtk_text_view_get_buffer(w_note);
 	gtk_text_buffer_set_text(buf, "", 0);
 	gtk_widget_set_sensitive(GTK_WIDGET(w_note), 0);
-	
+
 	gtk_entry_set_text(w_description, "");
 	gtk_widget_set_sensitive(GTK_WIDGET(w_description), 0);
-	
+
 	gtk_entry_set_text(w_project, "");
 	gtk_widget_set_sensitive(GTK_WIDGET(w_project), 0);
 }
@@ -94,7 +94,7 @@ static void refresh()
 
 	status = gtk_combo_box_get_active(w_status);
 	printf("status: %d\n", status);
-	
+
 	switch (status) {
 	case 0:
 		tasks = tw_get_all_tasks("pending");
@@ -153,11 +153,11 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 	ctxt = gtk_entry_get_text(w_description);
 	if (!task->description || strcmp(ctxt, task->description))
-	    tw_modify_description(task->uuid, ctxt);
+		tw_modify_description(task->uuid, ctxt);
 
 	ctxt = gtk_entry_get_text(w_project);
 	if (!task->project || strcmp(ctxt, task->project))
-	    tw_modify_project(task->uuid, ctxt);
+		tw_modify_project(task->uuid, ctxt);
 
 	refresh();
 
