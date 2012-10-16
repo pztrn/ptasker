@@ -56,6 +56,37 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 	return NULL;
 }
 
+static void refresh()
+{
+	GtkTreeModel *model;
+	struct task **tasks_cur;
+	struct task *task;
+	GtkTreeIter iter;
+	int i;
+
+	tasks = get_all_tasks();
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_list_store_clear(GTK_LIST_STORE(model));
+	for (tasks_cur = tasks, i = 0; *tasks_cur; tasks_cur++, i++) {
+		task = (*tasks_cur);
+
+		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
+		
+		if (task->project)
+			gtk_list_store_set(GTK_LIST_STORE(model),
+					   &iter,
+					   2, task->project,
+					   -1);
+
+		gtk_list_store_set(GTK_LIST_STORE(model),
+				   &iter,
+				   0, (*tasks_cur)->id,
+				   1, (*tasks_cur)->description,
+				   -1);
+	}
+}
+
 static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	struct task *task;
@@ -95,6 +126,16 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 	free(txt);
 	
+	refresh();
+
+	return FALSE;
+}
+
+static int refresh_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	printf("refresh_clicked_cbk\n");
+	refresh();
+
 	return FALSE;
 }
 
@@ -127,11 +168,6 @@ int main(int argc, char **argv)
 	GtkWidget *window;
 	GtkWidget *btn;
 	GtkBuilder *builder;
-	GtkTreeIter iter;
-	int i;
-	GtkTreeModel *model;
-	struct task **tasks_cur;
-	struct task *task;
 
 	gtk_init(NULL, NULL);
 	builder = gtk_builder_new();
@@ -149,27 +185,7 @@ int main(int argc, char **argv)
 	w_description = GTK_ENTRY(gtk_builder_get_object(builder,
 							 "taskdescription"));
 
-	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
-
-	tasks = get_all_tasks();
-
-	for (tasks_cur = tasks, i = 0; *tasks_cur; tasks_cur++, i++) {
-		task = (*tasks_cur);
-
-		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
-		
-		if (task->project)
-			gtk_list_store_set(GTK_LIST_STORE(model),
-					   &iter,
-					   2, task->project,
-					   -1);
-
-		gtk_list_store_set(GTK_LIST_STORE(model),
-				   &iter,
-				   0, (*tasks_cur)->id,
-				   1, (*tasks_cur)->description,
-				   -1);
-	}
+	refresh();
 
 	g_signal_connect(w_treeview,
 			 "cursor-changed", (GCallback)cursor_changed_cbk, tasks);
@@ -177,6 +193,10 @@ int main(int argc, char **argv)
 	btn = GTK_WIDGET(gtk_builder_get_object(builder, "tasksave"));
 	g_signal_connect(btn,
 			 "clicked", (GCallback)tasksave_clicked_cbk, tasks);
+
+	btn = GTK_WIDGET(gtk_builder_get_object(builder, "refresh"));
+	g_signal_connect(btn,
+			 "clicked", (GCallback)refresh_clicked_cbk, tasks);
 
 	g_object_unref(G_OBJECT(builder));
 
