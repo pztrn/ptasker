@@ -59,8 +59,6 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 		task = NULL;
 	}
 
-	printf("get_selected_task returns NULL\n");
-
 	return task;
 }
 
