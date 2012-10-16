@@ -595,8 +595,6 @@ CPPCHECK_FALSE
 CPPCHECK_TRUE
 HAVE_CPPCHECK
 HELP2MAN
-JSON_FALSE
-JSON_TRUE
 JSON_LIBS
 JSON_CFLAGS
 GTK_LIBS
@@ -6652,30 +6650,38 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$JSON_PKG_ERRORS" >&5
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: \"Remote monitoring disabled" >&5
-$as_echo "$as_me: WARNING: \"Remote monitoring disabled" >&2;}
+	as_fn_error $? "Package requirements (json) were not met:
+
+$JSON_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables JSON_CFLAGS
+and JSON_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: \"Remote monitoring disabled" >&5
-$as_echo "$as_me: WARNING: \"Remote monitoring disabled" >&2;}
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables JSON_CFLAGS
+and JSON_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
 else
 	JSON_CFLAGS=$pkg_cv_JSON_CFLAGS
 	JSON_LIBS=$pkg_cv_JSON_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
-$as_echo "#define HAVE_JSON 1" >>confdefs.h
-
 fi
- if test -n "$JSON_LIBS"; then
-  JSON_TRUE=
-  JSON_FALSE='#'
-else
-  JSON_TRUE='#'
-  JSON_FALSE=
-fi
-
 
 
 
@@ -6930,10 +6936,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${JSON_TRUE}" && test -z "${JSON_FALSE}"; then
-  as_fn_error $? "conditional \"JSON\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${CPPCHECK_TRUE}" && test -z "${CPPCHECK_FALSE}"; then

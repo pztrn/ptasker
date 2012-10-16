@@ -42,11 +42,7 @@ AC_SUBST(GTK_LIBS)
 
 # Check JSON
 JSON_LIBS=
-PKG_CHECK_MODULES(JSON, 
-  json, 
-  [AC_DEFINE([HAVE_JSON],[1],[Use JSON])], 
-  [AC_MSG_WARN("Remote monitoring disabled, json missing")])
-AM_CONDITIONAL(JSON, test -n "$JSON_LIBS")
+PKG_CHECK_MODULES(JSON, json)
 AC_SUBST(JSON_CFLAGS)
 AC_SUBST(JSON_LIBS)
 
