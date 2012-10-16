@@ -215,3 +215,23 @@ void tw_modify_project(const char *uuid, const char *newproject)
 	free(str);
 	free(opts);
 }
+
+void tw_add(const char *newdesc)
+{
+	char *str;
+	char *opts;
+
+	str = escape(newdesc);
+
+	opts = malloc(1
+		      + strlen(" add \"")
+		      + strlen(str)
+		      + strlen("\"")
+		      + 1);
+	sprintf(opts, " add \"%s\"", str);
+
+	task_exec(opts);
+
+	free(str);
+	free(opts);
+}

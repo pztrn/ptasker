@@ -34,34 +34,42 @@ static GtkTreeView *w_treeview;
 static GtkWidget *w_tasksave_btn;
 static GtkComboBox *w_status;
 
+enum {
+	COL_ID,
+	COL_DESCRIPTION,
+	COL_PROJECT,
+	COL_UUID
+};
+
 static struct task *get_selected_task(GtkTreeView *treeview)
 {
 	GtkTreePath *path;
 	GtkTreeViewColumn *cols;
-	gint *i;
-	struct task *task;
+	struct task **tasks_cur;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GValue value = {0,};
+	const char *uuid;
 
 	printf("get_selected_task\n");
 
 	gtk_tree_view_get_cursor(treeview, &path, &cols);
 
 	if (path) {
-		i = gtk_tree_path_get_indices(path);
+		model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
+		gtk_tree_model_get_iter(model, &iter, path);
+		gtk_tree_model_get_value(model, &iter, COL_UUID, &value);
 
-		if (i) {
-			printf("row selected: %d\n", *i);
+		uuid = g_value_get_string(&value);
 
-			task = tasks[*i];
-		} else {
-			task = NULL;
-		}
+		for(tasks_cur = tasks; *tasks_cur; tasks_cur++)
+			if (!strcmp((*tasks_cur)->uuid, uuid))
+				return *tasks_cur;
 
 		gtk_tree_path_free(path);
-	} else {
-		task = NULL;
 	}
 
-	return task;
+	return NULL;
 }
 
 static void clear_task_panel()
@@ -116,13 +124,14 @@ static void refresh()
 		if (task->project)
 			gtk_list_store_set(GTK_LIST_STORE(model),
 					   &iter,
-					   2, task->project,
+					   COL_PROJECT, task->project,
 					   -1);
 
 		gtk_list_store_set(GTK_LIST_STORE(model),
 				   &iter,
-				   0, (*tasks_cur)->id,
-				   1, (*tasks_cur)->description,
+				   COL_ID, (*tasks_cur)->id,
+				   COL_DESCRIPTION, (*tasks_cur)->description,
+				   COL_UUID, (*tasks_cur)->uuid,
 				   -1);
 	}
 }
@@ -168,6 +177,47 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	printf("refresh_clicked_cbk\n");
 	refresh();
+
+	return FALSE;
+}
+
+int newtask_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	gint result;
+	static GtkDialog *diag;
+	GtkBuilder *builder;
+	GtkEntry *entry;
+	const char *ctxt;
+
+	printf("newtask_clicked_cbk\n");
+
+	builder = gtk_builder_new();
+	gtk_builder_add_from_file
+		(builder,
+		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "gtask.glade",
+		 NULL);
+	diag = GTK_DIALOG(gtk_builder_get_object(builder, "diag_tasknew"));
+	gtk_builder_connect_signals(builder, NULL);
+
+	result = gtk_dialog_run(diag);
+
+	if (result == GTK_RESPONSE_ACCEPT) {
+		printf("ok\n");
+		entry = GTK_ENTRY(gtk_builder_get_object
+				  (builder, "diag_tasknew_description"));
+		ctxt = gtk_entry_get_text(entry);
+
+		printf("%s\n", ctxt);
+
+		tw_add(ctxt);
+		refresh();
+	} else {
+		printf("cancel\n");
+	}
+
+	g_object_unref(G_OBJECT(builder));
+
+	gtk_widget_destroy(GTK_WIDGET(diag));
 
 	return FALSE;
 }

@@ -1,17 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkListStore" id="liststore1">
-    <columns>
-      <!-- column-name id -->
-      <column type="gint"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name project -->
-      <column type="gchararray"/>
-    </columns>
+  <object class="GtkDialog" id="diag_tasknew">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">New Task</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button1">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button2">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box6">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label5">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">4</property>
+                <property name="margin_right">4</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="label" translatable="yes">Description:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="diag_tasknew_description">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_left">4</property>
+                <property name="margin_right">4</property>
+                <property name="margin_top">4</property>
+                <property name="margin_bottom">4</property>
+                <property name="invisible_char">•</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-3">button1</action-widget>
+      <action-widget response="0">button2</action-widget>
+    </action-widgets>
   </object>
-  <object class="GtkListStore" id="liststore2">
+  <object class="GtkListStore" id="statusstore">
     <columns>
       <!-- column-name gchararray1 -->
       <column type="gchararray"/>
@@ -25,6 +115,18 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="taskstore">
+    <columns>
+      <!-- column-name id -->
+      <column type="gint"/>
+      <!-- column-name description -->
+      <column type="gchararray"/>
+      <!-- column-name project -->
+      <column type="gchararray"/>
+      <!-- column-name uuid -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">gtask</property>
@@ -34,21 +136,48 @@
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_left">4</property>
+        <property name="margin_right">4</property>
+        <property name="margin_top">4</property>
+        <property name="margin_bottom">4</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box4">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkButton" id="refresh">
-                <property name="label" translatable="yes">refresh</property>
+              <object class="GtkButtonBox" id="buttonbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="margin_left">4</property>
-                <property name="margin_right">4</property>
-                <property name="margin_top">4</property>
-                <signal name="clicked" handler="refresh_clicked_cbk" swapped="no"/>
+                <property name="can_focus">False</property>
+                <property name="layout_style">start</property>
+                <child>
+                  <object class="GtkButton" id="refresh">
+                    <property name="label" translatable="yes">Refresh</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="refresh_clicked_cbk" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="newtask">
+                    <property name="label" translatable="yes">New Task</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="newtask_clicked_cbk" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -60,21 +189,17 @@
               <object class="GtkBox" id="box5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">4</property>
-                <property name="margin_right">4</property>
-                <property name="margin_top">4</property>
                 <child>
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">4</property>
                     <property name="margin_right">4</property>
-                    <property name="margin_top">4</property>
                     <property name="label" translatable="yes">Status:</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -82,10 +207,7 @@
                   <object class="GtkComboBox" id="status">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">4</property>
-                    <property name="margin_right">4</property>
-                    <property name="margin_top">4</property>
-                    <property name="model">liststore2</property>
+                    <property name="model">statusstore</property>
                     <property name="active">0</property>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext4"/>
@@ -96,21 +218,21 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">True</property>
+                <property name="fill">False</property>
                 <property name="position">2</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">True</property>
+            <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -135,10 +257,10 @@
                     <property name="margin_right">4</property>
                     <property name="margin_top">4</property>
                     <property name="margin_bottom">4</property>
-                    <property name="model">liststore1</property>
+                    <property name="model">taskstore</property>
                     <property name="headers_clickable">False</property>
                     <property name="expander_column">treeviewcolumn1</property>
-                    <property name="search_column">0</property>
+                    <property name="search_column">1</property>
                     <property name="enable_grid_lines">both</property>
                     <property name="enable_tree_lines">True</property>
                     <child internal-child="selection">
@@ -161,6 +283,10 @@
                       <object class="GtkTreeViewColumn" id="treeviewcolumn3">
                         <property name="min_width">10</property>
                         <property name="title" translatable="yes">Project</property>
+                        <property name="clickable">True</property>
+                        <property name="reorderable">True</property>
+                        <property name="sort_indicator">True</property>
+                        <property name="sort_column_id">2</property>
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext3"/>
                           <attributes>
@@ -176,6 +302,10 @@
                         <property name="min_width">30</property>
                         <property name="title" translatable="yes">Description</property>
                         <property name="expand">True</property>
+                        <property name="clickable">True</property>
+                        <property name="reorderable">True</property>
+                        <property name="sort_indicator">True</property>
+                        <property name="sort_column_id">1</property>
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext2"/>
                           <attributes>
@@ -226,6 +356,8 @@
                       <object class="GtkLabel" id="label2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
                         <property name="margin_left">4</property>
                         <property name="margin_right">4</property>
                         <property name="margin_top">4</property>
@@ -284,6 +416,7 @@
                       <object class="GtkLabel" id="label3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="margin_left">4</property>
                         <property name="margin_right">4</property>
                         <property name="margin_top">4</property>
@@ -330,7 +463,7 @@
                     <property name="margin_bottom">4</property>
                     <child>
                       <object class="GtkButton" id="tasksave">
-                        <property name="label" translatable="yes">OK</property>
+                        <property name="label" translatable="yes">Save</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
