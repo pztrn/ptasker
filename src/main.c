@@ -68,7 +68,6 @@ static void refresh()
 	struct task *task;
 	int i;
 	GtkTreeIter iter;
-	/*GtkTreeSelection *sel;*/
 
 	tasks = get_all_tasks();
 
@@ -91,11 +90,6 @@ static void refresh()
 				   1, (*tasks_cur)->description,
 				   -1);
 	}
-
-	/*
-	sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(w_treeview));
-	gtk_tree_model_get_iter_first(model, &iter);
-	gtk_tree_selection_select_iter(sel, &iter);*/
 }
 
 static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
