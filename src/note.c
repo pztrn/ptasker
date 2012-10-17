@@ -42,7 +42,7 @@ void note_put(const char *uuid, const char *note)
 	path = malloc(strlen(dir) + 1 + strlen(uuid) + strlen(".note") + 1);
 	sprintf(path, "%s/%s.note", dir, uuid);
 
-	printf("note_put %s %s %s \n", path, uuid, note);
+	printf("note_put %s %s %s\n", path, uuid, note);
 
 	f = fopen(path, "w");
 

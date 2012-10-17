@@ -177,9 +177,9 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
 	gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
 	txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
-	
+
 	printf("note=%s\n", txt);
-	
+
 	if (!task->note || strcmp(txt, task->note))
 		note_put(task->uuid, txt);
 
