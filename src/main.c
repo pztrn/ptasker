@@ -102,7 +102,9 @@ static void refresh()
 	int i;
 	GtkTreeIter iter;
 	int status;
+	const char *project;
 
+	printf("refresh\n");
 	clear_task_panel();
 
 	status = gtk_combo_box_get_active(w_status);
@@ -127,19 +129,20 @@ static void refresh()
 		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
 		if (task->project)
-			gtk_list_store_set(GTK_LIST_STORE(model),
-					   &iter,
-					   COL_PROJECT, task->project,
-					   -1);
+			project = task->project;
+		else
+			project = "";
 
 		gtk_list_store_set(GTK_LIST_STORE(model),
 				   &iter,
 				   COL_ID, (*tasks_cur)->id,
 				   COL_DESCRIPTION, (*tasks_cur)->description,
+				   COL_PROJECT, project,
 				   COL_UUID, (*tasks_cur)->uuid,
 				   COL_PRIORITY, (*tasks_cur)->priority,
 				   -1);
 	}
+	printf("refresh done\n");
 }
 
 static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
@@ -179,13 +182,13 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	printf("priority: %d\n", priority);
 
 	switch (priority) {
-	case 1:
+	case 3:
 		pri = "H";
 		break;
 	case 2:
 		pri = "M";
 		break;
-	case 3:
+	case 1:
 		pri = "L";
 		break;
 	default:
@@ -257,6 +260,20 @@ static int status_changed_cbk(GtkComboBox *w, gpointer data)
 	return FALSE;
 }
 
+static int priority_to_int(const char *str)
+{
+	switch (*str) {
+	case 'H':
+		return 3;
+	case 'M':
+		return 2;
+	case 'L':
+		return 1;
+	default:
+		return 0;
+	}
+}
+
 static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
 	struct task *task;
@@ -290,22 +307,40 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 		gtk_widget_set_sensitive(w_tasksave_btn, 1);
 
 		gtk_widget_set_sensitive(GTK_WIDGET(w_priority), 1);
-		if (!strcmp(task->priority, "H"))
-			priority = 1;
-		else if (!strcmp(task->priority, "M"))
-			priority = 2;
-		else if (!strcmp(task->priority, "L"))
-			priority = 3;
-		else
-			priority = 0;
-
+		priority = priority_to_int(task->priority);
 		gtk_combo_box_set_active(w_priority, priority);
 	} else {
 		printf("clear task widgets\n");
 		clear_task_panel();
+		printf("clear task widgets done\n");
 	}
 
 	return FALSE;
+}
+
+static gint priority_cmp(GtkTreeModel *model,
+			 GtkTreeIter *a,
+			 GtkTreeIter *b,
+			 gpointer user_data)
+{
+	GValue v1 = {0,}, v2 = {0,};
+	const char *str1, *str2;
+	int i1, i2;
+
+	gtk_tree_model_get_value(model, a, COL_PRIORITY, &v1);
+	str1 = g_value_get_string(&v1);
+	i1 = priority_to_int(str1);
+
+	gtk_tree_model_get_value(model, b, COL_PRIORITY, &v2);
+	str2 = g_value_get_string(&v2);
+	i2 = priority_to_int(str2);
+
+	if (i1 < i2)
+		return -1;
+	else if (i1 > i2)
+		return 1;
+	else
+		return 0;
 }
 
 int main(int argc, char **argv)
@@ -313,6 +348,7 @@ int main(int argc, char **argv)
 	GtkWidget *window;
 	GtkWidget *btn;
 	GtkBuilder *builder;
+	GtkTreeModel *model;
 
 	gtk_init(NULL, NULL);
 	builder = gtk_builder_new();
@@ -323,6 +359,12 @@ int main(int argc, char **argv)
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(model),
+					COL_PRIORITY,
+					priority_cmp,
+					NULL,
+					NULL);
 
 	w_note = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "tasknote"));
 
