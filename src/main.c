@@ -32,6 +32,7 @@ static GtkEntry *w_description;
 static GtkEntry *w_project;
 static GtkTreeView *w_treeview;
 static GtkWidget *w_tasksave_btn;
+static GtkWidget *w_taskdone_btn;
 static GtkComboBox *w_status;
 static GtkComboBox *w_priority;
 
@@ -79,6 +80,7 @@ static void clear_task_panel()
 	GtkTextBuffer *buf;
 
 	gtk_widget_set_sensitive(w_tasksave_btn, 0);
+	gtk_widget_set_sensitive(w_taskdone_btn, 0);
 
 	buf = gtk_text_view_get_buffer(w_note);
 	gtk_text_buffer_set_text(buf, "", 0);
@@ -316,6 +318,7 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 		gtk_widget_set_sensitive(GTK_WIDGET(w_project), 1);
 
 		gtk_widget_set_sensitive(w_tasksave_btn, 1);
+		gtk_widget_set_sensitive(w_taskdone_btn, 1);
 
 		gtk_widget_set_sensitive(GTK_WIDGET(w_priority), 1);
 		priority = priority_to_int(task->priority);
@@ -396,11 +399,15 @@ int main(int argc, char **argv)
 	g_signal_connect(w_status,
 			 "changed", (GCallback)status_changed_cbk,
 			 tasks);
+
 	btn = GTK_WIDGET(gtk_builder_get_object(builder, "tasksave"));
 	g_signal_connect(btn,
 			 "clicked", (GCallback)tasksave_clicked_cbk, tasks);
 	gtk_widget_set_sensitive(btn, 0);
 	w_tasksave_btn = btn;
+
+	w_taskdone_btn = GTK_WIDGET(gtk_builder_get_object(builder, "taskdone"));
+	gtk_widget_set_sensitive(w_taskdone_btn, 0);
 
 	g_object_unref(G_OBJECT(builder));
 

@@ -514,7 +514,7 @@
                         <property name="can_focus">False</property>
                         <property name="layout_style">start</property>
                         <child>
-                          <object class="GtkButton" id="button3">
+                          <object class="GtkButton" id="taskdone">
                             <property name="label" translatable="yes">Mark Done</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
