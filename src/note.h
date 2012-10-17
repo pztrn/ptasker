@@ -23,5 +23,6 @@
 #include "tw.h"
 
 void note_put(const char *uuid, const char *note);
+char *note_get(const char *uuid);
 
 #endif

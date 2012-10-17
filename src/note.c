@@ -25,15 +25,16 @@
 
 #include <note.h>
 
-void note_put(const char *uuid, const char *note)
+static char *get_path(const char *uuid)
 {
 	char *home, *dir, *path;
-	FILE *f;
 
 	home = getenv("HOME");
 
-	if (!home)
-		return ;
+	if (!home) {
+		fprintf(stderr, "HOME environment variable not defined\n");
+		return NULL;
+	}
 
 	dir = malloc(strlen(home) + 1 + strlen(".task") + 1);
 	sprintf(dir, "%s/%s", home, ".task");
@@ -41,6 +42,21 @@ void note_put(const char *uuid, const char *note)
 
 	path = malloc(strlen(dir) + 1 + strlen(uuid) + strlen(".note") + 1);
 	sprintf(path, "%s/%s.note", dir, uuid);
+
+	free(dir);
+
+	return path;
+}
+
+void note_put(const char *uuid, const char *note)
+{
+	char *path;
+	FILE *f;
+
+	path = get_path(uuid);
+
+	if (!path)
+		return ;
 
 	printf("note_put %s %s %s\n", path, uuid, note);
 
@@ -53,6 +69,38 @@ void note_put(const char *uuid, const char *note)
 		fprintf(stderr, "Failed to open %s\n", path);
 	}
 
-	free(dir);
 	free(path);
+}
+
+char *note_get(const char *uuid)
+{
+	char *str, *tmp, *path;
+	FILE *f;
+	char buf[1024];
+	size_t s;
+
+	path = get_path(uuid);
+
+	if (!path)
+		return NULL;
+
+	str = strdup("");
+
+	f = fopen(path, "r");
+
+	if (f) {
+		while ((s = fread(buf, 1, 1024, f))) {
+			tmp = malloc(strlen(str) + s + (size_t)1);
+			memcpy(tmp, str, strlen(str));
+			memcpy(tmp + strlen(str), buf, s);
+			tmp[strlen(str) + s] = '\0';
+			free(str);
+			str = tmp;
+		}
+		fclose(f);
+	} else {
+		fprintf(stderr, "Failed to open %s\n", path);
+	}
+
+	return str;
 }

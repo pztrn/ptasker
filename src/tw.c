@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "note.h"
 
 char *task_exec(char *opts)
 {
@@ -137,7 +138,7 @@ struct task **tw_get_all_tasks(const char *status)
 		json = json_object_object_get(jtask, "uuid");
 		tasks[i]->uuid = strdup(json_object_get_string(json));
 
-		tasks[i]->note = NULL;
+		tasks[i]->note = note_get(tasks[i]->uuid);
 	}
 
 	tasks[n] = NULL;
