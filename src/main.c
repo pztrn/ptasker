@@ -145,6 +145,17 @@ static void refresh()
 	printf("refresh done\n");
 }
 
+int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	struct task *task;
+
+	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
+	tw_done(task->uuid);
+	refresh();
+
+	return FALSE;
+}
+
 static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	struct task *task;

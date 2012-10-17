@@ -263,3 +263,18 @@ void tw_add(const char *newdesc)
 	free(str);
 	free(opts);
 }
+
+void tw_done(const char *uuid)
+{
+	char *opts;
+
+	opts = malloc(1
+		      + strlen(uuid)
+		      + strlen(" done")
+		      + 1);
+	sprintf(opts, " %s done", uuid);
+
+	task_exec(opts);
+
+	free(opts);
+}
