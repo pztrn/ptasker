@@ -406,7 +406,8 @@ int main(int argc, char **argv)
 	gtk_widget_set_sensitive(btn, 0);
 	w_tasksave_btn = btn;
 
-	w_taskdone_btn = GTK_WIDGET(gtk_builder_get_object(builder, "taskdone"));
+	w_taskdone_btn = GTK_WIDGET(gtk_builder_get_object(builder,
+							   "taskdone"));
 	gtk_widget_set_sensitive(w_taskdone_btn, 0);
 
 	g_object_unref(G_OBJECT(builder));
