@@ -1,0 +1,5 @@
+gtask (0.0.x-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Jean-Philippe Orsini <jeanfi@gmail.com>  Wed, 17 Oct 2012 10:56:10 +0200
