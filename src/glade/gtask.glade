@@ -289,7 +289,7 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="priority">
-                        <property name="title" translatable="yes">priority</property>
+                        <property name="title" translatable="yes">Priority</property>
                         <property name="sort_column_id">4</property>
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext5"/>
@@ -300,7 +300,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn3">
+                      <object class="GtkTreeViewColumn" id="project">
                         <property name="min_width">10</property>
                         <property name="title" translatable="yes">Project</property>
                         <property name="clickable">True</property>
@@ -316,7 +316,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+                      <object class="GtkTreeViewColumn" id="description">
                         <property name="sizing">autosize</property>
                         <property name="fixed_width">10</property>
                         <property name="min_width">30</property>

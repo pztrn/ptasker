@@ -391,10 +391,6 @@ int main(int argc, char **argv)
 	gtk_widget_set_sensitive(btn, 0);
 	w_tasksave_btn = btn;
 
-	/*btn = GTK_WIDGET(gtk_builder_get_object(builder, "refresh"));
-	g_signal_connect(btn,
-	"clicked", (GCallback)refresh_clicked_cbk, tasks);*/
-
 	g_object_unref(G_OBJECT(builder));
 
 	gtk_widget_show_all(window);
