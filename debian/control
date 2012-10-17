@@ -1,15 +1,30 @@
 Source: gtask
-Section: unknown
+Section: utils
 Priority: extra
 Maintainer: Jean-Philippe Orsini <jeanfi@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), autotools-dev
+Build-Depends: asciidoc,
+	       autoconf,
+               automake,
+               autopoint,
+               debhelper (>= 9),
+	       cppcheck,
+               gettext,
+               help2man,
+               libgtk-3-dev,
+               libjson0-dev,
+               perl
+               
 Standards-Version: 3.9.3
-Homepage: <insert the upstream URL, if relevant>
-#Vcs-Git: git://git.debian.org/collab-maint/gtask.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/gtask.git;a=summary
+Homepage: http://wpitchoune.net/psensor
 
 Package: gtask
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: gtask is a graphical user interface on top of taskwarrior
+ for managing daily tasks.
+ .
+ It displays a list of all pending or completed tasks which can
+ be sorted by project, priority or description.
+ .
+ A note, a long description, can be associated to each task.
+ .
