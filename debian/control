@@ -19,9 +19,9 @@ Homepage: http://wpitchoune.net/psensor
 
 Package: gtask
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: gtask is a graphical user interface on top of taskwarrior
- for managing daily tasks.
+Depends: ${shlibs:Depends}, ${misc:Depends}, task
+Description: gtask is a graphical user interface for managing daily tasks
+ built on top of taskwarrior.
  .
  It displays a list of all pending or completed tasks which can
  be sorted by project, priority or description.
