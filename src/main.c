@@ -113,6 +113,9 @@ static void refresh()
 	status = gtk_combo_box_get_active(w_status);
 	printf("status: %d\n", status);
 
+	if (tasks)
+		tw_task_list_free(tasks);
+
 	switch (status) {
 	case 0:
 		tasks = tw_get_all_tasks("pending");

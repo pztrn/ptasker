@@ -279,3 +279,31 @@ void tw_done(const char *uuid)
 
 	free(opts);
 }
+
+static void task_free(struct task *task)
+{
+	if (!task)
+		return ;
+
+	free(task->description);
+	free(task->status);
+	free(task->uuid);
+	free(task->note);
+	free(task->project);
+	free(task->priority);
+
+	free(task);
+}
+
+void tw_task_list_free(struct task **tasks)
+{
+	struct task **cur;
+
+	if (!tasks)
+		return ;
+
+	for (cur = tasks; *cur; cur++)
+		task_free(*cur);
+
+	free(tasks);
+}
