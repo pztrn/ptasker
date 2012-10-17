@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 
+#include "note.h"
 #include "tw.h"
 
 static struct task **tasks;
@@ -171,17 +172,16 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 	printf("tasksave_clicked_cbk %d\n", task->id);
 
-	if (task->note) {
-		buf = gtk_text_view_get_buffer(w_note);
+	buf = gtk_text_view_get_buffer(w_note);
 
-		gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
-		gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
-		txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
-
-		txt = escape(txt);
-
-		printf("%s\n", txt);
-	}
+	gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
+	gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
+	txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
+	
+	printf("note=%s\n", txt);
+	
+	if (!task->note || strcmp(txt, task->note))
+		note_put(task->uuid, txt);
 
 	ctxt = gtk_entry_get_text(w_description);
 	if (!task->description || strcmp(ctxt, task->description))
