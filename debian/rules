@@ -16,6 +16,9 @@
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
-
 %:
 	dh $@  --with autotools-dev
+
+override_dh_install:
+	dh_install
+	rm debian/gtask/usr/share/doc/gtask/INSTALL
