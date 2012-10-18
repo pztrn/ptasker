@@ -1,5 +1,5 @@
-gtask (0.0.x-1) unstable; urgency=low
+gtask (0.0.1-1) quantal; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release.
 
- -- Jean-Philippe Orsini <jeanfi@gmail.com>  Wed, 17 Oct 2012 10:56:10 +0200
+ -- Jean-Philippe Orsini <jeanfi@gmail.com>  Thu, 18 Oct 2012 08:37:47 +0200
