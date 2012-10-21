@@ -174,10 +174,11 @@
                 <property name="layout_style">start</property>
                 <child>
                   <object class="GtkButton" id="refresh">
-                    <property name="label" translatable="yes">Refresh</property>
+                    <property name="label">gtk-refresh</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_stock">True</property>
                     <signal name="clicked" handler="refresh_clicked_cbk" swapped="no"/>
                   </object>
                   <packing>
@@ -188,10 +189,11 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="newtask">
-                    <property name="label" translatable="yes">New Task</property>
+                    <property name="label">gtk-new</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_stock">True</property>
                     <signal name="clicked" handler="newtask_clicked_cbk" swapped="no"/>
                   </object>
                   <packing>
