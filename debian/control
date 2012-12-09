@@ -1,4 +1,4 @@
-Source: gtask
+Source: ptask
 Section: utils
 Priority: extra
 Maintainer: Jean-Philippe Orsini <jeanfi@gmail.com>
@@ -17,7 +17,7 @@ Build-Depends: asciidoc,
 Standards-Version: 3.9.3
 Homepage: http://wpitchoune.net/psensor
 
-Package: gtask
+Package: ptask
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, task
 Description: graphical user interface for managing daily tasks

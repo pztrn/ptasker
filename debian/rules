@@ -21,4 +21,4 @@ export DH_OPTIONS
 
 override_dh_install:
 	dh_install
-	rm debian/gtask/usr/share/doc/gtask/INSTALL
+	rm debian/ptask/usr/share/doc/ptask/INSTALL
