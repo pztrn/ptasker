@@ -1,4 +1,4 @@
 gladedir = $(pkgdatadir)
-glade_DATA = gtask.glade
+glade_DATA = ptask.glade
 
 EXTRA_DIST = $(glade_DATA) 

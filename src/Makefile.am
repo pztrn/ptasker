@@ -9,15 +9,15 @@ DEFS = -DPACKAGE_DATA_DIR=\"$(pkgdatadir)\" -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 LIBS = $(JSON_LIBS) $(GTK_LIBS)
 
-bin_PROGRAMS = gtask
+bin_PROGRAMS = ptask
 
-gtask_SOURCES = main.c \
+ptask_SOURCES = main.c \
 	note.c note.h \
 	tw.c tw.h
 
-#dist_man_MANS = gtask.1
+#dist_man_MANS = ptask.1
 
-#gtask.1: main.c $(top_srcdir)/configure.ac
-#	$(MAKE) $(AM_MAKEFLAGS) gtask$(EXEEXT)
-#	help2man -N --name="GTk+ Task application" --output=gtask.1 ./gtask$(EXEEXT)
+#ptask.1: main.c $(top_srcdir)/configure.ac
+#	$(MAKE) $(AM_MAKEFLAGS) ptask$(EXEEXT)
+#	help2man -N --name="GTk+ Task application" --output=ptask.1 ./ptask$(EXEEXT)
 

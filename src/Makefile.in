@@ -51,7 +51,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = gtask$(EXEEXT)
+bin_PROGRAMS = ptask$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -63,9 +63,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_gtask_OBJECTS = main.$(OBJEXT) note.$(OBJEXT) tw.$(OBJEXT)
-gtask_OBJECTS = $(am_gtask_OBJECTS)
-gtask_LDADD = $(LDADD)
+am_ptask_OBJECTS = main.$(OBJEXT) note.$(OBJEXT) tw.$(OBJEXT)
+ptask_OBJECTS = $(am_ptask_OBJECTS)
+ptask_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -74,8 +74,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(gtask_SOURCES)
-DIST_SOURCES = $(gtask_SOURCES)
+SOURCES = $(ptask_SOURCES)
+DIST_SOURCES = $(ptask_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -252,7 +252,7 @@ SUBDIRS = glade
 # -export-dynamic is need for defining handlers in the glade file.
 AM_LDFLAGS = -Wl,--as-needed  -export-dynamic
 AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)
-gtask_SOURCES = main.c \
+ptask_SOURCES = main.c \
 	note.c note.h \
 	tw.c tw.h
 
@@ -330,9 +330,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-gtask$(EXEEXT): $(gtask_OBJECTS) $(gtask_DEPENDENCIES) $(EXTRA_gtask_DEPENDENCIES) 
-	@rm -f gtask$(EXEEXT)
-	$(LINK) $(gtask_OBJECTS) $(gtask_LDADD) $(LIBS)
+ptask$(EXEEXT): $(ptask_OBJECTS) $(ptask_DEPENDENCIES) $(EXTRA_ptask_DEPENDENCIES) 
+	@rm -f ptask$(EXEEXT)
+	$(LINK) $(ptask_OBJECTS) $(ptask_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -674,11 +674,11 @@ uninstall-am: uninstall-binPROGRAMS
 	uninstall-binPROGRAMS
 
 
-#dist_man_MANS = gtask.1
+#dist_man_MANS = ptask.1
 
-#gtask.1: main.c $(top_srcdir)/configure.ac
-#	$(MAKE) $(AM_MAKEFLAGS) gtask$(EXEEXT)
-#	help2man -N --name="GTk+ Task application" --output=gtask.1 ./gtask$(EXEEXT)
+#ptask.1: main.c $(top_srcdir)/configure.ac
+#	$(MAKE) $(AM_MAKEFLAGS) ptask$(EXEEXT)
+#	help2man -N --name="GTk+ Task application" --output=ptask.1 ./ptask$(EXEEXT)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
