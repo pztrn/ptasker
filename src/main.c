@@ -227,6 +227,15 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
+static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
+{
+	gtk_widget_destroy(w);
+	gtk_main_quit();
+
+	return FALSE;
+}
+
+
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	gint result;
@@ -374,6 +383,9 @@ int main(int argc, char **argv)
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
 		 NULL);
 	window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
+
+	g_signal_connect(window, "delete_event",
+			 G_CALLBACK(delete_event_cbk), NULL);
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
