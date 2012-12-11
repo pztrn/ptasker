@@ -1,11 +1,21 @@
 What's New
 ==========
 
+v0.0.3
+------
+
+ * fixed window close to terminate the application.
+ * added README.
+ * generated HTML version of README and NEWS files.
+
 v0.0.2
 ------
+
  * added refresh keyboard shortcut (ALT-r).
  * added new task keyboard shortcut (ALT-n).
+ * renamed ptask to gtask.
 
 v0.0.1
 ------
- * Initial release
+
+ * Initial release.
