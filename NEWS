@@ -7,6 +7,7 @@ v0.0.3
  * fixed window close to terminate the application.
  * added README.
  * generated HTML version of README and NEWS files.
+ * added fr translation and i18n support.
 
 v0.0.2
 ------
