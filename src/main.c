@@ -377,6 +377,13 @@ int main(int argc, char **argv)
 	GtkBuilder *builder;
 	GtkTreeModel *model;
 
+	setlocale(LC_ALL, "");
+
+#if ENABLE_NLS
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
+#endif
+
 	gtk_init(NULL, NULL);
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
