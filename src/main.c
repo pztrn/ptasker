@@ -372,8 +372,7 @@ static gint priority_cmp(GtkTreeModel *model,
 
 int main(int argc, char **argv)
 {
-	GtkWidget *window;
-	GtkWidget *btn;
+	GtkWidget *window, *btn;
 	GtkBuilder *builder;
 	GtkTreeModel *model;
 
