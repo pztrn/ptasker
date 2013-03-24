@@ -6,7 +6,7 @@ v0.0.4
 
  * fixed i18n support.
  * added --version and --help options.
- * added manpage
+ * added manpage.
 
 v0.0.3
 ------
