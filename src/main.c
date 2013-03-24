@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
 
 #include <json/json.h>
 
@@ -28,6 +29,7 @@
 #include "note.h"
 #include "tw.h"
 
+static const char *program_name;
 static struct task **tasks;
 static GtkTextView *w_note;
 static GtkEntry *w_description;
@@ -45,6 +47,42 @@ enum {
 	COL_UUID,
 	COL_PRIORITY
 };
+
+static struct option long_options[] = {
+	{"version", no_argument, 0, 'v'},
+	{"help", no_argument, 0, 'h'},
+	{0, 0, 0, 0}
+};
+
+static void print_version()
+{
+	printf("ptask %s\n", VERSION);
+	printf(_("Copyright (C) %s jeanfi@gmail.com\n"
+		 "License GPLv2: GNU GPL version 2 or later "
+		 "<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>\n"
+		 "This is free software: you are free to change and "
+		 " redistribute it.\n"
+		 "There is NO WARRANTY, to the extent permitted by law.\n"),
+	       "2012-2013");
+}
+
+static void print_help()
+{
+	printf(_("Usage: %s [OPTION]...\n"), program_name);
+
+	puts(_("Ptask is a task management UI based on taskwarrior."));
+
+	puts("");
+	puts(_("Options:"));
+	puts(_("  -h, --help          display this help and exit\n"
+	       "  -v, --version       display version information and exit"));
+
+	puts("");
+
+	printf(_("Report bugs to: %s\n"), PACKAGE_BUGREPORT);
+	puts("");
+	printf(_("%s home page: <%s>\n"), PACKAGE_NAME, PACKAGE_URL);
+}
 
 static struct task *get_selected_task(GtkTreeView *treeview)
 {
@@ -375,6 +413,9 @@ int main(int argc, char **argv)
 	GtkWidget *window, *btn;
 	GtkBuilder *builder;
 	GtkTreeModel *model;
+	int optc, cmdok, opti;
+
+	program_name = argv[0];
 
 	setlocale(LC_ALL, "");
 
@@ -382,6 +423,28 @@ int main(int argc, char **argv)
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
 #endif
+
+	cmdok = 1;
+	while ((optc = getopt_long(argc, argv, "vh", long_options,
+				   &opti)) != -1) {
+		switch (optc) {
+		case 'h':
+			print_help();
+			exit(EXIT_SUCCESS);
+		case 'v':
+			print_version();
+			exit(EXIT_SUCCESS);
+		default:
+			cmdok = 0;
+			break;
+		}
+	}
+
+	if (!cmdok || optind != argc) {
+		fprintf(stderr, _("Try `%s --help' for more information.\n"),
+			program_name);
+		exit(EXIT_FAILURE);
+	}
 
 	gtk_init(NULL, NULL);
 	builder = gtk_builder_new();
