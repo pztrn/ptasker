@@ -4,7 +4,7 @@ ptask README
 Introduction
 ------------
 
-+ptask+ is a GTK+ graphical user interface of +taskwarrior+, a command
++ptask+ is a GTK+ graphical user interface for +taskwarrior+, a command
 line tasks manager.
 
 Installation Using Distribution Packages
