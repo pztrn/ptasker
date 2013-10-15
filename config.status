@@ -620,8 +620,9 @@ S["JSON_LIBS"]="-ljson  "
 S["JSON_CFLAGS"]="-I/usr/include/json  "
 S["GTK_LIBS"]="-lgtk-3 -lgdk-3 -latk-1.0 -lgio-2.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo-gobject -lpango-1.0 -lcairo -lgobject-2.0 -lglib-2.0  "
 S["GTK_CFLAGS"]="-pthread -I/usr/include/gtk-3.0 -I/usr/include/atk-1.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/pango-1.0 -I/usr/include/gio-unix-2.0/ -I/usr/i"\
-"nclude/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/freetype2 -I/usr/incl"\
-"ude/pixman-1 -I/usr/include/libpng12   -DGTK_DISABLE_SINGLE_INCLUDES  -DGDK_DISABLE_DEPRECATED  -DGTK_DISABLE_DEPRECATED  -DGSEAL_ENABLE "
+"nclude/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/harfbuzz -I/usr/inclu"\
+"de/freetype2 -I/usr/include/pixman-1 -I/usr/include/libpng12   -DGTK_DISABLE_SINGLE_INCLUDES  -DGDK_DISABLE_DEPRECATED  -DGTK_DISABLE_DEPRECATED  -D"\
+"GSEAL_ENABLE "
 S["XEXT_LIBS"]="-lXext  "
 S["XEXT_CFLAGS"]=" "
 S["X11_LIBS"]="-lX11  "
