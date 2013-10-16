@@ -21,9 +21,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "note.h"
+#include <json/json.h>
 
-char *task_exec(char *opts)
+#include "note.h"
+#include "tw.h"
+
+static char *task_exec(char *opts)
 {
 	FILE *f;
 	int ret;
@@ -66,10 +69,6 @@ char *task_exec(char *opts)
 
 	return str;
 }
-
-#include <json/json.h>
-
-#include "tw.h"
 
 static struct json_object *task_exec_json(char *opts)
 {
