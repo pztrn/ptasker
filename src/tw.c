@@ -147,7 +147,7 @@ struct task **tw_get_all_tasks(const char *status)
 	return tasks;
 }
 
-char *escape(const char *txt)
+static char *escape(const char *txt)
 {
 	char *result;
 	char *c;

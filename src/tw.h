@@ -38,6 +38,4 @@ void tw_done(const char *uuid);
 void tw_add(const char *newdesc);
 void tw_task_list_free(struct task **tasks);
 
-char *escape(const char *txt);
-
 #endif
