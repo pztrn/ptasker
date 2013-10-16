@@ -138,6 +138,7 @@ static void clear_task_panel()
 
 static void refresh()
 {
+	GtkWidget *dialog;
 	GtkTreeModel *model;
 	struct task **tasks_cur;
 	struct task *task;
@@ -168,24 +169,41 @@ static void refresh()
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_list_store_clear(GTK_LIST_STORE(model));
-	for (tasks_cur = tasks, i = 0; *tasks_cur; tasks_cur++, i++) {
-		task = (*tasks_cur);
 
-		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
+	if (tasks) {
+		for (tasks_cur = tasks, i = 0; *tasks_cur; tasks_cur++, i++) {
+			task = (*tasks_cur);
 
-		if (task->project)
-			project = task->project;
-		else
-			project = "";
+			gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
-		gtk_list_store_set(GTK_LIST_STORE(model),
-				   &iter,
-				   COL_ID, (*tasks_cur)->id,
-				   COL_DESCRIPTION, (*tasks_cur)->description,
-				   COL_PROJECT, project,
-				   COL_UUID, (*tasks_cur)->uuid,
-				   COL_PRIORITY, (*tasks_cur)->priority,
-				   -1);
+			if (task->project)
+				project = task->project;
+			else
+				project = "";
+
+			gtk_list_store_set(GTK_LIST_STORE(model),
+					   &iter,
+					   COL_ID, (*tasks_cur)->id,
+					   COL_DESCRIPTION, 
+					   (*tasks_cur)->description,
+					   COL_PROJECT, project,
+					   COL_UUID, (*tasks_cur)->uuid,
+					   COL_PRIORITY, (*tasks_cur)->priority,
+					   -1);
+		}
+	}
+	else {
+		dialog = gtk_message_dialog_new(NULL,
+						GTK_DIALOG_DESTROY_WITH_PARENT,
+						GTK_MESSAGE_ERROR,
+						GTK_BUTTONS_CLOSE,
+						_("Error loading tasks, verify "
+						  "that taskwarrior is "
+						  "correctly installed, and its"
+						  " configuration file exist."
+						  ));
+		gtk_dialog_run(GTK_DIALOG (dialog));
+		gtk_widget_destroy(dialog);
 	}
 	printf("refresh done\n");
 }

@@ -20,11 +20,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #include <json/json.h>
 
 #include "note.h"
 #include "tw.h"
+
+static int has_taskrc()
+{
+	char *home, *path;
+	int ret;
+	struct stat st;
+
+	home = getenv("HOME");
+
+	if (!home) {
+		fprintf(stderr, "HOME environment variable not defined\n");
+		return 0;
+	}
+
+	path = malloc(strlen(home) + 1 + strlen(".taskrc") + 1);
+	sprintf(path, "%s/%s", home, ".taskrc");
+
+	ret = lstat(path, &st);
+
+	free(path);
+
+	return ret == 0;
+
+}
 
 static char *task_exec(char *opts)
 {
@@ -32,6 +57,9 @@ static char *task_exec(char *opts)
 	int ret;
 	size_t s;
 	char *str, *tmp, *cmd, buf[1024];
+
+	if (!has_taskrc())
+		return NULL;
 
 	cmd = malloc(strlen("task rc.json.array=on ") + strlen(opts) + 1);
 	strcpy(cmd, "task rc.json.array=on ");
