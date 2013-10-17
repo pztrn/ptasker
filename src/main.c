@@ -20,12 +20,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
+#include <sys/stat.h>
 
 #include <json/json.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include <config.h>
+
+#include "log.h"
 #include "note.h"
 #include "tw.h"
 
@@ -51,6 +55,7 @@ enum {
 static struct option long_options[] = {
 	{"version", no_argument, 0, 'v'},
 	{"help", no_argument, 0, 'h'},
+	{"debug", required_argument, 0, 'd'},
 	{0, 0, 0, 0}
 };
 
@@ -79,6 +84,11 @@ static void print_help()
 
 	puts("");
 
+	puts(_("  -d, --debug=LEVEL   "
+	       "set the debug level, integer between 0 and 3"));
+
+	puts("");
+
 	printf(_("Report bugs to: %s\n"), PACKAGE_BUGREPORT);
 	puts("");
 	printf(_("%s home page: <%s>\n"), PACKAGE_NAME, PACKAGE_URL);
@@ -94,7 +104,7 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 	GValue value = {0,};
 	const char *uuid;
 
-	printf("get_selected_task\n");
+	log_debug("get_selected_task");
 
 	gtk_tree_view_get_cursor(treeview, &path, &cols);
 
@@ -147,11 +157,11 @@ static void refresh()
 	int status;
 	const char *project;
 
-	printf("refresh\n");
+	log_debug("refresh");
 	clear_task_panel();
 
 	status = gtk_combo_box_get_active(w_status);
-	printf("status: %d\n", status);
+	log_debug("status: %d", status);
 
 	if (tasks)
 		tw_task_list_free(tasks);
@@ -184,15 +194,14 @@ static void refresh()
 			gtk_list_store_set(GTK_LIST_STORE(model),
 					   &iter,
 					   COL_ID, (*tasks_cur)->id,
-					   COL_DESCRIPTION, 
+					   COL_DESCRIPTION,
 					   (*tasks_cur)->description,
 					   COL_PROJECT, project,
 					   COL_UUID, (*tasks_cur)->uuid,
 					   COL_PRIORITY, (*tasks_cur)->priority,
 					   -1);
 		}
-	}
-	else {
+	} else {
 		dialog = gtk_message_dialog_new(NULL,
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_ERROR,
@@ -202,10 +211,10 @@ static void refresh()
 						  "correctly installed, and its"
 						  " configuration file exist."
 						  ));
-		gtk_dialog_run(GTK_DIALOG (dialog));
+		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 	}
-	printf("refresh done\n");
+	log_debug("refresh done");
 }
 
 int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
@@ -230,7 +239,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
 
-	printf("tasksave_clicked_cbk %d\n", task->id);
+	log_debug("tasksave_clicked_cbk %d", task->id);
 
 	buf = gtk_text_view_get_buffer(w_note);
 
@@ -238,7 +247,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
 	txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
 
-	printf("note=%s\n", txt);
+	log_debug("note=%s", txt);
 
 	if (!task->note || strcmp(txt, task->note))
 		note_put(task->uuid, txt);
@@ -252,7 +261,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 		tw_modify_project(task->uuid, ctxt);
 
 	priority = gtk_combo_box_get_active(w_priority);
-	printf("priority: %d\n", priority);
+	log_debug("priority: %d", priority);
 
 	switch (priority) {
 	case 3:
@@ -278,7 +287,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 {
-	printf("refresh_clicked_cbk\n");
+	log_debug("refresh_clicked_cbk");
 	refresh();
 
 	return FALSE;
@@ -301,7 +310,7 @@ int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 	GtkEntry *entry;
 	const char *ctxt;
 
-	printf("newtask_clicked_cbk\n");
+	log_debug("newtask_clicked_cbk");
 
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
@@ -314,17 +323,17 @@ int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 	result = gtk_dialog_run(diag);
 
 	if (result == GTK_RESPONSE_ACCEPT) {
-		printf("ok\n");
+		log_debug("ok");
 		entry = GTK_ENTRY(gtk_builder_get_object
 				  (builder, "diag_tasknew_description"));
 		ctxt = gtk_entry_get_text(entry);
 
-		printf("%s\n", ctxt);
+		log_debug("%s", ctxt);
 
 		tw_add(ctxt);
 		refresh();
 	} else {
-		printf("cancel\n");
+		log_debug("cancel");
 	}
 
 	g_object_unref(G_OBJECT(builder));
@@ -336,7 +345,7 @@ int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 
 static int status_changed_cbk(GtkComboBox *w, gpointer data)
 {
-	printf("status_changed_cbk\n");
+	log_debug("status_changed_cbk");
 	refresh();
 
 	return FALSE;
@@ -362,7 +371,7 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 	GtkTextBuffer *buf;
 	int priority;
 
-	printf("cursor_changed_cbk\n");
+	log_debug("cursor_changed_cbk");
 
 	task = get_selected_task(treeview);
 
@@ -393,9 +402,9 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 		priority = priority_to_int(task->priority);
 		gtk_combo_box_set_active(w_priority, priority);
 	} else {
-		printf("clear task widgets\n");
+		log_debug("clear task widgets");
 		clear_task_panel();
-		printf("clear task widgets done\n");
+		log_debug("clear task widgets done");
 	}
 
 	return FALSE;
@@ -426,6 +435,28 @@ static gint priority_cmp(GtkTreeModel *model,
 		return 0;
 }
 
+static void log_init()
+{
+	char *home, *path, *dir;
+
+	home = getenv("HOME");
+
+	if (!home)
+		return ;
+
+	dir = malloc(strlen(home)+1+strlen(".ptask")+1);
+	sprintf(dir, "%s/%s", home, ".ptask");
+	mkdir(dir, 0777);
+
+	path = malloc(strlen(dir)+1+strlen("log")+1);
+	sprintf(path, "%s/%s", dir, "log");
+
+	log_open(path);
+
+	free(dir);
+	free(path);
+}
+
 int main(int argc, char **argv)
 {
 	GtkWidget *window, *btn;
@@ -443,7 +474,7 @@ int main(int argc, char **argv)
 #endif
 
 	cmdok = 1;
-	while ((optc = getopt_long(argc, argv, "vh", long_options,
+	while ((optc = getopt_long(argc, argv, "vhd:", long_options,
 				   &opti)) != -1) {
 		switch (optc) {
 		case 'h':
@@ -452,6 +483,10 @@ int main(int argc, char **argv)
 		case 'v':
 			print_version();
 			exit(EXIT_SUCCESS);
+		case 'd':
+			log_level = atoi(optarg);
+			log_info(_("Enables debug mode."));
+			break;
 		default:
 			cmdok = 0;
 			break;
@@ -463,6 +498,8 @@ int main(int argc, char **argv)
 			program_name);
 		exit(EXIT_FAILURE);
 	}
+
+	log_init();
 
 	gtk_init(NULL, NULL);
 	builder = gtk_builder_new();

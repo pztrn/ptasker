@@ -12,7 +12,9 @@ LIBS = $(JSON_LIBS) $(GTK_LIBS)
 bin_PROGRAMS = ptask
 
 ptask_SOURCES = main.c \
+	log.c log.h \
 	note.c note.h \
+	ptime.c ptime.h \
 	tw.c tw.h
 
 dist_man_MANS = ptask.1

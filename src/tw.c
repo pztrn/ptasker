@@ -24,6 +24,7 @@
 
 #include <json/json.h>
 
+#include <log.h>
 #include "note.h"
 #include "tw.h"
 
@@ -36,7 +37,7 @@ static int has_taskrc()
 	home = getenv("HOME");
 
 	if (!home) {
-		fprintf(stderr, "HOME environment variable not defined\n");
+		log_err("HOME environment variable not defined");
 		return 0;
 	}
 
@@ -65,7 +66,7 @@ static char *task_exec(char *opts)
 	strcpy(cmd, "task rc.json.array=on ");
 	strcat(cmd, opts);
 
-	printf("execute: %s\n", cmd);
+	log_debug("execute: %s", cmd);
 
 	f = popen(cmd, "r");
 
@@ -87,10 +88,8 @@ static char *task_exec(char *opts)
 
 	ret = pclose(f);
 
-	if (ret == -1) {
-		printf("pclose fails\n");
-		perror("pclose");
-	}
+	if (ret == -1)
+		log_err("pclose fails");
 
  exit_free:
 	free(cmd);

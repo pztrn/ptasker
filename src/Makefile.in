@@ -60,14 +60,16 @@ am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
+CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_ptask_OBJECTS = main.$(OBJEXT) note.$(OBJEXT) tw.$(OBJEXT)
+am_ptask_OBJECTS = main.$(OBJEXT) log.$(OBJEXT) note.$(OBJEXT) \
+	ptime.$(OBJEXT) tw.$(OBJEXT)
 ptask_OBJECTS = $(am_ptask_OBJECTS)
 ptask_LDADD = $(LDADD)
-DEFAULT_INCLUDES = -I.@am__isrc@
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
@@ -284,7 +286,9 @@ SUBDIRS = glade
 AM_LDFLAGS = -Wl,--as-needed  -export-dynamic
 AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)
 ptask_SOURCES = main.c \
+	log.c log.h \
 	note.c note.h \
+	ptime.c ptime.h \
 	tw.c tw.h
 
 dist_man_MANS = ptask.1
@@ -372,8 +376,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/note.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ptime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tw.Po@am__quote@
 
 .c.o:

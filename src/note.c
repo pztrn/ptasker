@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <log.h>
 #include <note.h>
 
 static char *get_path(const char *uuid)
@@ -32,7 +33,7 @@ static char *get_path(const char *uuid)
 	home = getenv("HOME");
 
 	if (!home) {
-		fprintf(stderr, "HOME environment variable not defined\n");
+		log_err("HOME environment variable not defined");
 		return NULL;
 	}
 
@@ -58,7 +59,7 @@ void note_put(const char *uuid, const char *note)
 	if (!path)
 		return ;
 
-	printf("note_put %s %s %s\n", path, uuid, note);
+	log_debug("note_put %s %s %s", path, uuid, note);
 
 	f = fopen(path, "w");
 
@@ -66,7 +67,7 @@ void note_put(const char *uuid, const char *note)
 		fwrite(note, 1, strlen(note), f);
 		fclose(f);
 	} else {
-		fprintf(stderr, "Failed to open %s\n", path);
+		log_err("Failed to open %s", path);
 	}
 
 	free(path);
@@ -99,7 +100,7 @@ char *note_get(const char *uuid)
 		}
 		fclose(f);
 	} else {
-		fprintf(stderr, "Failed to open %s\n", path);
+		log_err("Failed to open %s", path);
 	}
 
 	return str;
