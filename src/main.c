@@ -75,7 +75,7 @@ static void print_help()
 {
 	printf(_("Usage: %s [OPTION]...\n"), program_name);
 
-	puts(_("Ptask is a task management UI based on taskwarrior."));
+	puts(_("ptask is a task management user interface based on taskwarrior."));
 
 	puts("");
 	puts(_("Options:"));
