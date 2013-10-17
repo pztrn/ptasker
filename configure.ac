@@ -7,6 +7,7 @@ AC_INIT([ptask], [0.0.x],[jeanfi@gmail.com],[ptask],[http://wpitchoune.net/ptask
 AM_INIT_AUTOMAKE([-Wall -Werror gnu])
 
 AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CC
