@@ -75,7 +75,8 @@ static void print_help()
 {
 	printf(_("Usage: %s [OPTION]...\n"), program_name);
 
-	puts(_("ptask is a task management user interface based on taskwarrior."));
+	puts(_("ptask is a task management user interface based"
+	       " on taskwarrior."));
 
 	puts("");
 	puts(_("Options:"));
@@ -207,9 +208,10 @@ static void refresh()
 						GTK_MESSAGE_ERROR,
 						GTK_BUTTONS_CLOSE,
 						_("Error loading tasks, verify "
-						  "that taskwarrior is "
-						  "correctly installed, and its"
-						  " configuration file exist."
+						  "that a supported version of "
+						  "taskwarrior is installed "
+						  "and its configuration file "
+						  "exist."
 						  ));
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);

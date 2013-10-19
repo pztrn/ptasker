@@ -66,7 +66,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ptask_OBJECTS = main.$(OBJEXT) log.$(OBJEXT) note.$(OBJEXT) \
-	ptime.$(OBJEXT) tw.$(OBJEXT)
+	pstr.$(OBJEXT) ptime.$(OBJEXT) tw.$(OBJEXT)
 ptask_OBJECTS = $(am_ptask_OBJECTS)
 ptask_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -288,6 +288,7 @@ AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)
 ptask_SOURCES = main.c \
 	log.c log.h \
 	note.c note.h \
+	pstr.c pstr.h \
 	ptime.c ptime.h \
 	tw.c tw.h
 
@@ -379,6 +380,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/note.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pstr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ptime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tw.Po@am__quote@
 

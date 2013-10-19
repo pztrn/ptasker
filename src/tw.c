@@ -26,7 +26,9 @@
 
 #include <log.h>
 #include "note.h"
+#include <pstr.h>
 #include "tw.h"
+
 
 static int has_taskrc()
 {
@@ -58,21 +60,19 @@ static char *task_exec(char *opts)
 	size_t s;
 	char *str, *tmp, *cmd, buf[1024];
 
-	if (!has_taskrc())
-		return NULL;
-
-	cmd = malloc(strlen("task rc.json.array=on ") + strlen(opts) + 1);
-	strcpy(cmd, "task rc.json.array=on ");
+	cmd = malloc(strlen("task ") + strlen(opts) + 1);
+	strcpy(cmd, "task ");
 	strcat(cmd, opts);
 
 	log_debug("execute: %s", cmd);
 
 	f = popen(cmd, "r");
 
+	free(cmd);
+
 	if (!f) {
 		perror("popen");
-		str = NULL;
-		goto exit_free;
+		return NULL;
 	}
 
 	str = strdup("");
@@ -90,26 +90,72 @@ static char *task_exec(char *opts)
 	if (ret == -1)
 		log_err("pclose fails");
 
- exit_free:
-	free(cmd);
-
 	return str;
+}
+
+static char *task_get_version()
+{
+	char *out;
+
+	out = task_exec("--version");
+
+	trim(out);
+
+	return out;
+}
+
+static int task_check_version()
+{
+	char *ver;
+
+	ver = task_get_version();
+
+	if (!ver)
+		return 0;
+
+	log_debug("task version: %s", ver);
+
+	if (!strcmp(ver, "2.2.0"))
+		return 1;
+	else
+		return 0;
+}
+
+static char *tw_exec(char *opts)
+{
+	if (!has_taskrc())
+		return NULL;
+
+	if (!task_check_version()) {
+		log_err("ptask is not compatible with the installed version of"
+			" taskwarrior.");
+		return NULL;
+	}
+
+	return task_exec(opts);
 }
 
 static struct json_object *task_exec_json(char *opts)
 {
 	struct json_object *o;
-	char *str;
+	char *str, *cmd;
 
-	str = task_exec(opts);
+	cmd = malloc(strlen("rc.json.array=on ") + strlen(opts) + 1);
+	strcpy(cmd, "rc.json.array=on ");
+	strcat(cmd, opts);
+
+	str = tw_exec(cmd);
 
 	if (str) {
 		o = json_tokener_parse(str);
 		free(str);
-		return o;
+	} else {
+		o = NULL;
 	}
 
-	return NULL;
+	free(cmd);
+
+	return o;
 }
 
 struct task **tw_get_all_tasks(const char *status)
@@ -222,7 +268,7 @@ void tw_modify_description(const char *uuid, const char *newdesc)
 		      + 1);
 	sprintf(opts, " %s modify \"%s\"", uuid, str);
 
-	task_exec(opts);
+	tw_exec(opts);
 
 	free(str);
 	free(opts);
@@ -243,7 +289,7 @@ void tw_modify_project(const char *uuid, const char *newproject)
 		      + 1);
 	sprintf(opts, " %s modify project:\"%s\"", uuid, str);
 
-	task_exec(opts);
+	tw_exec(opts);
 
 	free(str);
 	free(opts);
@@ -264,7 +310,7 @@ void tw_modify_priority(const char *uuid, const char *priority)
 		      + 1);
 	sprintf(opts, " %s modify priority:\"%s\"", uuid, str);
 
-	task_exec(opts);
+	tw_exec(opts);
 
 	free(str);
 	free(opts);
@@ -284,7 +330,7 @@ void tw_add(const char *newdesc)
 		      + 1);
 	sprintf(opts, " add \"%s\"", str);
 
-	task_exec(opts);
+	tw_exec(opts);
 
 	free(str);
 	free(opts);
@@ -300,7 +346,7 @@ void tw_done(const char *uuid)
 		      + 1);
 	sprintf(opts, " %s done", uuid);
 
-	task_exec(opts);
+	tw_exec(opts);
 
 	free(opts);
 }

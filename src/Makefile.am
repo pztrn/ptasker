@@ -14,6 +14,7 @@ bin_PROGRAMS = ptask
 ptask_SOURCES = main.c \
 	log.c log.h \
 	note.c note.h \
+	pstr.c pstr.h \
 	ptime.c ptime.h \
 	tw.c tw.h
 
