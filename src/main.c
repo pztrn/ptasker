@@ -209,10 +209,7 @@ static void refresh()
 						GTK_BUTTONS_CLOSE,
 						_("Error loading tasks, verify "
 						  "that a supported version of "
-						  "taskwarrior is installed "
-						  "and its configuration file "
-						  "exist."
-						  ));
+						  "taskwarrior is installed "));
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 	}

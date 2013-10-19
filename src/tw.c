@@ -29,30 +29,6 @@
 #include <pstr.h>
 #include "tw.h"
 
-
-static int has_taskrc()
-{
-	char *home, *path;
-	int ret;
-	struct stat st;
-
-	home = getenv("HOME");
-
-	if (!home) {
-		log_err("HOME environment variable not defined");
-		return 0;
-	}
-
-	path = malloc(strlen(home) + 1 + strlen(".taskrc") + 1);
-	sprintf(path, "%s/%s", home, ".taskrc");
-
-	ret = lstat(path, &st);
-
-	free(path);
-
-	return ret == 0;
-}
-
 static char *task_exec(char *opts)
 {
 	FILE *f;
@@ -115,7 +91,7 @@ static int task_check_version()
 
 	log_debug("task version: %s", ver);
 
-	if (!strcmp(ver, "2.2.0"))
+	if (!strcmp(ver, "2.2.0") || !strcmp(ver, "2.0.0"))
 		return 1;
 	else
 		return 0;
@@ -123,8 +99,7 @@ static int task_check_version()
 
 static char *tw_exec(char *opts)
 {
-	if (!has_taskrc())
-		return NULL;
+	char *opts2;
 
 	if (!task_check_version()) {
 		log_err("ptask is not compatible with the installed version of"
@@ -132,7 +107,13 @@ static char *tw_exec(char *opts)
 		return NULL;
 	}
 
-	return task_exec(opts);
+	opts2 = malloc(strlen("rc.confirmation:no ")
+		       + strlen(opts)
+		       + 1);
+	strcpy(opts2, "rc.confirmation:no ");
+	strcat(opts2, opts);
+
+	return task_exec(opts2);
 }
 
 static struct json_object *task_exec_json(char *opts)
