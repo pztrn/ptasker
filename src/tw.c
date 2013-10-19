@@ -49,7 +49,6 @@ static int has_taskrc()
 	free(path);
 
 	return ret == 0;
-
 }
 
 static char *task_exec(char *opts)
