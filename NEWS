@@ -9,6 +9,9 @@ v0.0.4
  * added manpage.
  * popup error dialog when .taskrc does not exist.
  * added --debug.
+ * supported version of taskwarrior is 2.2.0.
+ * added taskwarrior version checking.
+ * added .taskrc check (must exist).
 
 v0.0.3
 ------
@@ -23,7 +26,7 @@ v0.0.2
 
  * added refresh keyboard shortcut (ALT-r).
  * added new task keyboard shortcut (ALT-n).
- * renamed ptask to gtask.
+ * renamed gtask to ptask.
 
 v0.0.1
 ------
