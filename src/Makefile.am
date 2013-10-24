@@ -16,7 +16,8 @@ ptask_SOURCES = main.c \
 	note.c note.h \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
-	tw.c tw.h
+	tw.c tw.h \
+	ui.c ui.h
 
 dist_man_MANS = ptask.1
 
@@ -24,3 +25,7 @@ ptask.1: main.c $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) ptask$(EXEEXT)
 	help2man -N --name="GTk+ Task application" --output=ptask.1 ./ptask$(EXEEXT)
 
+gsettings_SCHEMAS=ptask.gschema.xml
+EXTRA_DIST=$(gsettings_SCHEMAS)
+
+@GSETTINGS_RULES@

@@ -47,6 +47,9 @@ PKG_CHECK_MODULES(JSON, json)
 AC_SUBST(JSON_CFLAGS)
 AC_SUBST(JSON_LIBS)
 
+# Gsettings
+GLIB_GSETTINGS
+
 AC_CONFIG_FILES([
  Makefile
  po/Makefile.in

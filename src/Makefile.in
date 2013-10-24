@@ -66,7 +66,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ptask_OBJECTS = main.$(OBJEXT) log.$(OBJEXT) note.$(OBJEXT) \
-	pstr.$(OBJEXT) ptime.$(OBJEXT) tw.$(OBJEXT)
+	pstr.$(OBJEXT) ptime.$(OBJEXT) tw.$(OBJEXT) ui.$(OBJEXT)
 ptask_OBJECTS = $(am_ptask_OBJECTS)
 ptask_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -175,9 +175,11 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
+GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GSETTINGS_DISABLE_SCHEMAS_COMPILE = @GSETTINGS_DISABLE_SCHEMAS_COMPILE@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 HAVE_CPPCHECK = @HAVE_CPPCHECK@
@@ -252,6 +254,7 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gsettingsschemadir = @gsettingsschemadir@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -290,9 +293,12 @@ ptask_SOURCES = main.c \
 	note.c note.h \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
-	tw.c tw.h
+	tw.c tw.h \
+	ui.c ui.h
 
 dist_man_MANS = ptask.1
+gsettings_SCHEMAS = ptask.gschema.xml
+EXTRA_DIST = $(gsettings_SCHEMAS)
 all: all-recursive
 
 .SUFFIXES:
@@ -383,6 +389,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pstr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ptime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -776,6 +783,8 @@ uninstall-man: uninstall-man1
 ptask.1: main.c $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) ptask$(EXEEXT)
 	help2man -N --name="GTk+ Task application" --output=ptask.1 ./ptask$(EXEEXT)
+
+@GSETTINGS_RULES@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -25,13 +25,13 @@
 #include <json/json.h>
 
 #include <glib/gi18n.h>
-#include <gtk/gtk.h>
 
 #include <config.h>
 
 #include "log.h"
 #include "note.h"
 #include "tw.h"
+#include <ui.h>
 
 static const char *program_name;
 static struct task **tasks;
@@ -43,6 +43,7 @@ static GtkWidget *w_tasksave_btn;
 static GtkWidget *w_taskdone_btn;
 static GtkComboBox *w_status;
 static GtkComboBox *w_priority;
+static GSettings *settings;
 
 enum {
 	COL_ID,
@@ -458,7 +459,8 @@ static void log_init()
 
 int main(int argc, char **argv)
 {
-	GtkWidget *window, *btn;
+	GtkWindow *window;
+	GtkWidget *btn;
 	GtkBuilder *builder;
 	GtkTreeModel *model;
 	int optc, cmdok, opti;
@@ -501,12 +503,19 @@ int main(int argc, char **argv)
 	log_init();
 
 	gtk_init(NULL, NULL);
+
+	settings = g_settings_new("ptask");
+
+	printf("%d\n", g_settings_get_int(settings, "windows_x"));
+
+
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
 		(builder,
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
 		 NULL);
-	window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
+	window = create_window();
+	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
 	g_signal_connect(window, "delete_event",
 			 G_CALLBACK(delete_event_cbk), NULL);
@@ -551,7 +560,7 @@ int main(int argc, char **argv)
 
 	g_object_unref(G_OBJECT(builder));
 
-	gtk_widget_show_all(window);
+	gtk_widget_show_all(GTK_WIDGET(window));
 
 	gtk_main();
 
