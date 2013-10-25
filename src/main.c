@@ -43,7 +43,7 @@ static GtkWidget *w_tasksave_btn;
 static GtkWidget *w_taskdone_btn;
 static GtkComboBox *w_status;
 static GtkComboBox *w_priority;
-static GSettings *settings;
+/*static GSettings *settings;*/
 
 enum {
 	COL_ID,
@@ -504,17 +504,16 @@ int main(int argc, char **argv)
 
 	gtk_init(NULL, NULL);
 
-	settings = g_settings_new("ptask");
+	/*	settings = g_settings_new("ptask");
 
-	printf("%d\n", g_settings_get_int(settings, "windows_x"));
-
+		printf("%d\n", g_settings_get_int(settings, "windows_x"));*/
 
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
 		(builder,
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
 		 NULL);
-	window = create_window();
+	/*	window = create_window();*/
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
 	g_signal_connect(window, "delete_event",
