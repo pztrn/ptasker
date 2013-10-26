@@ -319,7 +319,6 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="description">
-                        <property name="sizing">autosize</property>
                         <property name="fixed_width">10</property>
                         <property name="min_width">30</property>
                         <property name="title" translatable="yes">Description</property>

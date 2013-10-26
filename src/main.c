@@ -521,8 +521,6 @@ int main(int argc, char **argv)
 	w_priority = GTK_COMBO_BOX(gtk_builder_get_object(builder,
 							  "taskpriority"));
 
-	refresh();
-
 	gtk_builder_connect_signals(builder, NULL);
 
 	g_signal_connect(w_treeview,
@@ -543,6 +541,8 @@ int main(int argc, char **argv)
 	gtk_widget_set_sensitive(w_taskdone_btn, 0);
 
 	g_object_unref(G_OBJECT(builder));
+
+	refresh();
 
 	gtk_widget_show_all(GTK_WIDGET(window));
 
