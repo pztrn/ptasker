@@ -7,5 +7,5 @@ Comment=ptask is a task management tool based on taskwarrior
 Icon=ptask
 TryExec=ptask
 Exec=ptask
-Categories=Network;News;
+Categories=Utility;
 
