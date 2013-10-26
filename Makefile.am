@@ -16,3 +16,8 @@ README.html: README
 
 NEWS.html: NEWS
 	asciidoc -n -a toc NEWS
+
+desktopdir = $(datadir)/applications
+desktop_DATA = ptask.desktop
+
+EXTRA_DIST = $(desktop_DATA)
