@@ -12,6 +12,7 @@ v0.0.4
  * supported versions of taskwarrior are 2.2.0 and 2.0.0.
  * added taskwarrior version checking.
  * added support for taskwarrior 2.2.0 (avoid confirmation query).
+ * added window position and size restore.
 
 v0.0.3
 ------

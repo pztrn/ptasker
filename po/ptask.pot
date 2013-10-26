@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2013-10-19 11:51+0200\n"
+"POT-Creation-Date: 2013-10-27 01:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/main.c:65
+#: src/main.c:66
 #, c-format
 msgid ""
 "Copyright (C) %s jeanfi@gmail.com\n"
@@ -27,50 +27,50 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/main.c:76
+#: src/main.c:77
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: src/main.c:78
+#: src/main.c:79
 msgid "ptask is a task management user interface based on taskwarrior."
 msgstr ""
 
-#: src/main.c:82
+#: src/main.c:83
 msgid "Options:"
 msgstr ""
 
-#: src/main.c:83
+#: src/main.c:84
 msgid ""
 "  -h, --help          display this help and exit\n"
 "  -v, --version       display version information and exit"
 msgstr ""
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "  -d, --debug=LEVEL   set the debug level, integer between 0 and 3"
 msgstr ""
 
-#: src/main.c:93
+#: src/main.c:94
 #, c-format
 msgid "Report bugs to: %s\n"
 msgstr ""
 
-#: src/main.c:95
+#: src/main.c:96
 #, c-format
 msgid "%s home page: <%s>\n"
 msgstr ""
 
-#: src/main.c:210
+#: src/main.c:211
 msgid ""
 "Error loading tasks, verify that a supported version of taskwarrior is "
-"installed and its configuration file exist."
+"installed "
 msgstr ""
 
-#: src/main.c:490
+#: src/main.c:480
 msgid "Enables debug mode."
 msgstr ""
 
-#: src/main.c:499
+#: src/main.c:489
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
@@ -79,7 +79,7 @@ msgstr ""
 msgid "New Task"
 msgstr ""
 
-#: src/glade/ptask.glade:66 src/glade/ptask.glade:368
+#: src/glade/ptask.glade:66 src/glade/ptask.glade:367
 msgid "Description:"
 msgstr ""
 
@@ -99,30 +99,30 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: src/glade/ptask.glade:325
+#: src/glade/ptask.glade:324
 msgid "Description"
 msgstr ""
 
-#: src/glade/ptask.glade:386
+#: src/glade/ptask.glade:385
 msgid "Note:"
 msgstr ""
 
-#: src/glade/ptask.glade:446
+#: src/glade/ptask.glade:445
 msgid "Project:"
 msgstr ""
 
-#: src/glade/ptask.glade:480
+#: src/glade/ptask.glade:479
 msgid "Priority:"
 msgstr ""
 
-#: src/glade/ptask.glade:520
+#: src/glade/ptask.glade:519
 msgid "Mark Done"
 msgstr ""
 
-#: src/glade/ptask.glade:557
+#: src/glade/ptask.glade:556
 msgid "Save"
 msgstr ""
 
-#: src/glade/ptask.glade:571
+#: src/glade/ptask.glade:570
 msgid "Cancel"
 msgstr ""

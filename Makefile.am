@@ -1,6 +1,7 @@
-SUBDIRS = po \
+SUBDIRS = icons/hicolor/scalable \
+	po \
 	src \
-	tests
+	tests 
 
 dist_doc_DATA = AUTHORS \
 	COPYING \

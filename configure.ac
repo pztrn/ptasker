@@ -52,6 +52,7 @@ GLIB_GSETTINGS
 
 AC_CONFIG_FILES([
  Makefile
+ icons/hicolor/scalable/Makefile
  po/Makefile.in
  src/Makefile
  src/glade/Makefile
