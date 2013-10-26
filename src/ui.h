@@ -22,6 +22,6 @@
 
 #include <gtk/gtk.h>
 
-GtkWindow *create_window();
+GtkWindow *create_window(GtkBuilder *, GSettings *);
 
 #endif

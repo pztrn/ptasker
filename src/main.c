@@ -43,7 +43,7 @@ static GtkWidget *w_tasksave_btn;
 static GtkWidget *w_taskdone_btn;
 static GtkComboBox *w_status;
 static GtkComboBox *w_priority;
-/*static GSettings *settings;*/
+static GSettings *settings;
 
 enum {
 	COL_ID,
@@ -293,15 +293,6 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
-static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
-{
-	gtk_widget_destroy(w);
-	gtk_main_quit();
-
-	return FALSE;
-}
-
-
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	gint result;
@@ -504,20 +495,14 @@ int main(int argc, char **argv)
 
 	gtk_init(NULL, NULL);
 
-	/*	settings = g_settings_new("ptask");
-
-		printf("%d\n", g_settings_get_int(settings, "windows_x"));*/
+	settings = g_settings_new("ptask");
 
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
 		(builder,
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
 		 NULL);
-	/*	window = create_window();*/
-	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
-
-	g_signal_connect(window, "delete_event",
-			 G_CALLBACK(delete_event_cbk), NULL);
+	window = create_window(builder, settings);
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
