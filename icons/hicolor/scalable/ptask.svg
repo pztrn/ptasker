@@ -58,7 +58,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.5"
-     inkscape:cx="32"
+     inkscape:cx="-5.5454545"
      inkscape:cy="32"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -87,15 +87,16 @@
      inkscape:groupmode="layer">
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;filter:url(#filter4060)"
+       style="font-size:17.56505326999999994px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;filter:url(#filter4060);font-family:Ubuntu Beta;-inkscape-font-specification:Ubuntu Beta;stroke-width:0.43912633"
        x="2.3636365"
        y="26.909092"
        id="text3061"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       transform="matrix(0.99788215,0,-0.04246681,1.2992173,4.4050284,-5.4677145)"><tspan
          sodipodi:role="line"
          id="tspan3063"
          x="2.3636365"
          y="26.909092"
-         style="font-size:18px;fill:#0000ff">PTASK</tspan></text>
+         style="font-size:17.56505326999999994px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr;text-anchor:start;fill:#0000ff;stroke:#000000;font-family:Ubuntu Beta;-inkscape-font-specification:Ubuntu Beta;stroke-width:0.43912633">PTASK</tspan></text>
   </g>
 </svg>
