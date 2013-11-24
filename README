@@ -1,26 +1,26 @@
 ptask README
 ==============
 
-Introduction
-------------
-
 +ptask+ is a GTK+ graphical user interface for +taskwarrior+, a command
 line tasks manager.
 
-Installation Using Distribution Packages
-----------------------------------------
+Installation on Ubuntu
+----------------------
 
-Ubuntu
-~~~~~~
-
-To install +ptask+, the easiest way is to use the dedicated PPA:
+To install +ptask+ on Ubuntu and derivates, the easiest way is to use the dedicated PPA:
 -------------------------------------
 sudo apt-add-repository ppa:jfi/ptask
 sudo apt-get update
 sudo apt-get install ptask
 -------------------------------------
 
-Installation From Source Archive
+The PPA +ppa:jfi/ptask+ contains the binary package of the last
+released version of +ptask+ for the last released version of Ubuntu.
+
+The PPA +ppa:jfi/ptask-daily+ contains the binary package of the last
+development snapshot. It should only be used for testing purpose.
+
+Installation from source archive
 --------------------------------
 
 +ptask+ can be compiled and installed on any modern GNU/Linux
@@ -41,9 +41,23 @@ The compilation of +ptask+ requires:
 
 For Ubuntu 12.10:
 -------------------------------------------------------------------------
-sudo apt-get install autoconf automake asciidoc cppcheck gcc gettext
-autopoint help2man libgtk-3-dev libjson0-dev make perl
+sudo apt-get install autoconf automake asciidoc cppcheck gcc gettext autopoint help2man libgtk-3-dev libjson0-dev make perl
 -------------------------------------------------------------------------
+
+Compilation
+~~~~~~~~~~~
+
+-------------------------------
+./configure
+make clean all
+-------------------------------
+
+Installation
+~~~~~~~~~~~~
+
+-------------------------------
+make install
+-------------------------------
 
 Contact
 -------
