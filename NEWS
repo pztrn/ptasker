@@ -13,6 +13,7 @@ v0.0.4
  * added taskwarrior version checking.
  * added support for taskwarrior 2.2.0 (avoid confirmation query).
  * added window position and size restore.
+ * added tasks sort column/order restore.
 
 v0.0.3
 ------
