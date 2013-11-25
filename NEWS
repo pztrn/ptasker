@@ -9,8 +9,7 @@ v0.0.4
  * added manpage.
  * popup error dialog when .taskrc does not exist.
  * added --debug.
- * supported versions of taskwarrior are 2.2.0 and 2.0.0.
- * added taskwarrior version checking.
+ * added taskwarrior version checking (supported version are 2.2.0 and 2.0.0).
  * added support for taskwarrior 2.2.0 (avoid confirmation query).
  * added window position and size restore.
  * added tasks sort column/order restore.
