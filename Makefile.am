@@ -11,13 +11,13 @@ dist_doc_DATA = AUTHORS \
 	README \
 	README.html
 
-README.html: README
-	asciidoc -n -a toc README
-
-NEWS.html: NEWS
-	asciidoc -n -a toc NEWS
+NEWS.html: NEWS style.css
+	asciidoc --theme style -a themedir=`pwd` NEWS
 
 desktopdir = $(datadir)/applications
 desktop_DATA = ptask.desktop
 
-EXTRA_DIST = $(desktop_DATA)
+EXTRA_DIST = $(desktop_DATA) style.css
+
+README.html: README style.css
+	asciidoc --theme style -a themedir=`pwd` -n -a toc README
