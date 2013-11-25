@@ -148,7 +148,7 @@ static void clear_task_panel()
 	gtk_widget_set_sensitive(GTK_WIDGET(w_priority), 0);
 }
 
-static void refresh()
+void refresh()
 {
 	GtkWidget *dialog;
 	GtkTreeModel *model;
@@ -289,47 +289,6 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	log_debug("refresh_clicked_cbk");
 	refresh();
-
-	return FALSE;
-}
-
-int newtask_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	gint result;
-	static GtkDialog *diag;
-	GtkBuilder *builder;
-	GtkEntry *entry;
-	const char *ctxt;
-
-	log_debug("newtask_clicked_cbk");
-
-	builder = gtk_builder_new();
-	gtk_builder_add_from_file
-		(builder,
-		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
-		 NULL);
-	diag = GTK_DIALOG(gtk_builder_get_object(builder, "diag_tasknew"));
-	gtk_builder_connect_signals(builder, NULL);
-
-	result = gtk_dialog_run(diag);
-
-	if (result == GTK_RESPONSE_ACCEPT) {
-		log_debug("ok");
-		entry = GTK_ENTRY(gtk_builder_get_object
-				  (builder, "diag_tasknew_description"));
-		ctxt = gtk_entry_get_text(entry);
-
-		log_debug("%s", ctxt);
-
-		tw_add(ctxt);
-		refresh();
-	} else {
-		log_debug("cancel");
-	}
-
-	g_object_unref(G_OBJECT(builder));
-
-	gtk_widget_destroy(GTK_WIDGET(diag));
 
 	return FALSE;
 }

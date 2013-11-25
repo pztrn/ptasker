@@ -17,7 +17,8 @@ ptask_SOURCES = main.c \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
 	tw.c tw.h \
-	ui.c ui.h
+	ui.c ui.h \
+	ui_newtask_diag.c ui_newtask_diag.h
 
 dist_man_MANS = ptask.1
 

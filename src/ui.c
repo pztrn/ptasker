@@ -19,8 +19,17 @@
 
 #include <log.h>
 #include <ui.h>
+#include <ui_newtask_diag.h>
 
 static GtkTreeView *w_treeview;
+
+int newtask_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	ui_newtask();
+
+	return FALSE;
+}
+
 
 static void save_settings(GtkWindow *window, GSettings *settings)
 {

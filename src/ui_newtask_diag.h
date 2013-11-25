@@ -17,12 +17,9 @@
  * 02110-1301 USA
  */
 
-#ifndef _PTASK_UI_H_
-#define _PTASK_UI_H_
+#ifndef _PTASK_UI_NEWTASK_DIAG_H_
+#define _PTASK_UI_NEWTASK_DIAG_H_
 
-#include <gtk/gtk.h>
-
-GtkWindow *create_window(GtkBuilder *, GSettings *);
-void refresh();
+void ui_newtask();
 
 #endif
