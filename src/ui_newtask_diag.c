@@ -23,15 +23,34 @@
 #include <tw.h>
 #include <ui.h>
 
+static const char *ui_get_priority(GtkComboBox *combo)
+{
+	int prio;
+
+	prio = gtk_combo_box_get_active(combo);
+
+	switch (prio) {
+	case 3:
+		return "H";
+	case 2:
+		return "M";
+	case 1:
+		return "L";
+	default:
+		return "";
+	}
+}
+
 void ui_newtask()
 {
 	gint result;
 	static GtkDialog *diag;
 	GtkBuilder *builder;
 	GtkEntry *entry;
-	const char *ctxt;
+	const char *desc, *prj, *prio;
+	GtkComboBox *combo;
 
-	log_debug("newtask_clicked_cbk");
+	log_debug("ui_newtask()");
 
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
@@ -44,17 +63,29 @@ void ui_newtask()
 	result = gtk_dialog_run(diag);
 
 	if (result == GTK_RESPONSE_ACCEPT) {
-		log_debug("ok");
+		log_debug("ui_newtask(): ok");
+
 		entry = GTK_ENTRY(gtk_builder_get_object
 				  (builder, "diag_tasknew_description"));
-		ctxt = gtk_entry_get_text(entry);
+		desc = gtk_entry_get_text(entry);
 
-		log_debug("%s", ctxt);
+		entry = GTK_ENTRY(gtk_builder_get_object
+				  (builder, "diag_tasknew_project"));
+		prj = gtk_entry_get_text(entry);
 
-		tw_add(ctxt);
+		combo = GTK_COMBO_BOX(gtk_builder_get_object
+				      (builder, "diag_tasknew_priority"));
+		prio = ui_get_priority(combo);
+
+		log_debug("ui_newtask(): description=%s project=%s priority=%d",
+			  desc,
+			  prj,
+			  prio);
+
+		tw_add(desc, prj, prio);
 		refresh();
 	} else {
-		log_debug("cancel");
+		log_debug("ui_newtask(): cancel");
 	}
 
 	g_object_unref(G_OBJECT(builder));

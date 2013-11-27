@@ -35,7 +35,7 @@ void tw_modify_description(const char *uuid, const char *newdesc);
 void tw_modify_project(const char *uuid, const char *newproj);
 void tw_modify_priority(const char *uuid, const char *priority);
 void tw_done(const char *uuid);
-void tw_add(const char *newdesc);
+void tw_add(const char *newdesc, const char *prj, const char *prio);
 void tw_task_list_free(struct task **tasks);
 
 #endif

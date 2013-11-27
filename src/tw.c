@@ -116,7 +116,7 @@ static char *tw_exec(char *opts)
 	return task_exec(opts2);
 }
 
-static struct json_object *task_exec_json(char *opts)
+static struct json_object *task_exec_json(const char *opts)
 {
 	struct json_object *o;
 	char *str, *cmd;
@@ -147,7 +147,9 @@ struct task **tw_get_all_tasks(const char *status)
 	char *opts;
 
 	opts = malloc(strlen("export status:") + strlen(status) + 1);
-	sprintf(opts, "export status:%s", status);
+
+	strcpy(opts, "export status:");
+	strcat(opts, status);
 
 	jtasks = task_exec_json(opts);
 	free(opts);
@@ -211,16 +213,12 @@ static char *escape(const char *txt)
 	while (*txt) {
 		switch (*txt) {
 		case '"':
-			*c = '\\'; c++;
-			*c = '"';
-			break;
 		case '$':
-			*c = '\\'; c++;
-			*c = '$';
-			break;
 		case '&':
+		case '<':
+		case '>':
 			*c = '\\'; c++;
-			*c = '&';
+			*c = *txt;
 			break;
 		default:
 			*c = *txt;
@@ -297,24 +295,44 @@ void tw_modify_priority(const char *uuid, const char *priority)
 	free(opts);
 }
 
-void tw_add(const char *newdesc)
+void tw_add(const char *newdesc, const char *prj, const char *prio)
 {
-	char *str;
-	char *opts;
+	char *opts, *eprj;
 
-	str = escape(newdesc);
+	eprj = escape(prj);
 
-	opts = malloc(1
-		      + strlen(" add \"")
-		      + strlen(str)
+	opts = malloc(strlen(" add")
+		      + strlen(" priority:")
+		      + 1
+		      + strlen(" project:\\\"")
+		      + strlen(eprj)
+		      + strlen("\\\"")
+		      + strlen(" \"")
+		      + strlen(newdesc)
 		      + strlen("\"")
 		      + 1);
-	sprintf(opts, " add \"%s\"", str);
+
+	strcpy(opts, " add");
+
+	if (prio && strlen(prio) == 1) {
+		strcat(opts, " priority:");
+		strcat(opts, prio);
+	}
+
+	if (eprj && strlen(prj)) {
+		strcat(opts, " project:\\\"");
+		strcat(opts, eprj);
+		strcat(opts, "\\\"");
+	}
+
+	strcat(opts, " \"");
+	strcat(opts, newdesc);
+	strcat(opts, " \"");
 
 	tw_exec(opts);
 
-	free(str);
 	free(opts);
+	free(eprj);
 }
 
 void tw_done(const char *uuid)
