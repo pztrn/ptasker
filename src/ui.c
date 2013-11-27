@@ -30,17 +30,16 @@ int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
-
 static void save_settings(GtkWindow *window, GSettings *settings)
 {
 	int w, h, x, y, sort_col_id;
-	GtkTreeSortable *model;
+	GtkTreeModel *model;
 	GtkSortType sort_order;
 
-	model = GTK_TREE_SORTABLE(gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview)));
-	gtk_tree_sortable_get_sort_column_id(model, 
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_tree_sortable_get_sort_column_id(GTK_TREE_SORTABLE(model),
 					     &sort_col_id,
-                                             &sort_order);
+					     &sort_order);
 	log_debug("save_settings(): sort_col_id=%d", sort_col_id);
 	log_debug("save_settings(): sort_col_order=%d", sort_order);
 
@@ -76,7 +75,7 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 	GtkWindow *window;
 	int x, y, h, w, sort_col_id;
 	GtkSortType sort_order;
-	GtkTreeSortable *model;
+	GtkTreeModel *model;
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
@@ -95,8 +94,9 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 
 	sort_col_id = g_settings_get_int(settings, "tasks-sort-col");
 	sort_order = g_settings_get_int(settings, "tasks-sort-order");
-	model = GTK_TREE_SORTABLE(gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview)));
-	gtk_tree_sortable_set_sort_column_id(model, sort_col_id, sort_order);
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
+					     sort_col_id, sort_order);
 
 	return window;
 }
