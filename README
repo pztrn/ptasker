@@ -66,7 +66,7 @@ sudo apt-get install autoconf automake asciidoc cppcheck gcc gettext autopoint h
 Download sources
 ----------------
 
-Download a source tarballs and extracts its content:
+Download a source tarballs of a release and extracts its content:
 -------------------------------
 mkdir TMP_DIR
 cd TMP_DIR
@@ -75,7 +75,7 @@ tar -xzvf ptask-last.tar.gz
 cd ptask-*
 -------------------------------
 
-Alternatively, you can get the last developmenet snapshot of the
+Alternatively, you can get the last development snapshot of the
 sources directly from the SVN source repository:
 
 -------------------------------
