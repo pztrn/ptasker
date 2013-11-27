@@ -90,7 +90,7 @@ code, pre, tt {
 }
 
 pre {
-    background: none repeat scroll 0 0 #f0f0f0;
+    background: none repeat scroll 0 0 #e0e0e0;
     border-radius: 4px;
     padding: 0.5em 0.5em;
     margin: 0 0 0 0;
@@ -323,8 +323,18 @@ asciidoc.install(2);
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p><tt>ptask</tt> is a GTK+ graphical user interface for <tt>taskwarrior</tt>, a command
-line tasks manager.</p></div>
+<div class="paragraph"><p><tt>ptask</tt> is a GTK+ graphical user interface for managing tasks.</p></div>
+<div class="paragraph"><p>It is based on <a href="http://taskwarrior.org">taskwarrior</a>, a well-known and robust command line
+tasks manager.</p></div>
+<div class="paragraph"><p>Unlike <tt>taskwarrior</tt>, it is possible to associate a note (long
+description) to each task.</p></div>
+<div class="paragraph"><p><tt>ptask</tt> is licensed under the GPLv2 terms and should compile on any
+modern GNU/Linux distribution.</p></div>
+<div class="paragraph"><p><strong>Home page</strong>: <a href="http://wpitchoune.net/ptask">http://wpitchoune.net/ptask</a>.</p></div>
+<div class="paragraph"><p><strong>RSS feed</strong>: <a href="http://wpitchoune.net/blog/category/ptask/feed/">http://wpitchoune.net/blog/category/ptask/feed/</a>.</p></div>
+<div class="paragraph"><p><strong>Release changes</strong>: <a href="NEWS.html">NEWS</a>.</p></div>
+<div class="paragraph"><p><strong>Source tarballs</strong>: <a href="http://wpitchoune.net/ptask/files">http://wpitchoune.net/ptask/files</a>.</p></div>
+<div class="paragraph"><p><strong>Documentation</strong>: <a href="http://wpitchoune.net/ptask/doc">http://wpitchoune.net/ptask/doc</a>.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -349,12 +359,17 @@ development snapshot. It should only be used for testing purpose.</p></div>
 <div class="paragraph"><p><tt>ptask</tt> can be compiled and installed on any modern GNU/Linux
 distribution.</p></div>
 <div class="sect2">
-<h3 id="_compilation_prerequisites">2.1. Compilation Prerequisites</h3>
+<h3 id="_prerequisites">2.1. Prerequisites</h3>
 <div class="paragraph"><p>The compilation of <tt>ptask</tt> requires:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
 asciidoc
+</p>
+</li>
+<li>
+<p>
+autotools
 </p>
 </li>
 <li>
@@ -394,8 +409,31 @@ make
 <pre><tt>sudo apt-get install autoconf automake asciidoc cppcheck gcc gettext autopoint help2man libgtk-3-dev libjson0-dev make perl</tt></pre>
 </div></div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_download_sources">3. Download sources</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Download a source tarballs and extracts its content:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>mkdir TMP_DIR
+cd TMP_DIR
+wget http://wpitchoune.net/ptask/files/ptask-last.tar.gz
+tar -xzvf ptask-last.tar.gz
+cd ptask-*</tt></pre>
+</div></div>
+<div class="paragraph"><p>Alternatively, you can get the last developmenet snapshot of the
+sources directly from the SVN source repository:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>mkdir TMP_DIR
+cd TMP_DIR
+svn co http://wpitchoune.net/svnpub/ptask/trunk
+cd trunk</tt></pre>
+</div></div>
 <div class="sect2">
-<h3 id="_compilation">2.2. Compilation</h3>
+<h3 id="_compilation">3.1. Compilation</h3>
 <div class="listingblock">
 <div class="content">
 <pre><tt>./configure
@@ -403,7 +441,7 @@ make clean all</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_installation">2.3. Installation</h3>
+<h3 id="_installation">3.2. Installation</h3>
 <div class="listingblock">
 <div class="content">
 <pre><tt>make install</tt></pre>
@@ -412,18 +450,16 @@ make clean all</tt></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contact">3. Contact</h2>
+<h2 id="_contact">4. Contact</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Bugs and comments can be sent to <a href="mailto:jeanfi@gmail.com">jeanfi@gmail.com</a>.</p></div>
-<div class="paragraph"><p>Home page: <a href="http://wpitchoune.net/ptask">http://wpitchoune.net/ptask</a></p></div>
-<div class="paragraph"><p>Release changes: <a href="NEWS.html">NEWS</a></p></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-11-24 22:55:07 CET
+Last updated 2013-11-27 09:07:46 CET
 </div>
 </div>
 </body>
