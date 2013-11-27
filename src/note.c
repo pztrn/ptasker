@@ -100,7 +100,7 @@ char *note_get(const char *uuid)
 		}
 		fclose(f);
 	} else {
-		log_err("Failed to open %s", path);
+		log_debug("%s does not exist or cannot be opened", path);
 	}
 
 	return str;
