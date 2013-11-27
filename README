@@ -64,7 +64,7 @@ sudo apt-get install autoconf automake asciidoc cppcheck gcc gettext autopoint h
 -------------------------------------------------------------------------
 
 Download sources
-----------------
+~~~~~~~~~~~~~~~~
 
 Download a source tarballs of a release and extracts its content:
 -------------------------------
