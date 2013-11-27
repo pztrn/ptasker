@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2013-10-27 01:35+0200\n"
+"POT-Creation-Date: 2013-11-27 08:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,11 +66,11 @@ msgid ""
 "installed "
 msgstr ""
 
-#: src/main.c:480
+#: src/main.c:439
 msgid "Enables debug mode."
 msgstr ""
 
-#: src/main.c:489
+#: src/main.c:448
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
@@ -79,50 +79,50 @@ msgstr ""
 msgid "New Task"
 msgstr ""
 
-#: src/glade/ptask.glade:66 src/glade/ptask.glade:367
+#: src/glade/ptask.glade:66 src/glade/ptask.glade:446
 msgid "Description:"
 msgstr ""
 
-#: src/glade/ptask.glade:154
-msgid "ptask"
-msgstr ""
-
-#: src/glade/ptask.glade:222
-msgid "Status:"
-msgstr ""
-
-#: src/glade/ptask.glade:294
-msgid "Priority"
-msgstr ""
-
-#: src/glade/ptask.glade:307
-msgid "Project"
-msgstr ""
-
-#: src/glade/ptask.glade:324
-msgid "Description"
-msgstr ""
-
-#: src/glade/ptask.glade:385
-msgid "Note:"
-msgstr ""
-
-#: src/glade/ptask.glade:445
+#: src/glade/ptask.glade:101 src/glade/ptask.glade:524
 msgid "Project:"
 msgstr ""
 
-#: src/glade/ptask.glade:479
+#: src/glade/ptask.glade:136 src/glade/ptask.glade:558
 msgid "Priority:"
 msgstr ""
 
-#: src/glade/ptask.glade:519
+#: src/glade/ptask.glade:233
+msgid "ptask"
+msgstr ""
+
+#: src/glade/ptask.glade:301
+msgid "Status:"
+msgstr ""
+
+#: src/glade/ptask.glade:373
+msgid "Priority"
+msgstr ""
+
+#: src/glade/ptask.glade:386
+msgid "Project"
+msgstr ""
+
+#: src/glade/ptask.glade:403
+msgid "Description"
+msgstr ""
+
+#: src/glade/ptask.glade:464
+msgid "Note:"
+msgstr ""
+
+#: src/glade/ptask.glade:598
 msgid "Mark Done"
 msgstr ""
 
-#: src/glade/ptask.glade:556
+#: src/glade/ptask.glade:635
 msgid "Save"
 msgstr ""
 
-#: src/glade/ptask.glade:570
+#: src/glade/ptask.glade:649
 msgid "Cancel"
 msgstr ""
