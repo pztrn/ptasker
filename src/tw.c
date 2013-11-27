@@ -234,22 +234,18 @@ static char *escape(const char *txt)
 
 void tw_modify_description(const char *uuid, const char *newdesc)
 {
-	char *str;
 	char *opts;
-
-	str = escape(newdesc);
 
 	opts = malloc(1
 		      + strlen(uuid)
 		      + strlen(" modify :\"")
-		      + strlen(str)
+		      + strlen(newdesc)
 		      + strlen("\"")
 		      + 1);
-	sprintf(opts, " %s modify \"%s\"", uuid, str);
+	sprintf(opts, " %s modify \"%s\"", uuid, newdesc);
 
 	tw_exec(opts);
 
-	free(str);
 	free(opts);
 }
 
