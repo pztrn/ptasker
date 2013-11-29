@@ -65,9 +65,10 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_ptask_OBJECTS = main.$(OBJEXT) log.$(OBJEXT) note.$(OBJEXT) \
-	pstr.$(OBJEXT) ptime.$(OBJEXT) tw.$(OBJEXT) ui.$(OBJEXT) \
-	ui_newtask_diag.$(OBJEXT)
+am_ptask_OBJECTS = list.$(OBJEXT) log.$(OBJEXT) main.$(OBJEXT) \
+	note.$(OBJEXT) pstr.$(OBJEXT) ptime.$(OBJEXT) tw.$(OBJEXT) \
+	ui.$(OBJEXT) ui_newtask_diag.$(OBJEXT) \
+	ui_projecttree.$(OBJEXT)
 ptask_OBJECTS = $(am_ptask_OBJECTS)
 ptask_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -289,14 +290,16 @@ SUBDIRS = glade
 # -export-dynamic is need for defining handlers in the glade file.
 AM_LDFLAGS = -Wl,--as-needed  -export-dynamic
 AM_CPPFLAGS = -Wall -Werror $(GTK_CFLAGS) $(JSON_CFLAGS)
-ptask_SOURCES = main.c \
+ptask_SOURCES = list.c list.h \
 	log.c log.h \
+	main.c \
 	note.c note.h \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
 	tw.c tw.h \
 	ui.c ui.h \
-	ui_newtask_diag.c ui_newtask_diag.h
+	ui_newtask_diag.c ui_newtask_diag.h \
+	ui_projecttree.c ui_projecttree.h
 
 dist_man_MANS = ptask.1
 gsettings_SCHEMAS = ptask.gschema.xml
@@ -385,6 +388,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/note.Po@am__quote@
@@ -393,6 +397,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_newtask_diag.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_projecttree.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

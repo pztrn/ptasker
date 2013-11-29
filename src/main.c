@@ -32,6 +32,7 @@
 #include "note.h"
 #include "tw.h"
 #include <ui.h>
+#include <ui_projecttree.h>
 
 static const char *program_name;
 static struct task **tasks;
@@ -203,6 +204,7 @@ void refresh()
 					   COL_PRIORITY, (*tasks_cur)->priority,
 					   -1);
 		}
+		ui_projecttree_update(tasks);
 	} else {
 		dialog = gtk_message_dialog_new(NULL,
 						GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -462,6 +464,8 @@ int main(int argc, char **argv)
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
 		 NULL);
 	window = create_window(builder, settings);
+
+	ui_projecttree_init(builder);
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));

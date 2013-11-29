@@ -11,14 +11,16 @@ LIBS = $(JSON_LIBS) $(GTK_LIBS)
 
 bin_PROGRAMS = ptask
 
-ptask_SOURCES = main.c \
+ptask_SOURCES = list.c list.h \
 	log.c log.h \
+	main.c \
 	note.c note.h \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
 	tw.c tw.h \
 	ui.c ui.h \
-	ui_newtask_diag.c ui_newtask_diag.h
+	ui_newtask_diag.c ui_newtask_diag.h \
+	ui_projecttree.c ui_projecttree.h
 
 dist_man_MANS = ptask.1
 

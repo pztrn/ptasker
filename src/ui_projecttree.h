@@ -16,32 +16,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA
  */
+#ifndef _PTASK_UI_PROJECTTREE_H_
+#define _PTASK_UI_PROJECTTREE_H_
 
-#ifndef _PTASK_TW_H_
-#define _PTASK_TW_H_
+#include <gtk/gtk.h>
 
-struct task {
-	int id;
-	char *description;
-	char *status;
-	char *uuid;
-	char *note;
-	char *project;
-	char *priority;
-};
+#include <tw.h>
 
-struct project {
-	char *name;
-	int count;
-};
-
-struct task **tw_get_all_tasks(const char *status);
-void tw_modify_description(const char *uuid, const char *newdesc);
-void tw_modify_project(const char *uuid, const char *newproj);
-void tw_modify_priority(const char *uuid, const char *priority);
-void tw_done(const char *uuid);
-void tw_add(const char *newdesc, const char *prj, const char *prio);
-void tw_task_list_free(struct task **tasks);
-struct project **tw_get_projects(struct task **tasks);
+void ui_projecttree_init(GtkBuilder *builder);
+void ui_projecttree_update(struct task **);
 
 #endif

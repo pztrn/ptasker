@@ -24,6 +24,7 @@
 
 #include <json/json.h>
 
+#include <list.h>
 #include <log.h>
 #include "note.h"
 #include <pstr.h>
@@ -180,7 +181,7 @@ struct task **tw_get_all_tasks(const char *status)
 			tasks[i]->project
 				= strdup(json_object_get_string(json));
 		else
-			tasks[i]->project = NULL;
+			tasks[i]->project = strdup("");
 
 		json = json_object_object_get(jtask, "priority");
 		if (json)
@@ -372,4 +373,55 @@ void tw_task_list_free(struct task **tasks)
 		task_free(*cur);
 
 	free(tasks);
+}
+
+static struct project *project_list_get(struct project **prj, const char *name)
+{
+	while (*prj)
+		if (!strcmp((*prj)->name, name))
+			return *prj;
+		else
+			prj++;
+	return NULL;
+}
+
+static struct project *project_new(const char *name, int count)
+{
+	struct project *prj;
+
+	prj = malloc(sizeof(struct project));
+
+	prj->name = strdup(name);
+	prj->count = count;
+
+	return prj;
+}
+
+struct project **tw_get_projects(struct task **tasks)
+{
+	struct task **t_cur;
+	struct project **prjs, **tmp, *prj;
+	const char *prj_name;
+
+	log_debug("tw_get_projects()");
+
+	prjs = malloc(sizeof(struct project *));
+	*prjs = NULL;
+
+	for (t_cur = tasks; *t_cur; t_cur++) {
+		prj_name = (*t_cur)->project;
+		prj = project_list_get(prjs, prj_name);
+		if (prj) {
+			prj->count++;
+		} else {
+			prj = project_new(prj_name, 1);
+			
+			tmp = (struct project **)list_add((void **)prjs, prj);
+			
+			list_free((void **)prjs);
+			prjs = tmp;
+		}
+	}
+
+	return prjs;
 }

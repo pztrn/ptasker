@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 jeanfi@gmail.com
+ * Copyright (C) 2010-2013 jeanfi@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -17,31 +17,11 @@
  * 02110-1301 USA
  */
 
-#ifndef _PTASK_TW_H_
-#define _PTASK_TW_H_
+#ifndef _P_LIST_H_
+#define _P_LIST_H_
 
-struct task {
-	int id;
-	char *description;
-	char *status;
-	char *uuid;
-	char *note;
-	char *project;
-	char *priority;
-};
-
-struct project {
-	char *name;
-	int count;
-};
-
-struct task **tw_get_all_tasks(const char *status);
-void tw_modify_description(const char *uuid, const char *newdesc);
-void tw_modify_project(const char *uuid, const char *newproj);
-void tw_modify_priority(const char *uuid, const char *priority);
-void tw_done(const char *uuid);
-void tw_add(const char *newdesc, const char *prj, const char *prio);
-void tw_task_list_free(struct task **tasks);
-struct project **tw_get_projects(struct task **tasks);
+int list_length(void **list);
+void **list_add(void **list, void *item);
+void list_free(void **list);
 
 #endif
