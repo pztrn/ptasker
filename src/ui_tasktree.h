@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2013 jeanfi@gmail.com
+ * Copyright (C) 2012-2013 jeanfi@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -16,42 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA
  */
+#ifndef _PTASK_UI_TASKTREE_H_
+#define _PTASK_UI_TASKTREE_H_
 
-#include <stdlib.h>
-#include <string.h>
+#include <gtk/gtk.h>
 
-#include "list.h"
+void ui_tasktree_init(GtkBuilder *);
+void ui_tasktree_load_settings(GSettings *);
+void ui_tasktree_save_settings(GSettings *);
 
-int list_length(void **list)
-{
-	int n;
-
-	if (!list)
-		return 0;
-
-	n = 0;
-	while (*list) {
-		n++;
-		list++;
-	}
-
-	return n;
-}
-
-void **list_add(void **list, void *item)
-{
-	int n;
-	void **result;
-
-	n = list_length(list);
-
-	result = malloc((n + 1 + 1) * sizeof(void *));
-
-	if (list)
-		memcpy(result, list, n * sizeof(void *));
-
-	result[n] = item;
-	result[n + 1] = NULL;
-
-	return result;
-}
+#endif

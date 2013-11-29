@@ -43,5 +43,6 @@ void tw_done(const char *uuid);
 void tw_add(const char *newdesc, const char *prj, const char *prio);
 void tw_task_list_free(struct task **tasks);
 struct project **tw_get_projects(struct task **tasks);
+void tw_project_list_free(struct project **);
 
 #endif

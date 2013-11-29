@@ -20,8 +20,8 @@
 #include <log.h>
 #include <ui.h>
 #include <ui_newtask_diag.h>
-
-static GtkTreeView *w_treeview;
+#include <ui_projecttree.h>
+#include <ui_tasktree.h>
 
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
@@ -32,19 +32,7 @@ int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 
 static void save_settings(GtkWindow *window, GSettings *settings)
 {
-	int w, h, x, y, sort_col_id;
-	GtkTreeModel *model;
-	GtkSortType sort_order;
-
-	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
-	gtk_tree_sortable_get_sort_column_id(GTK_TREE_SORTABLE(model),
-					     &sort_col_id,
-					     &sort_order);
-	log_debug("save_settings(): sort_col_id=%d", sort_col_id);
-	log_debug("save_settings(): sort_col_order=%d", sort_order);
-
-	g_settings_set_int(settings, "tasks-sort-col", sort_col_id);
-	g_settings_set_int(settings, "tasks-sort-order", sort_order);
+	int w, h, x, y;
 
 	gtk_window_get_size(window, &w, &h);
 	gtk_window_get_position(window, &x, &y);
@@ -55,6 +43,8 @@ static void save_settings(GtkWindow *window, GSettings *settings)
 	g_settings_set_int(settings, "window-height", h);
 	g_settings_set_int(settings, "window-x", x);
 	g_settings_set_int(settings, "window-y", y);
+
+	ui_tasktree_save_settings(settings);
 
 	g_settings_sync();
 }
@@ -73,9 +63,7 @@ static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
 GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 {
 	GtkWindow *window;
-	int x, y, h, w, sort_col_id;
-	GtkSortType sort_order;
-	GtkTreeModel *model;
+	int x, y, w, h;
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
@@ -90,14 +78,10 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 	g_signal_connect(window, "delete_event",
 			 G_CALLBACK(delete_event_cbk), settings);
 
-	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
+	ui_tasktree_init(builder);
+	ui_projecttree_init(builder);
 
-	sort_col_id = g_settings_get_int(settings, "tasks-sort-col");
-	sort_order = g_settings_get_int(settings, "tasks-sort-order");
-	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
-	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
-					     sort_col_id, sort_order);
+	ui_tasktree_load_settings(settings);
 
 	return window;
 }
-

@@ -25,5 +25,6 @@
 
 void ui_projecttree_init(GtkBuilder *builder);
 void ui_projecttree_update(struct task **);
+const char *ui_projecttree_get_project();
 
 #endif

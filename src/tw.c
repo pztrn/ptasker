@@ -375,13 +375,36 @@ void tw_task_list_free(struct task **tasks)
 	free(tasks);
 }
 
-static struct project *project_list_get(struct project **prj, const char *name)
+static void project_free(struct project *p)
 {
-	while (*prj)
-		if (!strcmp((*prj)->name, name))
-			return *prj;
-		else
-			prj++;
+	if (!p)
+		return ;
+
+	free(p->name);
+	free(p);
+}
+
+void tw_project_list_free(struct project **prjs)
+{
+	struct project **cur;
+
+	if (!prjs)
+		return ;
+
+	for (cur = prjs; *cur; cur++)
+		project_free(*cur);
+
+	free(prjs);
+}
+
+static struct project *project_list_get(struct project **prjs, const char *name)
+{
+	struct project **cur;
+
+	for (cur = prjs; *cur; cur++)
+		if (!strcmp((*cur)->name, name))
+			return *cur;
+
 	return NULL;
 }
 
@@ -415,10 +438,10 @@ struct project **tw_get_projects(struct task **tasks)
 			prj->count++;
 		} else {
 			prj = project_new(prj_name, 1);
-			
+
 			tmp = (struct project **)list_add((void **)prjs, prj);
-			
-			list_free((void **)prjs);
+
+			free(prjs);
 			prjs = tmp;
 		}
 	}

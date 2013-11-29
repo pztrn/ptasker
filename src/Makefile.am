@@ -20,7 +20,8 @@ ptask_SOURCES = list.c list.h \
 	tw.c tw.h \
 	ui.c ui.h \
 	ui_newtask_diag.c ui_newtask_diag.h \
-	ui_projecttree.c ui_projecttree.h
+	ui_projecttree.c ui_projecttree.h \
+	ui_tasktree.c ui_tasktree.h
 
 dist_man_MANS = ptask.1
 

@@ -33,6 +33,7 @@
 #include "tw.h"
 #include <ui.h>
 #include <ui_projecttree.h>
+#include <ui_tasktree.h>
 
 static const char *program_name;
 static struct task **tasks;
@@ -362,31 +363,6 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 	return FALSE;
 }
 
-static gint priority_cmp(GtkTreeModel *model,
-			 GtkTreeIter *a,
-			 GtkTreeIter *b,
-			 gpointer user_data)
-{
-	GValue v1 = {0,}, v2 = {0,};
-	const char *str1, *str2;
-	int i1, i2;
-
-	gtk_tree_model_get_value(model, a, COL_PRIORITY, &v1);
-	str1 = g_value_get_string(&v1);
-	i1 = priority_to_int(str1);
-
-	gtk_tree_model_get_value(model, b, COL_PRIORITY, &v2);
-	str2 = g_value_get_string(&v2);
-	i2 = priority_to_int(str2);
-
-	if (i1 < i2)
-		return -1;
-	else if (i1 > i2)
-		return 1;
-	else
-		return 0;
-}
-
 static void log_init()
 {
 	char *home, *path, *dir;
@@ -414,7 +390,6 @@ int main(int argc, char **argv)
 	GtkWindow *window;
 	GtkWidget *btn;
 	GtkBuilder *builder;
-	GtkTreeModel *model;
 	int optc, cmdok, opti;
 
 	program_name = argv[0];
@@ -465,15 +440,10 @@ int main(int argc, char **argv)
 		 NULL);
 	window = create_window(builder, settings);
 
+	ui_tasktree_init(builder);
 	ui_projecttree_init(builder);
 
-	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "treeview"));
-	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
-	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(model),
-					COL_PRIORITY,
-					priority_cmp,
-					NULL,
-					NULL);
+	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tasktree"));
 
 	w_note = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "tasknote"));
 

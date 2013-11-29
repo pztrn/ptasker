@@ -17,20 +17,51 @@
  * 02110-1301 USA
  */
 #include <stdio.h>
+#include <string.h>
 
 #include <log.h>
 #include <ui_projecttree.h>
+
+enum {
+	COL_NAME,
+	COL_COUNT
+};
 
 static GtkTreeView *w_treeview;
 
 void ui_projecttree_init(GtkBuilder *builder)
 {
-	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "projecttree"));
+	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder,
+							  "projecttree"));
 }
+
+const char *ui_projecttree_get_project()
+{
+	GtkTreePath *path;
+	GtkTreeViewColumn *cols;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GValue value = {0,};
+
+	log_debug("get_selected_project()");
+
+	gtk_tree_view_get_cursor(w_treeview, &path, &cols);
+
+	if (path) {
+		model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+		gtk_tree_model_get_iter(model, &iter, path);
+		gtk_tree_model_get_value(model, &iter, COL_NAME, &value);
+
+		return g_value_get_string(&value);
+	}
+
+	return NULL;
+}
+
 
 void ui_projecttree_update(struct task **ts)
 {
-	struct project **prjs;
+	struct project **prjs, **cur;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
@@ -40,15 +71,16 @@ void ui_projecttree_update(struct task **ts)
 	gtk_list_store_clear(GTK_LIST_STORE(model));
 
 	prjs = tw_get_projects(ts);
-	while (*prjs) {
+	for (cur = prjs; *cur; cur++) {
 		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
 		gtk_list_store_set(GTK_LIST_STORE(model),
 				   &iter,
-				   0, (*prjs)->name,
-				   1, (*prjs)->count,
+				   COL_NAME, (*cur)->name,
+				   COL_COUNT, (*cur)->count,
 				   -1);
-
-		prjs++;
 	}
+
+	tw_project_list_free(prjs);
 }
+

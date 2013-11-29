@@ -408,7 +408,7 @@
                     <property name="margin_bottom">4</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="treeview">
+                      <object class="GtkTreeView" id="tasktree">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="margin_left">4</property>

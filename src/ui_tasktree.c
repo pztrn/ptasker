@@ -1,0 +1,114 @@
+/*
+ * Copyright (C) 2012-2013 jeanfi@gmail.com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301 USA
+ */
+#include <gtk/gtk.h>
+
+#include <log.h>
+
+static GtkTreeView *w_treeview;
+
+enum {
+	COL_ID,
+	COL_DESCRIPTION,
+	COL_PROJECT,
+	COL_UUID,
+	COL_PRIORITY
+};
+
+static int priority_to_int(const char *str)
+{
+	switch (*str) {
+	case 'H':
+		return 3;
+	case 'M':
+		return 2;
+	case 'L':
+		return 1;
+	default:
+		return 0;
+	}
+}
+
+static gint priority_cmp(GtkTreeModel *model,
+			 GtkTreeIter *a,
+			 GtkTreeIter *b,
+			 gpointer user_data)
+{
+	GValue v1 = {0,}, v2 = {0,};
+	const char *str1, *str2;
+	int i1, i2;
+
+	gtk_tree_model_get_value(model, a, COL_PRIORITY, &v1);
+	str1 = g_value_get_string(&v1);
+	i1 = priority_to_int(str1);
+
+	gtk_tree_model_get_value(model, b, COL_PRIORITY, &v2);
+	str2 = g_value_get_string(&v2);
+	i2 = priority_to_int(str2);
+
+	if (i1 < i2)
+		return -1;
+	else if (i1 > i2)
+		return 1;
+	else
+		return 0;
+}
+
+void ui_tasktree_init(GtkBuilder *builder)
+{
+	GtkTreeModel *model;
+
+	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tasktree"));
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(model),
+					COL_PRIORITY,
+					priority_cmp,
+					NULL,
+					NULL);
+}
+
+void ui_tasktree_load_settings(GSettings *settings)
+{
+	int sort_col_id;
+	GtkSortType sort_order;
+	GtkTreeModel *model;
+
+	sort_col_id = g_settings_get_int(settings, "tasks-sort-col");
+	sort_order = g_settings_get_int(settings, "tasks-sort-order");
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
+					     sort_col_id, sort_order);
+}
+
+void ui_tasktree_save_settings(GSettings *settings)
+{
+	int sort_col_id;
+	GtkTreeModel *model;
+	GtkSortType sort_order;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_tree_sortable_get_sort_column_id(GTK_TREE_SORTABLE(model),
+					     &sort_col_id,
+					     &sort_order);
+	log_debug("ui_tasktree_save_settings(): sort_col_id=%d", sort_col_id);
+	log_debug("ui_tasktree_save_settings(): sort_col_order=%d", sort_order);
+
+	g_settings_set_int(settings, "tasks-sort-col", sort_col_id);
+	g_settings_set_int(settings, "tasks-sort-order", sort_order);
+}

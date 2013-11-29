@@ -22,6 +22,5 @@
 
 int list_length(void **list);
 void **list_add(void **list, void *item);
-void list_free(void **list);
 
 #endif
