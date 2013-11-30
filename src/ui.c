@@ -51,13 +51,24 @@ static void save_settings(GtkWindow *window, GSettings *settings)
 	g_settings_sync();
 }
 
+int refresh_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	log_fct_enter();
+	refresh();
+	log_fct_exit();
+	return FALSE;
+}
+
+
 static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
 {
-	log_debug("delete_event_cbk");
+	log_fct_enter();
 
 	save_settings(GTK_WINDOW(w), (GSettings *)data);
 	gtk_widget_destroy(w);
 	gtk_main_quit();
+
+	log_fct_exit();
 
 	return TRUE;
 }

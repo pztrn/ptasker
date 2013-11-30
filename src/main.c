@@ -181,14 +181,6 @@ void refresh()
 	log_fct(__func__, "EXIT");
 }
 
-int refresh_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	log_debug("refresh_clicked_cbk");
-	refresh();
-
-	return FALSE;
-}
-
 static int status_changed_cbk(GtkComboBox *w, gpointer data)
 {
 	log_debug("status_changed_cbk");
