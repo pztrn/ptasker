@@ -286,13 +286,11 @@ static int status_changed_cbk(GtkComboBox *w, gpointer data)
 
 static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
-	struct task *task;
+	log_fct_enter();
 
-	log_debug("cursor_changed_cbk");
+	ui_taskpanel_update(get_selected_task(treeview));
 
-	task = get_selected_task(treeview);
-
-	ui_taskpanel_update(task);
+	log_fct_exit();
 
 	return FALSE;
 }
