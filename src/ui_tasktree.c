@@ -16,11 +16,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA
  */
+#include <string.h>
+
 #include <gtk/gtk.h>
 
 #include <log.h>
+#include <ui_tasktree.h>
 
 static GtkTreeView *w_treeview;
+static struct task **current_tasks;
 
 enum {
 	COL_ID,
@@ -111,4 +115,50 @@ void ui_tasktree_save_settings(GSettings *settings)
 
 	g_settings_set_int(settings, "tasks-sort-col", sort_col_id);
 	g_settings_set_int(settings, "tasks-sort-order", sort_order);
+}
+
+
+struct task *ui_tasktree_get_selected_task()
+{
+	GtkTreePath *path;
+	GtkTreeViewColumn *cols;
+	struct task **tasks_cur, *result;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GValue value = {0,};
+	const char *uuid;
+
+	log_fct_enter();
+
+	result = NULL;
+
+	if (current_tasks) {
+		gtk_tree_view_get_cursor(w_treeview, &path, &cols);
+
+		if (path) {
+			model = gtk_tree_view_get_model(w_treeview);
+			gtk_tree_model_get_iter(model, &iter, path);
+			gtk_tree_model_get_value(model,
+						 &iter,
+						 COL_UUID,
+						 &value);
+
+			uuid = g_value_get_string(&value);
+
+			for (tasks_cur = current_tasks; *tasks_cur; tasks_cur++)
+				if (!strcmp((*tasks_cur)->uuid, uuid))
+					result = *tasks_cur;
+
+			gtk_tree_path_free(path);
+		}
+	}
+
+	log_fct_exit();
+
+	return result;
+}
+
+void ui_tasktree_update(struct task **tasks)
+{
+	current_tasks = tasks;
 }

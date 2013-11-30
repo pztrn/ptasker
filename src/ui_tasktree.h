@@ -21,8 +21,12 @@
 
 #include <gtk/gtk.h>
 
+#include <tw.h>
+
 void ui_tasktree_init(GtkBuilder *);
 void ui_tasktree_load_settings(GSettings *);
 void ui_tasktree_save_settings(GSettings *);
+struct task *ui_tasktree_get_selected_task();
+void ui_tasktree_update(struct task **);
 
 #endif

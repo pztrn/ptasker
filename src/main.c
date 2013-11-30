@@ -92,37 +92,6 @@ static void print_help()
 	printf(_("%s home page: <%s>\n"), PACKAGE_NAME, PACKAGE_URL);
 }
 
-static struct task *get_selected_task(GtkTreeView *treeview)
-{
-	GtkTreePath *path;
-	GtkTreeViewColumn *cols;
-	struct task **tasks_cur;
-	GtkTreeIter iter;
-	GtkTreeModel *model;
-	GValue value = {0,};
-	const char *uuid;
-
-	log_debug("get_selected_task");
-
-	gtk_tree_view_get_cursor(treeview, &path, &cols);
-
-	if (path) {
-		model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
-		gtk_tree_model_get_iter(model, &iter, path);
-		gtk_tree_model_get_value(model, &iter, COL_UUID, &value);
-
-		uuid = g_value_get_string(&value);
-
-		for (tasks_cur = tasks; *tasks_cur; tasks_cur++)
-			if (!strcmp((*tasks_cur)->uuid, uuid))
-				return *tasks_cur;
-
-		gtk_tree_path_free(path);
-	}
-
-	return NULL;
-}
-
 void refresh()
 {
 	GtkWidget *dialog;
@@ -136,8 +105,10 @@ void refresh()
 	log_fct_enter();
 	ui_taskpanel_update(NULL);
 
-	if (tasks)
+	if (tasks) {
+		ui_tasktree_update(NULL);
 		tw_task_list_free(tasks);
+	}
 
 	tasks = tw_get_all_tasks(ui_get_status_filter());
 
@@ -166,6 +137,7 @@ void refresh()
 					   -1);
 		}
 		ui_projecttree_update(tasks);
+		ui_tasktree_update(tasks);
 	} else {
 		dialog = gtk_message_dialog_new(NULL,
 						GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -184,7 +156,7 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
 	log_fct_enter();
 
-	ui_taskpanel_update(get_selected_task(treeview));
+	ui_taskpanel_update(ui_tasktree_get_selected_task());
 
 	log_fct_exit();
 
