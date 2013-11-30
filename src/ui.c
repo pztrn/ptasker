@@ -23,6 +23,8 @@
 #include <ui_projecttree.h>
 #include <ui_tasktree.h>
 
+static GtkComboBox *w_status;
+
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	ui_newtask();
@@ -66,6 +68,7 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 	int x, y, w, h;
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
+	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
 
 	w = g_settings_get_int(settings, "window-width");
 	h = g_settings_get_int(settings, "window-height");
@@ -84,4 +87,24 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 	ui_tasktree_load_settings(settings);
 
 	return window;
+}
+
+const char *ui_get_status_filter()
+{
+	const char *result;
+	int status;
+
+	log_fct_enter();
+
+	status = gtk_combo_box_get_active(w_status);
+	log_fct(__func__, "status: %d", status);
+
+	if (status == 1)
+		result = "completed";
+	else
+		result = "pending";
+
+	log_fct_exit();
+
+	return result;
 }

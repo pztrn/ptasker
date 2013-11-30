@@ -24,5 +24,6 @@
 
 GtkWindow *create_window(GtkBuilder *, GSettings *);
 void refresh();
+const char *ui_get_status_filter();
 
 #endif

@@ -132,28 +132,15 @@ void refresh()
 	struct task *task;
 	int i;
 	GtkTreeIter iter;
-	int status;
 	const char *project;
 
 	log_fct_enter();
 	ui_taskpanel_update(NULL);
 
-	status = gtk_combo_box_get_active(w_status);
-	log_debug("status: %d", status);
-
 	if (tasks)
 		tw_task_list_free(tasks);
 
-	switch (status) {
-	case 0:
-		tasks = tw_get_all_tasks("pending");
-		break;
-	case 1:
-		tasks = tw_get_all_tasks("completed");
-		break;
-	default:
-		tasks = tw_get_all_tasks("pending");
-	}
+	tasks = tw_get_all_tasks(ui_get_status_filter());
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_list_store_clear(GTK_LIST_STORE(model));
