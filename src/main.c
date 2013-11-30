@@ -39,7 +39,6 @@
 static const char *program_name;
 static struct task **tasks;
 static GtkTreeView *w_treeview;
-static GtkComboBox *w_status;
 static GSettings *settings;
 
 enum {
@@ -181,14 +180,6 @@ void refresh()
 	log_fct(__func__, "EXIT");
 }
 
-static int status_changed_cbk(GtkComboBox *w, gpointer data)
-{
-	log_debug("status_changed_cbk");
-	refresh();
-
-	return FALSE;
-}
-
 static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
 	log_fct_enter();
@@ -282,15 +273,10 @@ int main(int argc, char **argv)
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tasktree"));
 
-	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
-
 	gtk_builder_connect_signals(builder, NULL);
 
 	g_signal_connect(w_treeview,
 			 "cursor-changed", (GCallback)cursor_changed_cbk,
-			 tasks);
-	g_signal_connect(w_status,
-			 "changed", (GCallback)status_changed_cbk,
 			 tasks);
 
 	g_object_unref(G_OBJECT(builder));

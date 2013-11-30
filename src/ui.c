@@ -73,13 +73,25 @@ static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
 	return TRUE;
 }
 
+static int status_changed_cbk(GtkComboBox *w, gpointer data)
+{
+	log_debug("status_changed_cbk");
+	refresh();
+
+	return FALSE;
+}
+
 GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 {
 	GtkWindow *window;
 	int x, y, w, h;
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
+
 	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
+	g_signal_connect(w_status,
+			 "changed", (GCallback)status_changed_cbk,
+			 NULL);
 
 	w = g_settings_get_int(settings, "window-width");
 	h = g_settings_get_int(settings, "window-height");
