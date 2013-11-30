@@ -38,13 +38,8 @@
 
 static const char *program_name;
 static struct task **tasks;
-static GtkTextView *w_note;
-static GtkEntry *w_description;
-static GtkEntry *w_project;
 static GtkTreeView *w_treeview;
-static GtkWidget *w_taskdone_btn;
 static GtkComboBox *w_status;
-static GtkComboBox *w_priority;
 static GSettings *settings;
 
 enum {
@@ -319,14 +314,7 @@ int main(int argc, char **argv)
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tasktree"));
 
-	w_note = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "tasknote"));
-
-	w_description = GTK_ENTRY(gtk_builder_get_object(builder,
-							 "taskdescription"));
-	w_project = GTK_ENTRY(gtk_builder_get_object(builder, "taskproject"));
 	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
-	w_priority = GTK_COMBO_BOX(gtk_builder_get_object(builder,
-							  "taskpriority"));
 
 	gtk_builder_connect_signals(builder, NULL);
 
@@ -336,10 +324,6 @@ int main(int argc, char **argv)
 	g_signal_connect(w_status,
 			 "changed", (GCallback)status_changed_cbk,
 			 tasks);
-
-	w_taskdone_btn = GTK_WIDGET(gtk_builder_get_object(builder,
-							   "taskdone"));
-	gtk_widget_set_sensitive(w_taskdone_btn, 0);
 
 	g_object_unref(G_OBJECT(builder));
 

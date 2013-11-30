@@ -133,9 +133,9 @@ void ui_taskpanel_init(GtkBuilder *builder)
 
 	w_tasksave_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 							   "tasksave"));
-	g_signal_connect(w_tasksave_btn, 
-			 "clicked", 
-			 (GCallback)tasksave_clicked_cbk, 
+	g_signal_connect(w_tasksave_btn,
+			 "clicked",
+			 (GCallback)tasksave_clicked_cbk,
 			 NULL);
 
 	w_taskdone_btn = GTK_BUTTON(gtk_builder_get_object(builder,
