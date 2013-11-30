@@ -37,6 +37,8 @@ static char *task_exec(char *opts)
 	size_t s;
 	char *str, *tmp, *cmd, buf[1024];
 
+	log_fct_enter();
+
 	cmd = malloc(strlen("task ") + strlen(opts) + 1);
 	strcpy(cmd, "task ");
 	strcat(cmd, opts);
@@ -66,6 +68,8 @@ static char *task_exec(char *opts)
 
 	if (ret == -1)
 		log_err("pclose fails");
+
+	log_fct_exit();
 
 	return str;
 }
@@ -276,6 +280,8 @@ void tw_modify_priority(const char *uuid, const char *priority)
 	char *str;
 	char *opts;
 
+	log_fct_enter();
+
 	str = escape(priority);
 
 	opts = malloc(1
@@ -290,15 +296,19 @@ void tw_modify_priority(const char *uuid, const char *priority)
 
 	free(str);
 	free(opts);
+
+	log_fct_exit();
 }
 
 void tw_add(const char *newdesc, const char *prj, const char *prio)
 {
 	char *opts, *eprj;
 
+	log_fct_enter();
+
 	eprj = escape(prj);
 
-	opts = malloc(strlen(" add")
+	opts = malloc(strlen("add")
 		      + strlen(" priority:")
 		      + 1
 		      + strlen(" project:\\\"")
@@ -309,7 +319,7 @@ void tw_add(const char *newdesc, const char *prj, const char *prio)
 		      + strlen("\"")
 		      + 1);
 
-	strcpy(opts, " add");
+	strcpy(opts, "add");
 
 	if (prio && strlen(prio) == 1) {
 		strcat(opts, " priority:");
@@ -324,12 +334,14 @@ void tw_add(const char *newdesc, const char *prj, const char *prio)
 
 	strcat(opts, " \"");
 	strcat(opts, newdesc);
-	strcat(opts, " \"");
+	strcat(opts, "\"");
 
 	tw_exec(opts);
 
 	free(opts);
 	free(eprj);
+
+	log_fct_exit();
 }
 
 void tw_done(const char *uuid)
