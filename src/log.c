@@ -90,7 +90,7 @@ static void vlogf(int lvl, const char *fct, const char *fmt, va_list ap)
 
 	if (file && lvl <= log_level) {
 		if (fct)
-			fprintf(file, 
+			fprintf(file,
 				"[%s] %s %s(): %s\n", t, lvl_str, fct, buffer);
 		else
 			fprintf(file, "[%s] %s %s\n", t, lvl_str, buffer);
@@ -106,7 +106,7 @@ static void vlogf(int lvl, const char *fct, const char *fmt, va_list ap)
 			stdf = stdout;
 
 		if (fct)
-			fprintf(file, 
+			fprintf(file,
 				"[%s] %s %s(): %s\n", t, lvl_str, fct, buffer);
 		else
 			fprintf(stdf, "[%s] %s %s\n", t, lvl_str, buffer);

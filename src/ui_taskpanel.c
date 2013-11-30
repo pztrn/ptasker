@@ -67,11 +67,11 @@ void ui_taskpanel_init(GtkBuilder *builder)
 	w_priority = GTK_COMBO_BOX(gtk_builder_get_object(builder,
 							  "taskpriority"));
 
-	w_tasksave_btn = GTK_BUTTON(gtk_builder_get_object(builder, 
+	w_tasksave_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 							   "tasksave"));
-	w_taskdone_btn = GTK_BUTTON(gtk_builder_get_object(builder, 
+	w_taskdone_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 							   "taskdone"));
-	w_taskcancel_btn = GTK_BUTTON(gtk_builder_get_object(builder, 
+	w_taskcancel_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 							     "taskcancel"));
 
 	enable(0);
@@ -116,7 +116,7 @@ void ui_taskpanel_update(struct task *task)
 
 		priority = priority_to_int(task->priority);
 		gtk_combo_box_set_active(w_priority, priority);
-		
+
 		enable(1);
 	} else {
 		enable(0);

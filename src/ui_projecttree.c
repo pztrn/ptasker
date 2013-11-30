@@ -43,7 +43,7 @@ const char *ui_projecttree_get_project()
 	GtkTreeModel *model;
 	GValue value = {0,};
 	const char *prj;
-						
+
 	log_fct_enter();
 
 	gtk_tree_view_get_cursor(w_treeview, &path, &cols);
