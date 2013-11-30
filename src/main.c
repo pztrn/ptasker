@@ -28,9 +28,9 @@
 
 #include <config.h>
 
-#include "log.h"
-#include "note.h"
-#include "tw.h"
+#include <log.h>
+#include <note.h>
+#include <tw.h>
 #include <ui.h>
 #include <ui_projecttree.h>
 #include <ui_taskpanel.h>
