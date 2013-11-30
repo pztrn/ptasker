@@ -181,17 +181,6 @@ void refresh()
 	log_fct(__func__, "EXIT");
 }
 
-int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	struct task *task;
-
-	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
-	tw_done(task->uuid);
-	refresh();
-
-	return FALSE;
-}
-
 int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	log_debug("refresh_clicked_cbk");
