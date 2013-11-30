@@ -42,7 +42,6 @@ static GtkTextView *w_note;
 static GtkEntry *w_description;
 static GtkEntry *w_project;
 static GtkTreeView *w_treeview;
-static GtkWidget *w_tasksave_btn;
 static GtkWidget *w_taskdone_btn;
 static GtkComboBox *w_status;
 static GtkComboBox *w_priority;
@@ -211,63 +210,6 @@ int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
-static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	struct task *task;
-	GtkTextBuffer *buf;
-	char *txt, *pri;
-	GtkTextIter sIter, eIter;
-	const char *ctxt;
-	int priority;
-
-	task = get_selected_task(GTK_TREE_VIEW(w_treeview));
-
-	log_debug("tasksave_clicked_cbk %d", task->id);
-
-	buf = gtk_text_view_get_buffer(w_note);
-
-	gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
-	gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
-	txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
-
-	log_debug("note=%s", txt);
-
-	if (!task->note || strcmp(txt, task->note))
-		note_put(task->uuid, txt);
-
-	ctxt = gtk_entry_get_text(w_description);
-	if (!task->description || strcmp(ctxt, task->description))
-		tw_modify_description(task->uuid, ctxt);
-
-	ctxt = gtk_entry_get_text(w_project);
-	if (!task->project || strcmp(ctxt, task->project))
-		tw_modify_project(task->uuid, ctxt);
-
-	priority = gtk_combo_box_get_active(w_priority);
-	log_debug("priority: %d", priority);
-
-	switch (priority) {
-	case 3:
-		pri = "H";
-		break;
-	case 2:
-		pri = "M";
-		break;
-	case 1:
-		pri = "L";
-		break;
-	default:
-		pri = "";
-	}
-
-	if (strcmp(task->priority, pri))
-		tw_modify_priority(task->uuid, pri);
-
-	refresh();
-
-	return FALSE;
-}
-
 int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	log_debug("refresh_clicked_cbk");
@@ -320,7 +262,6 @@ static void log_init()
 int main(int argc, char **argv)
 {
 	GtkWindow *window;
-	GtkWidget *btn;
 	GtkBuilder *builder;
 	int optc, cmdok, opti;
 
@@ -395,12 +336,6 @@ int main(int argc, char **argv)
 	g_signal_connect(w_status,
 			 "changed", (GCallback)status_changed_cbk,
 			 tasks);
-
-	btn = GTK_WIDGET(gtk_builder_get_object(builder, "tasksave"));
-	g_signal_connect(btn,
-			 "clicked", (GCallback)tasksave_clicked_cbk, tasks);
-	gtk_widget_set_sensitive(btn, 0);
-	w_tasksave_btn = btn;
 
 	w_taskdone_btn = GTK_WIDGET(gtk_builder_get_object(builder,
 							   "taskdone"));

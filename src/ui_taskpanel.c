@@ -19,6 +19,9 @@
 #include <string.h>
 
 #include <log.h>
+#include <note.h>
+#include <tw.h>
+#include <ui.h>
 #include <ui_taskpanel.h>
 
 static GtkTextView *w_note;
@@ -28,6 +31,8 @@ static GtkComboBox *w_priority;
 static GtkButton *w_tasksave_btn;
 static GtkButton *w_taskdone_btn;
 static GtkButton *w_taskcancel_btn;
+
+static struct task *current_task;
 
 static void enable(int enable)
 {
@@ -55,6 +60,65 @@ static void enable(int enable)
 	gtk_widget_set_sensitive(GTK_WIDGET(w_priority), enable);
 }
 
+static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	struct task *task;
+	GtkTextBuffer *buf;
+	char *txt, *pri;
+	GtkTextIter sIter, eIter;
+	const char *ctxt;
+	int priority;
+
+	log_fct_enter();
+
+	task = current_task;
+
+	log_fct(__func__, "%d", task->id);
+
+	buf = gtk_text_view_get_buffer(w_note);
+
+	gtk_text_buffer_get_iter_at_offset(buf, &sIter, 0);
+	gtk_text_buffer_get_iter_at_offset(buf, &eIter, -1);
+	txt = gtk_text_buffer_get_text(buf, &sIter, &eIter, TRUE);
+
+	log_debug("note=%s", txt);
+
+	if (!task->note || strcmp(txt, task->note))
+		note_put(task->uuid, txt);
+
+	ctxt = gtk_entry_get_text(w_description);
+	if (!task->description || strcmp(ctxt, task->description))
+		tw_modify_description(task->uuid, ctxt);
+
+	ctxt = gtk_entry_get_text(w_project);
+	if (!task->project || strcmp(ctxt, task->project))
+		tw_modify_project(task->uuid, ctxt);
+
+	priority = gtk_combo_box_get_active(w_priority);
+	log_debug("priority: %d", priority);
+
+	switch (priority) {
+	case 3:
+		pri = "H";
+		break;
+	case 2:
+		pri = "M";
+		break;
+	case 1:
+		pri = "L";
+		break;
+	default:
+		pri = "";
+	}
+
+	if (strcmp(task->priority, pri))
+		tw_modify_priority(task->uuid, pri);
+
+	refresh();
+
+	return FALSE;
+}
+
 void ui_taskpanel_init(GtkBuilder *builder)
 {
 	log_fct(__func__, "ENTER");
@@ -69,6 +133,11 @@ void ui_taskpanel_init(GtkBuilder *builder)
 
 	w_tasksave_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 							   "tasksave"));
+	g_signal_connect(w_tasksave_btn, 
+			 "clicked", 
+			 (GCallback)tasksave_clicked_cbk, 
+			 NULL);
+
 	w_taskdone_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 							   "taskdone"));
 	w_taskcancel_btn = GTK_BUTTON(gtk_builder_get_object(builder,
@@ -99,6 +168,8 @@ void ui_taskpanel_update(struct task *task)
 	int priority;
 
 	if (task) {
+		current_task = task;
+
 		buf = gtk_text_view_get_buffer(w_note);
 		if (task->note)
 			gtk_text_buffer_set_text(buf,
@@ -119,6 +190,7 @@ void ui_taskpanel_update(struct task *task)
 
 		enable(1);
 	} else {
+		current_task = NULL;
 		enable(0);
 	}
 }
