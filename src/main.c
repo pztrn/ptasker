@@ -130,27 +130,6 @@ static struct task *get_selected_task(GtkTreeView *treeview)
 	return NULL;
 }
 
-static void clear_task_panel()
-{
-	GtkTextBuffer *buf;
-
-	gtk_widget_set_sensitive(w_tasksave_btn, 0);
-	gtk_widget_set_sensitive(w_taskdone_btn, 0);
-
-	buf = gtk_text_view_get_buffer(w_note);
-	gtk_text_buffer_set_text(buf, "", 0);
-	gtk_widget_set_sensitive(GTK_WIDGET(w_note), 0);
-
-	gtk_entry_set_text(w_description, "");
-	gtk_widget_set_sensitive(GTK_WIDGET(w_description), 0);
-
-	gtk_entry_set_text(w_project, "");
-	gtk_widget_set_sensitive(GTK_WIDGET(w_project), 0);
-
-	gtk_combo_box_set_active(w_priority, 0);
-	gtk_widget_set_sensitive(GTK_WIDGET(w_priority), 0);
-}
-
 void refresh()
 {
 	GtkWidget *dialog;
@@ -163,7 +142,7 @@ void refresh()
 	const char *project;
 
 	log_fct_enter();
-	clear_task_panel();
+	ui_taskpanel_update(NULL);
 
 	status = gtk_combo_box_get_active(w_status);
 	log_debug("status: %d", status);
@@ -305,61 +284,15 @@ static int status_changed_cbk(GtkComboBox *w, gpointer data)
 	return FALSE;
 }
 
-static int priority_to_int(const char *str)
-{
-	switch (*str) {
-	case 'H':
-		return 3;
-	case 'M':
-		return 2;
-	case 'L':
-		return 1;
-	default:
-		return 0;
-	}
-}
-
 static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
 	struct task *task;
-	GtkTextBuffer *buf;
-	int priority;
 
 	log_debug("cursor_changed_cbk");
 
 	task = get_selected_task(treeview);
 
-	if (task) {
-
-		buf = gtk_text_view_get_buffer(w_note);
-		if (task->note)
-			gtk_text_buffer_set_text(buf,
-						 task->note,
-						 strlen(task->note));
-		else
-			gtk_text_buffer_set_text(buf, "", 0);
-		gtk_widget_set_sensitive(GTK_WIDGET(w_note), 1);
-
-		gtk_entry_set_text(w_description, task->description);
-		gtk_widget_set_sensitive(GTK_WIDGET(w_description), 1);
-
-		if (task->project)
-			gtk_entry_set_text(w_project, task->project);
-		else
-			gtk_entry_set_text(w_project, "");
-		gtk_widget_set_sensitive(GTK_WIDGET(w_project), 1);
-
-		gtk_widget_set_sensitive(w_tasksave_btn, 1);
-		gtk_widget_set_sensitive(w_taskdone_btn, 1);
-
-		gtk_widget_set_sensitive(GTK_WIDGET(w_priority), 1);
-		priority = priority_to_int(task->priority);
-		gtk_combo_box_set_active(w_priority, priority);
-	} else {
-		log_debug("clear task widgets");
-		clear_task_panel();
-		log_debug("clear task widgets done");
-	}
+	ui_taskpanel_update(task);
 
 	return FALSE;
 }

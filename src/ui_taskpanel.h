@@ -21,6 +21,9 @@
 
 #include <gtk/gtk.h>
 
+#include <tw.h>
+
 void ui_taskpanel_init(GtkBuilder *);
+void ui_taskpanel_update(struct task *);
 
 #endif
