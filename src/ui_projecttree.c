@@ -42,8 +42,9 @@ const char *ui_projecttree_get_project()
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	GValue value = {0,};
-
-	log_debug("get_selected_project()");
+	const char *prj;
+						
+	log_fct_enter();
 
 	gtk_tree_view_get_cursor(w_treeview, &path, &cols);
 
@@ -52,10 +53,14 @@ const char *ui_projecttree_get_project()
 		gtk_tree_model_get_iter(model, &iter, path);
 		gtk_tree_model_get_value(model, &iter, COL_NAME, &value);
 
-		return g_value_get_string(&value);
+		prj = g_value_get_string(&value);
+	} else {
+		prj = NULL;
 	}
 
-	return NULL;
+	log_fct_exit();
+
+	return prj;
 }
 
 
@@ -65,7 +70,7 @@ void ui_projecttree_update(struct task **ts)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
-	log_debug("ui_projecttree_update()");
+	log_fct_enter();
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_list_store_clear(GTK_LIST_STORE(model));
@@ -82,5 +87,7 @@ void ui_projecttree_update(struct task **ts)
 	}
 
 	tw_project_list_free(prjs);
+
+	log_fct_exit();
 }
 

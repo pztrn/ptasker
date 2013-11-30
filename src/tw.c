@@ -426,10 +426,11 @@ struct project **tw_get_projects(struct task **tasks)
 	struct project **prjs, **tmp, *prj;
 	const char *prj_name;
 
-	log_debug("tw_get_projects()");
+	log_fct_enter();
 
-	prjs = malloc(sizeof(struct project *));
-	*prjs = NULL;
+	prjs = malloc(2 * sizeof(struct project *));
+	prjs[0] = project_new("ALL", 0);
+	prjs[1] = NULL;
 
 	for (t_cur = tasks; *t_cur; t_cur++) {
 		prj_name = (*t_cur)->project;
@@ -444,7 +445,10 @@ struct project **tw_get_projects(struct task **tasks)
 			free(prjs);
 			prjs = tmp;
 		}
+		prjs[0]->count++;
 	}
+
+	log_fct_exit();
 
 	return prjs;
 }

@@ -33,6 +33,7 @@
 #include "tw.h"
 #include <ui.h>
 #include <ui_projecttree.h>
+#include <ui_taskpanel.h>
 #include <ui_tasktree.h>
 
 static const char *program_name;
@@ -161,7 +162,7 @@ void refresh()
 	int status;
 	const char *project;
 
-	log_debug("refresh");
+	log_fct_enter();
 	clear_task_panel();
 
 	status = gtk_combo_box_get_active(w_status);
@@ -217,7 +218,7 @@ void refresh()
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 	}
-	log_debug("refresh done");
+	log_fct(__func__, "EXIT");
 }
 
 int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
@@ -440,6 +441,7 @@ int main(int argc, char **argv)
 		 NULL);
 	window = create_window(builder, settings);
 
+	ui_taskpanel_init(builder);
 	ui_tasktree_init(builder);
 	ui_projecttree_init(builder);
 
