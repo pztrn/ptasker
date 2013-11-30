@@ -27,6 +27,7 @@ enum log_level {
 };
 
 void log_open(const char *path);
+void log_close();
 
 void log_printf(int lvl, const char *fmt, ...);
 void log_debug(const char *fmt, ...);
@@ -34,7 +35,10 @@ void log_err(const char *fmt, ...);
 void log_info(const char *fmt, ...);
 void log_warn(const char *fmt, ...);
 
-void log_close();
+void log_fct(const char *fct,const char *fmt, ...);
+
+#define log_fct_enter() log_fct(__func__, "ENTER");
+#define log_fct_exit() log_fct(__func__, "EXIT");
 
 /* level of the log file. */
 extern int log_level;
