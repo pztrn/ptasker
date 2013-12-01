@@ -21,6 +21,7 @@
 
 #include <log.h>
 #include <ui_projecttree.h>
+#include <ui_tasktree.h>
 
 enum {
 	COL_NAME,
@@ -29,10 +30,24 @@ enum {
 
 static GtkTreeView *w_treeview;
 
+static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
+{
+	log_fct_enter();
+
+	ui_tasktree_update_filter(ui_projecttree_get_project());
+
+	log_fct_exit();
+
+	return FALSE;
+}
+
 void ui_projecttree_init(GtkBuilder *builder)
 {
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder,
 							  "projecttree"));
+	g_signal_connect(w_treeview,
+			 "cursor-changed", (GCallback)cursor_changed_cbk,
+			 NULL);
 }
 
 const char *ui_projecttree_get_project()
@@ -54,6 +69,9 @@ const char *ui_projecttree_get_project()
 		gtk_tree_model_get_value(model, &iter, COL_NAME, &value);
 
 		prj = g_value_get_string(&value);
+
+		if (!strcmp(prj, "ALL"))
+			prj = NULL;
 	} else {
 		prj = NULL;
 	}

@@ -21,6 +21,7 @@
 #include <gtk/gtk.h>
 
 #include <log.h>
+#include <ui_projecttree.h>
 #include <ui_tasktree.h>
 
 static GtkTreeView *w_treeview;
@@ -158,7 +159,49 @@ struct task *ui_tasktree_get_selected_task()
 	return result;
 }
 
-void ui_tasktree_update(struct task **tasks)
+void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 {
+	GtkTreeModel *model;
+	struct task **tasks_cur;
+	struct task *task;
+	GtkTreeIter iter;
+	const char *prj;
+
 	current_tasks = tasks;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+	gtk_list_store_clear(GTK_LIST_STORE(model));
+
+	if (current_tasks) {
+		for (tasks_cur = current_tasks; *tasks_cur; tasks_cur++) {
+			task = (*tasks_cur);
+
+			if (task->project)
+				prj = task->project;
+			else
+				prj = "";
+
+			if (prj_filter && strcmp(prj, prj_filter))
+				continue;
+
+			gtk_list_store_append(GTK_LIST_STORE(model), &iter);
+
+
+			gtk_list_store_set(GTK_LIST_STORE(model),
+					   &iter,
+					   COL_ID, (*tasks_cur)->id,
+					   COL_DESCRIPTION,
+					   (*tasks_cur)->description,
+					   COL_PROJECT, prj,
+					   COL_UUID, (*tasks_cur)->uuid,
+					   COL_PRIORITY, (*tasks_cur)->priority,
+					   -1);
+		}
+	}
+
+}
+
+void ui_tasktree_update_filter(const char *prj_filter)
+{
+	ui_tasktree_update(current_tasks, prj_filter);
 }

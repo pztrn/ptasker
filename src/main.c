@@ -95,49 +95,20 @@ static void print_help()
 void refresh()
 {
 	GtkWidget *dialog;
-	GtkTreeModel *model;
-	struct task **tasks_cur;
-	struct task *task;
-	int i;
-	GtkTreeIter iter;
-	const char *project;
 
 	log_fct_enter();
 	ui_taskpanel_update(NULL);
 
 	if (tasks) {
-		ui_tasktree_update(NULL);
+		ui_tasktree_update(NULL, NULL);
 		tw_task_list_free(tasks);
 	}
 
 	tasks = tw_get_all_tasks(ui_get_status_filter());
 
-	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
-	gtk_list_store_clear(GTK_LIST_STORE(model));
-
 	if (tasks) {
-		for (tasks_cur = tasks, i = 0; *tasks_cur; tasks_cur++, i++) {
-			task = (*tasks_cur);
-
-			gtk_list_store_append(GTK_LIST_STORE(model), &iter);
-
-			if (task->project)
-				project = task->project;
-			else
-				project = "";
-
-			gtk_list_store_set(GTK_LIST_STORE(model),
-					   &iter,
-					   COL_ID, (*tasks_cur)->id,
-					   COL_DESCRIPTION,
-					   (*tasks_cur)->description,
-					   COL_PROJECT, project,
-					   COL_UUID, (*tasks_cur)->uuid,
-					   COL_PRIORITY, (*tasks_cur)->priority,
-					   -1);
-		}
 		ui_projecttree_update(tasks);
-		ui_tasktree_update(tasks);
+		ui_tasktree_update(tasks, NULL);
 	} else {
 		dialog = gtk_message_dialog_new(NULL,
 						GTK_DIALOG_DESTROY_WITH_PARENT,
