@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2013-12-01 12:23+0100\n"
+"POT-Creation-Date: 2013-12-01 16:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,19 +75,19 @@ msgstr ""
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/glade/ptask.glade:27
+#: src/glade/ptask.glade:7
 msgid "New Task"
 msgstr ""
 
-#: src/glade/ptask.glade:86 src/glade/ptask.glade:501
+#: src/glade/ptask.glade:66 src/glade/ptask.glade:501
 msgid "Description:"
 msgstr ""
 
-#: src/glade/ptask.glade:121 src/glade/ptask.glade:579
+#: src/glade/ptask.glade:101 src/glade/ptask.glade:579
 msgid "Project:"
 msgstr ""
 
-#: src/glade/ptask.glade:156 src/glade/ptask.glade:613
+#: src/glade/ptask.glade:136 src/glade/ptask.glade:613
 msgid "Priority:"
 msgstr ""
 
@@ -123,10 +123,14 @@ msgstr ""
 msgid "Mark Done"
 msgstr ""
 
-#: src/glade/ptask.glade:690
-msgid "Save"
+#: src/glade/ptask.glade:667
+msgid "Remove"
 msgstr ""
 
 #: src/glade/ptask.glade:704
+msgid "Save"
+msgstr ""
+
+#: src/glade/ptask.glade:718
 msgid "Cancel"
 msgstr ""
