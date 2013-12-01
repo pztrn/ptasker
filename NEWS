@@ -16,6 +16,8 @@ v0.0.4
  * fixed error message displayed when a note does not exist.
  * new task dialog allow to set description and priority.
  * added project table to filter the list of tasks.
+ * added application icon.
+ * added remove task button.
 
 v0.0.3
 ------

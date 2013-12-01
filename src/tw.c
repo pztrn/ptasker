@@ -359,6 +359,21 @@ void tw_done(const char *uuid)
 	free(opts);
 }
 
+void tw_task_remove(const char *uuid)
+{
+	char *opts;
+
+	opts = malloc(1
+		      + strlen(uuid)
+		      + strlen(" delete")
+		      + 1);
+	sprintf(opts, " %s delete", uuid);
+
+	tw_exec(opts);
+
+	free(opts);
+}
+
 static void task_free(struct task *task)
 {
 	if (!task)

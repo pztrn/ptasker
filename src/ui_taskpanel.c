@@ -205,3 +205,17 @@ int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
+int taskremove_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	log_fct_enter();
+
+	if (current_task) {
+		log_fct(__func__, "uuid=%d", current_task->uuid);
+		tw_task_remove(current_task->uuid);
+		refresh();
+	}
+
+	log_fct_exit();
+
+	return FALSE;
+}
