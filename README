@@ -12,16 +12,6 @@ description) to each task.
 +ptask+ is licensed under the GPLv2 terms and should compile on any
 modern GNU/Linux distribution.
 
-*Home page*: http://wpitchoune.net/ptask.
-
-*RSS feed*: http://wpitchoune.net/blog/category/ptask/feed/.
-
-*Release changes*: link:NEWS.html[NEWS].
-
-*Source tarballs*: http://wpitchoune.net/ptask/files.
-
-*Documentation*: http://wpitchoune.net/ptask/doc.
-
 Installation on Ubuntu
 ----------------------
 
@@ -100,8 +90,16 @@ Installation
 make install
 -------------------------------
 
+Resources
+---------
+
+ * *Home page*: http://wpitchoune.net/ptask.
+ * *RSS feed*: http://wpitchoune.net/blog/category/ptask/feed/.
+ * *Release changes*: http://wpitchoune.net/ptask/doc/link:NEWS.html[NEWS].
+ * *Source tarballs*: http://wpitchoune.net/ptask/files.
+ * *Documentation*: http://wpitchoune.net/ptask/doc.
+
 Contact
 -------
 
 Bugs and comments can be sent to jeanfi@gmail.com.
-
