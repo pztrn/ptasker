@@ -15,6 +15,7 @@ v0.0.4
  * added tasks sort column/order restore.
  * fixed error message displayed when a note does not exist.
  * new task dialog allow to set description and priority.
+ * added project table to filter the list of tasks.
 
 v0.0.3
 ------
