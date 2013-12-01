@@ -29,6 +29,7 @@ static GtkEntry *w_description;
 static GtkEntry *w_project;
 static GtkComboBox *w_priority;
 static GtkButton *w_tasksave_btn;
+static GtkButton *w_taskremove_btn;
 static GtkButton *w_taskdone_btn;
 static GtkButton *w_taskcancel_btn;
 
@@ -40,6 +41,7 @@ static void enable(int enable)
 
 	gtk_widget_set_sensitive(GTK_WIDGET(w_tasksave_btn), enable);
 	gtk_widget_set_sensitive(GTK_WIDGET(w_taskdone_btn), enable);
+	gtk_widget_set_sensitive(GTK_WIDGET(w_taskremove_btn), enable);
 	gtk_widget_set_sensitive(GTK_WIDGET(w_taskcancel_btn), enable);
 
 	buf = gtk_text_view_get_buffer(w_note);
@@ -133,6 +135,9 @@ void ui_taskpanel_init(GtkBuilder *builder)
 
 	w_tasksave_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 							   "tasksave"));
+	w_taskremove_btn = GTK_BUTTON(gtk_builder_get_object(builder,
+							     "taskremove"));
+
 	g_signal_connect(w_tasksave_btn,
 			 "clicked",
 			 (GCallback)tasksave_clicked_cbk,
