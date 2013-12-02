@@ -166,6 +166,7 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 	struct task *task;
 	GtkTreeIter iter;
 	const char *prj;
+	GtkTreePath *p;
 
 	current_tasks = tasks;
 
@@ -186,7 +187,6 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 
 			gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
-
 			gtk_list_store_set(GTK_LIST_STORE(model),
 					   &iter,
 					   COL_ID, (*tasks_cur)->id,
@@ -197,6 +197,9 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 					   COL_PRIORITY, (*tasks_cur)->priority,
 					   -1);
 		}
+
+		p = gtk_tree_path_new_first();
+		gtk_tree_view_set_cursor(w_treeview, p, NULL, FALSE);
 	}
 
 }

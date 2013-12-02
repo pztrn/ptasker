@@ -95,20 +95,24 @@ static void print_help()
 void refresh()
 {
 	GtkWidget *dialog;
+	const char *current_prj;
 
 	log_fct_enter();
 	ui_taskpanel_update(NULL);
 
 	if (tasks) {
+		current_prj = ui_projecttree_get_project();
 		ui_tasktree_update(NULL, NULL);
 		tw_task_list_free(tasks);
+	} else {
+		current_prj = NULL;
 	}
 
 	tasks = tw_get_all_tasks(ui_get_status_filter());
 
 	if (tasks) {
 		ui_projecttree_update(tasks);
-		ui_tasktree_update(tasks, NULL);
+		ui_tasktree_update(tasks, current_prj);
 	} else {
 		dialog = gtk_message_dialog_new(NULL,
 						GTK_DIALOG_DESTROY_WITH_PARENT,

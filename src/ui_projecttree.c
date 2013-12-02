@@ -17,6 +17,7 @@
  * 02110-1301 USA
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <log.h>
@@ -32,9 +33,13 @@ static GtkTreeView *w_treeview;
 
 static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 {
+	const char *prj;
+
 	log_fct_enter();
 
-	ui_tasktree_update_filter(ui_projecttree_get_project());
+	prj = ui_projecttree_get_project();
+
+	ui_tasktree_update_filter(prj);
 
 	log_fct_exit();
 
@@ -87,10 +92,15 @@ void ui_projecttree_update(struct task **ts)
 	struct project **prjs, **cur;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+	GtkTreePath *p;
+	const char *current_prj;
 
 	log_fct_enter();
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
+
+	current_prj = ui_projecttree_get_project();
+
 	gtk_list_store_clear(GTK_LIST_STORE(model));
 
 	prjs = tw_get_projects(ts);
@@ -102,6 +112,18 @@ void ui_projecttree_update(struct task **ts)
 				   COL_NAME, (*cur)->name,
 				   COL_COUNT, (*cur)->count,
 				   -1);
+
+		if (current_prj) {
+			if (!strcmp((*cur)->name, current_prj)) {
+				p = gtk_tree_model_get_path(model, &iter);
+				if (p) {
+					gtk_tree_view_set_cursor(w_treeview,
+								 p,
+								 NULL,
+								 FALSE);
+				}
+			}
+		}
 	}
 
 	tw_project_list_free(prjs);
