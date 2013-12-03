@@ -7,6 +7,7 @@ v0.0.5
  * focus to first item when selecting a project.
  * keep focus on project after refresh.
  * keep focus on task after refresh.
+ * added support of tasks with deleted status.
 
 v0.0.4
 ------

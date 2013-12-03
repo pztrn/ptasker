@@ -114,20 +114,14 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 
 const char *ui_get_status_filter()
 {
-	const char *result;
-	int status;
+	const char *status;
 
 	log_fct_enter();
 
-	status = gtk_combo_box_get_active(w_status);
+	status = gtk_combo_box_get_active_id(w_status);
 	log_fct(__func__, "status: %d", status);
-
-	if (status == 1)
-		result = "completed";
-	else
-		result = "pending";
 
 	log_fct_exit();
 
-	return result;
+	return status;
 }
