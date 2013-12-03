@@ -118,6 +118,17 @@ void ui_tasktree_save_settings(GSettings *settings)
 	g_settings_set_int(settings, "tasks-sort-order", sort_order);
 }
 
+const char *ui_tasktree_get_task_uuid()
+{
+	struct task *t;
+
+	t = ui_tasktree_get_selected_task();
+
+	if (t)
+		return t->uuid;
+	else
+		return NULL;
+}
 
 struct task *ui_tasktree_get_selected_task()
 {
@@ -159,7 +170,9 @@ struct task *ui_tasktree_get_selected_task()
 	return result;
 }
 
-void ui_tasktree_update(struct task **tasks, const char *prj_filter)
+void ui_tasktree_update(struct task **tasks,
+			const char *prj_filter,
+			const char *task_uuid)
 {
 	GtkTreeModel *model;
 	struct task **tasks_cur;
@@ -172,6 +185,7 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_list_store_clear(GTK_LIST_STORE(model));
+	p = NULL;
 
 	if (current_tasks) {
 		for (tasks_cur = current_tasks; *tasks_cur; tasks_cur++) {
@@ -196,9 +210,13 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 					   COL_UUID, (*tasks_cur)->uuid,
 					   COL_PRIORITY, (*tasks_cur)->priority,
 					   -1);
+
+			if (task_uuid && !strcmp(task->uuid, task_uuid))
+				p = gtk_tree_model_get_path(model, &iter);
 		}
 
-		p = gtk_tree_path_new_first();
+		if (!p)
+			p = gtk_tree_path_new_first();
 		gtk_tree_view_set_cursor(w_treeview, p, NULL, FALSE);
 	}
 
@@ -206,5 +224,5 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 
 void ui_tasktree_update_filter(const char *prj_filter)
 {
-	ui_tasktree_update(current_tasks, prj_filter);
+	ui_tasktree_update(current_tasks, prj_filter, NULL);
 }

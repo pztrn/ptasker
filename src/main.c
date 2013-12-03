@@ -95,24 +95,28 @@ static void print_help()
 void refresh()
 {
 	GtkWidget *dialog;
-	const char *current_prj;
+	const char *current_prj, *current_uuid;
+	struct task **old_tasks;
 
 	log_fct_enter();
 	ui_taskpanel_update(NULL);
 
 	if (tasks) {
+		old_tasks = tasks;
 		current_prj = ui_projecttree_get_project();
-		ui_tasktree_update(NULL, NULL);
-		tw_task_list_free(tasks);
+		current_uuid = ui_tasktree_get_task_uuid();
+		ui_tasktree_update(NULL, NULL, NULL);
 	} else {
+		old_tasks = NULL;
 		current_prj = NULL;
+		current_uuid = NULL;
 	}
 
 	tasks = tw_get_all_tasks(ui_get_status_filter());
 
 	if (tasks) {
 		ui_projecttree_update(tasks);
-		ui_tasktree_update(tasks, current_prj);
+		ui_tasktree_update(tasks, current_prj, current_uuid);
 	} else {
 		dialog = gtk_message_dialog_new(NULL,
 						GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -124,6 +128,10 @@ void refresh()
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 	}
+
+	if (old_tasks)
+		tw_task_list_free(old_tasks);
+
 	log_fct(__func__, "EXIT");
 }
 

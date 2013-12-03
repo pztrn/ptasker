@@ -27,7 +27,8 @@ void ui_tasktree_init(GtkBuilder *);
 void ui_tasktree_load_settings(GSettings *);
 void ui_tasktree_save_settings(GSettings *);
 struct task *ui_tasktree_get_selected_task();
-void ui_tasktree_update(struct task **, const char *);
+const char *ui_tasktree_get_task_uuid();
+void ui_tasktree_update(struct task **, const char *, const char *);
 void ui_tasktree_update_filter(const char *);
 
 #endif
