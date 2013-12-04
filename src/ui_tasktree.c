@@ -32,7 +32,8 @@ enum {
 	COL_DESCRIPTION,
 	COL_PROJECT,
 	COL_UUID,
-	COL_PRIORITY
+	COL_PRIORITY,
+	COL_URGENCY
 };
 
 static int priority_to_int(const char *str)
@@ -246,6 +247,7 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 					   COL_PROJECT, prj,
 					   COL_UUID, (*tasks_cur)->uuid,
 					   COL_PRIORITY, (*tasks_cur)->priority,
+					   COL_URGENCY, (*tasks_cur)->urgency,
 					   -1);
 		}
 	}

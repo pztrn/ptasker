@@ -28,6 +28,7 @@ struct task {
 	char *note;
 	char *project;
 	char *priority;
+	char *urgency;
 };
 
 struct project {

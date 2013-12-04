@@ -197,6 +197,9 @@ struct task **tw_get_all_tasks(const char *status)
 		json = json_object_object_get(jtask, "uuid");
 		tasks[i]->uuid = strdup(json_object_get_string(json));
 
+		json = json_object_object_get(jtask, "urgency");
+		tasks[i]->urgency = strdup(json_object_get_string(json));
+
 		tasks[i]->note = note_get(tasks[i]->uuid);
 	}
 
@@ -385,6 +388,7 @@ static void task_free(struct task *task)
 	free(task->note);
 	free(task->project);
 	free(task->priority);
+	free(task->urgency);
 
 	free(task);
 }
