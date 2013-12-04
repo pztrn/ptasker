@@ -224,3 +224,14 @@ int taskremove_clicked_cbk(GtkButton *btn, gpointer data)
 
 	return FALSE;
 }
+
+int taskpanel_cancel_clicked_cbk(GtkButton *btn, gpointer data)
+{
+	log_fct_enter();
+
+	ui_taskpanel_update(current_task);
+
+	log_fct_exit();
+
+	return FALSE;
+}

@@ -9,6 +9,7 @@ v0.0.5
  * keep focus on task after refresh.
  * added support of tasks with deleted status.
  * added urgency column.
+ * implemented the cancel button of the task panel.
 
 v0.0.4
 ------
