@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ptask\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2013-12-04 09:17+0100\n"
+"POT-Creation-Date: 2013-12-04 23:14+0100\n"
 "PO-Revision-Date: 2012-05-13 18:15+0000\n"
 "Last-Translator: jeanfi <Unknown>\n"
 "Language-Team: French <>\n"
@@ -82,62 +82,66 @@ msgstr ""
 msgid "New Task"
 msgstr "Nouvelle Tache"
 
-#: src/glade/ptask.glade:66 src/glade/ptask.glade:519
+#: src/glade/ptask.glade:66 src/glade/ptask.glade:578
 msgid "Description:"
 msgstr "Description:"
 
-#: src/glade/ptask.glade:101 src/glade/ptask.glade:597
+#: src/glade/ptask.glade:101 src/glade/ptask.glade:656
 msgid "Project:"
 msgstr "Projet:"
 
-#: src/glade/ptask.glade:136 src/glade/ptask.glade:631
+#: src/glade/ptask.glade:136 src/glade/ptask.glade:690
 msgid "Priority:"
 msgstr "Priorite:"
 
-#: src/glade/ptask.glade:246
+#: src/glade/ptask.glade:246 src/glade/ptask.glade:266
 msgid "ptask"
 msgstr "ptask"
 
-#: src/glade/ptask.glade:314
+#: src/glade/ptask.glade:290
+msgid "_Help"
+msgstr ""
+
+#: src/glade/ptask.glade:373
 msgid "Status:"
 msgstr "Etat:"
 
-#: src/glade/ptask.glade:375 src/glade/ptask.glade:447
+#: src/glade/ptask.glade:434 src/glade/ptask.glade:506
 msgid "Project"
 msgstr "Projet"
 
-#: src/glade/ptask.glade:386
+#: src/glade/ptask.glade:445
 msgid "Count"
 msgstr ""
 
-#: src/glade/ptask.glade:434
+#: src/glade/ptask.glade:493
 msgid "Priority"
 msgstr "Priorite"
 
-#: src/glade/ptask.glade:464
+#: src/glade/ptask.glade:523
 msgid "Description"
 msgstr "Description"
 
-#: src/glade/ptask.glade:480
+#: src/glade/ptask.glade:539
 msgid "Urgency"
 msgstr ""
 
-#: src/glade/ptask.glade:537
+#: src/glade/ptask.glade:596
 msgid "Note:"
 msgstr "Note:"
 
-#: src/glade/ptask.glade:671
-msgid "Mark Done"
-msgstr "Marquer fait"
-
-#: src/glade/ptask.glade:685
-msgid "Remove"
-msgstr ""
-
-#: src/glade/ptask.glade:722
+#: src/glade/ptask.glade:730
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: src/glade/ptask.glade:736
+#: src/glade/ptask.glade:744
 msgid "Cancel"
 msgstr "Annuler"
+
+#: src/glade/ptask.glade:758
+msgid "Mark Done"
+msgstr "Marquer fait"
+
+#: src/glade/ptask.glade:772
+msgid "Remove"
+msgstr ""
