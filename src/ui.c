@@ -16,6 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA
  */
+#include <config.h>
+
+#include <glib/gi18n.h>
 
 #include <log.h>
 #include <ui.h>
@@ -24,6 +27,9 @@
 #include <ui_tasktree.h>
 
 static GtkComboBox *w_status;
+static GSettings *gsettings;
+static GtkWindow *window;
+
 
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
@@ -60,13 +66,18 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 }
 
 
+static void ui_quit()
+{
+	save_settings(window, gsettings);
+	gtk_widget_destroy(GTK_WIDGET(window));
+	gtk_main_quit();
+}
+
 static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
 {
 	log_fct_enter();
 
-	save_settings(GTK_WINDOW(w), (GSettings *)data);
-	gtk_widget_destroy(w);
-	gtk_main_quit();
+	ui_quit();
 
 	log_fct_exit();
 
@@ -83,8 +94,9 @@ static int status_changed_cbk(GtkComboBox *w, gpointer data)
 
 GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 {
-	GtkWindow *window;
 	int x, y, w, h;
+
+	gsettings = settings;
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
@@ -124,4 +136,32 @@ const char *ui_get_status_filter()
 	log_fct_exit();
 
 	return status;
+}
+
+void quit_activate_cbk(GtkWidget *menu_item, gpointer data)
+{
+	log_fct_enter();
+	ui_quit();
+	log_fct_exit();
+}
+
+void about_activate_cbk(GtkWidget *menu_item, gpointer data)
+{
+	log_fct_enter();
+
+	gtk_show_about_dialog
+		(NULL,
+		 "comments",
+		 _("ptask is a GTK+ task management application"),
+		 "copyright",
+		 _("Copyright(c) 2010-2013\njeanfi@gmail.com"),
+		 "logo-icon-name", "ptask",
+		 "program-name", "ptask",
+		 "title", _("About ptask"),
+		 "version", VERSION,
+		 "website", PACKAGE_URL,
+		 "website-label", _("ptask Homepage"),
+		 NULL);
+
+	log_fct_exit();
 }
