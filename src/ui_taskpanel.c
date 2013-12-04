@@ -75,7 +75,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 	task = current_task;
 
-	log_fct(__func__, "%d", task->id);
+	log_fct("%d", task->id);
 
 	buf = gtk_text_view_get_buffer(w_note);
 
@@ -123,7 +123,7 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 void ui_taskpanel_init(GtkBuilder *builder)
 {
-	log_fct(__func__, "ENTER");
+	log_fct("ENTER");
 
 	w_note = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "tasknote"));
 
@@ -150,7 +150,7 @@ void ui_taskpanel_init(GtkBuilder *builder)
 
 	enable(0);
 
-	log_fct(__func__, "EXIT");
+	log_fct("EXIT");
 }
 
 static int priority_to_int(const char *str)
@@ -215,7 +215,7 @@ int taskremove_clicked_cbk(GtkButton *btn, gpointer data)
 	log_fct_enter();
 
 	if (current_task) {
-		log_fct(__func__, "uuid=%d", current_task->uuid);
+		log_fct("uuid=%d", current_task->uuid);
 		tw_task_remove(current_task->uuid);
 		refresh();
 	}

@@ -119,7 +119,7 @@ const char *ui_get_status_filter()
 	log_fct_enter();
 
 	status = gtk_combo_box_get_active_id(w_status);
-	log_fct(__func__, "status: %d", status);
+	log_fct("status: %d", status);
 
 	log_fct_exit();
 

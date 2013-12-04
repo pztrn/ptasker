@@ -35,10 +35,11 @@ void log_err(const char *fmt, ...);
 void log_info(const char *fmt, ...);
 void log_warn(const char *fmt, ...);
 
-void log_fct(const char *fct, const char *fmt, ...);
+void _log(const char *fct, const char *fmt, ...);
 
-#define log_fct_enter() log_fct(__func__, "ENTER");
-#define log_fct_exit() log_fct(__func__, "EXIT");
+#define log_fct(...) _log(__func__, __VA_ARGS__)
+#define log_fct_enter() log_fct("ENTER")
+#define log_fct_exit() log_fct("EXIT")
 
 /* level of the log file. */
 extern int log_level;

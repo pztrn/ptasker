@@ -134,7 +134,7 @@ void refresh()
 	if (old_tasks)
 		tw_task_list_free(old_tasks);
 
-	log_fct(__func__, "EXIT");
+	log_fct_exit();
 }
 
 static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)

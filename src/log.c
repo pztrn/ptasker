@@ -163,7 +163,7 @@ void log_info(const char *fmt, ...)
 	va_end(ap);
 }
 
-void log_fct(const char *fct, const char *fmt, ...)
+void _log(const char *fct, const char *fmt, ...)
 {
 	va_list ap;
 
