@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2013-12-01 16:09+0100\n"
+"POT-Creation-Date: 2013-12-04 09:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,17 +60,17 @@ msgstr ""
 msgid "%s home page: <%s>\n"
 msgstr ""
 
-#: src/main.c:117
+#: src/main.c:127
 msgid ""
 "Error loading tasks, verify that a supported version of taskwarrior is "
 "installed "
 msgstr ""
 
-#: src/main.c:186
+#: src/main.c:200
 msgid "Enables debug mode."
 msgstr ""
 
-#: src/main.c:195
+#: src/main.c:209
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
@@ -79,58 +79,62 @@ msgstr ""
 msgid "New Task"
 msgstr ""
 
-#: src/glade/ptask.glade:66 src/glade/ptask.glade:501
+#: src/glade/ptask.glade:66 src/glade/ptask.glade:519
 msgid "Description:"
 msgstr ""
 
-#: src/glade/ptask.glade:101 src/glade/ptask.glade:579
+#: src/glade/ptask.glade:101 src/glade/ptask.glade:597
 msgid "Project:"
 msgstr ""
 
-#: src/glade/ptask.glade:136 src/glade/ptask.glade:613
+#: src/glade/ptask.glade:136 src/glade/ptask.glade:631
 msgid "Priority:"
 msgstr ""
 
-#: src/glade/ptask.glade:241
+#: src/glade/ptask.glade:246
 msgid "ptask"
 msgstr ""
 
-#: src/glade/ptask.glade:309
+#: src/glade/ptask.glade:314
 msgid "Status:"
 msgstr ""
 
-#: src/glade/ptask.glade:369 src/glade/ptask.glade:441
+#: src/glade/ptask.glade:375 src/glade/ptask.glade:447
 msgid "Project"
 msgstr ""
 
-#: src/glade/ptask.glade:380
+#: src/glade/ptask.glade:386
 msgid "Count"
 msgstr ""
 
-#: src/glade/ptask.glade:428
+#: src/glade/ptask.glade:434
 msgid "Priority"
 msgstr ""
 
-#: src/glade/ptask.glade:458
+#: src/glade/ptask.glade:464
 msgid "Description"
 msgstr ""
 
-#: src/glade/ptask.glade:519
+#: src/glade/ptask.glade:480
+msgid "Urgency"
+msgstr ""
+
+#: src/glade/ptask.glade:537
 msgid "Note:"
 msgstr ""
 
-#: src/glade/ptask.glade:653
+#: src/glade/ptask.glade:671
 msgid "Mark Done"
 msgstr ""
 
-#: src/glade/ptask.glade:667
+#: src/glade/ptask.glade:685
 msgid "Remove"
 msgstr ""
 
-#: src/glade/ptask.glade:704
+#: src/glade/ptask.glade:722
 msgid "Save"
 msgstr ""
 
-#: src/glade/ptask.glade:718
+#: src/glade/ptask.glade:736
 msgid "Cancel"
 msgstr ""
