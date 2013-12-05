@@ -150,6 +150,7 @@ struct task **tw_get_all_tasks(const char *status)
 	struct json_object *jtasks, *jtask, *json;
 	struct task **tasks;
 	char *opts;
+        const char *urg;
 
 	opts = malloc(strlen("export status:") + strlen(status) + 1);
 
@@ -198,7 +199,11 @@ struct task **tw_get_all_tasks(const char *status)
 		tasks[i]->uuid = strdup(json_object_get_string(json));
 
 		json = json_object_object_get(jtask, "urgency");
-		tasks[i]->urgency = strdup(json_object_get_string(json));
+                urg = json_object_get_string(json);
+                if (urg)
+                        tasks[i]->urgency = strdup(urg);
+                else
+                        tasks[i]->urgency = NULL;
 
 		tasks[i]->note = note_get(tasks[i]->uuid);
 	}
