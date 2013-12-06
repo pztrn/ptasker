@@ -22,6 +22,7 @@
 
 #include <log.h>
 #include <ui_projecttree.h>
+#include <ui_taskpanel.h>
 #include <ui_tasktree.h>
 
 static GtkTreeView *w_treeview;
@@ -73,6 +74,17 @@ static gint priority_cmp(GtkTreeModel *model,
 		return 1;
 	else
 		return 0;
+}
+
+int tasktree_cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
+{
+	log_fct_enter();
+
+	ui_taskpanel_update(ui_tasktree_get_selected_task());
+
+	log_fct_exit();
+
+	return FALSE;
 }
 
 void ui_tasktree_init(GtkBuilder *builder)

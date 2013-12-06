@@ -137,17 +137,6 @@ void refresh()
 	log_fct_exit();
 }
 
-static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
-{
-	log_fct_enter();
-
-	ui_taskpanel_update(ui_tasktree_get_selected_task());
-
-	log_fct_exit();
-
-	return FALSE;
-}
-
 static void log_init()
 {
 	char *home, *path, *dir;
@@ -231,10 +220,6 @@ int main(int argc, char **argv)
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tasktree"));
 
 	gtk_builder_connect_signals(builder, NULL);
-
-	g_signal_connect(w_treeview,
-			 "cursor-changed", (GCallback)cursor_changed_cbk,
-			 tasks);
 
 	g_object_unref(G_OBJECT(builder));
 
