@@ -31,7 +31,6 @@ static GtkComboBox *w_status;
 static GSettings *gsettings;
 static GtkWindow *window;
 
-
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	ui_newtask();
