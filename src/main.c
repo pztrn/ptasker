@@ -38,7 +38,6 @@
 
 static const char *program_name;
 static struct task **tasks;
-static GtkTreeView *w_treeview;
 static GSettings *settings;
 
 enum {
@@ -216,8 +215,6 @@ int main(int argc, char **argv)
 	ui_taskpanel_init(builder);
 	ui_tasktree_init(builder);
 	ui_projecttree_init(builder);
-
-	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tasktree"));
 
 	gtk_builder_connect_signals(builder, NULL);
 
