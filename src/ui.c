@@ -24,6 +24,7 @@
 #include <ui.h>
 #include <ui_newtask_diag.h>
 #include <ui_projecttree.h>
+#include <ui_taskpanel.h>
 #include <ui_tasktree.h>
 
 static GtkComboBox *w_status;
@@ -116,6 +117,7 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 	g_signal_connect(window, "delete_event",
 			 G_CALLBACK(delete_event_cbk), settings);
 
+	ui_taskpanel_init(builder);
 	ui_tasktree_init(builder);
 	ui_projecttree_init(builder);
 

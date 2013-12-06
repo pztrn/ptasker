@@ -204,10 +204,6 @@ int main(int argc, char **argv)
 		 NULL);
 	window = create_window(builder, settings);
 
-	ui_taskpanel_init(builder);
-	ui_tasktree_init(builder);
-	ui_projecttree_init(builder);
-
 	gtk_builder_connect_signals(builder, NULL);
 
 	g_object_unref(G_OBJECT(builder));
