@@ -40,14 +40,6 @@ static const char *program_name;
 static struct task **tasks;
 static GSettings *settings;
 
-enum {
-	COL_ID,
-	COL_DESCRIPTION,
-	COL_PROJECT,
-	COL_UUID,
-	COL_PRIORITY
-};
-
 static struct option long_options[] = {
 	{"version", no_argument, 0, 'v'},
 	{"help", no_argument, 0, 'h'},
