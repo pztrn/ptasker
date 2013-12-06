@@ -86,8 +86,11 @@ static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
 
 static int status_changed_cbk(GtkComboBox *w, gpointer data)
 {
-	log_debug("status_changed_cbk");
+	log_fct_enter();
+
 	refresh();
+
+	log_fct_exit();
 
 	return FALSE;
 }
