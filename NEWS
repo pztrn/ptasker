@@ -10,6 +10,7 @@ v0.0.5
  * added urgency column.
  * implemented the cancel button of the task panel.
  * added menu.
+ * restore position of vertical/horizaton spliters.
 
 v0.0.4
 ------

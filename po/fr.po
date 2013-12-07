@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ptask\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2013-12-04 23:14+0100\n"
+"POT-Creation-Date: 2013-12-06 09:00+0100\n"
 "PO-Revision-Date: 2012-05-13 18:15+0000\n"
 "Last-Translator: jeanfi <Unknown>\n"
 "Language-Team: French <>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Launchpad-Export-Date: 2012-07-02 08:28+0000\n"
 "X-Generator: Launchpad (build 15520)\n"
 
-#: src/main.c:62
+#: src/main.c:53
 #, c-format
 msgid ""
 "Copyright (C) %s jeanfi@gmail.com\n"
@@ -29,68 +29,68 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/main.c:73
+#: src/main.c:64
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: src/main.c:75
+#: src/main.c:66
 msgid "ptask is a task management user interface based on taskwarrior."
 msgstr ""
 
-#: src/main.c:79
+#: src/main.c:70
 #, fuzzy
 msgid "Options:"
 msgstr "Description:"
 
-#: src/main.c:80
+#: src/main.c:71
 msgid ""
 "  -h, --help          display this help and exit\n"
 "  -v, --version       display version information and exit"
 msgstr ""
 
-#: src/main.c:85
+#: src/main.c:76
 msgid "  -d, --debug=LEVEL   set the debug level, integer between 0 and 3"
 msgstr ""
 
-#: src/main.c:90
+#: src/main.c:81
 #, c-format
 msgid "Report bugs to: %s\n"
 msgstr ""
 
-#: src/main.c:92
+#: src/main.c:83
 #, c-format
 msgid "%s home page: <%s>\n"
 msgstr ""
 
-#: src/main.c:127
+#: src/main.c:118
 msgid ""
 "Error loading tasks, verify that a supported version of taskwarrior is "
 "installed "
 msgstr ""
 
-#: src/main.c:200
+#: src/main.c:180
 msgid "Enables debug mode."
 msgstr ""
 
-#: src/main.c:209
+#: src/main.c:189
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/glade/ptask.glade:7
+#: src/glade/ptask.glade:27
 msgid "New Task"
 msgstr "Nouvelle Tache"
 
-#: src/glade/ptask.glade:66 src/glade/ptask.glade:578
+#: src/glade/ptask.glade:86 src/glade/ptask.glade:579
 msgid "Description:"
 msgstr "Description:"
 
-#: src/glade/ptask.glade:101 src/glade/ptask.glade:656
+#: src/glade/ptask.glade:121 src/glade/ptask.glade:657
 msgid "Project:"
 msgstr "Projet:"
 
-#: src/glade/ptask.glade:136 src/glade/ptask.glade:690
+#: src/glade/ptask.glade:156 src/glade/ptask.glade:691
 msgid "Priority:"
 msgstr "Priorite:"
 
@@ -106,7 +106,7 @@ msgstr ""
 msgid "Status:"
 msgstr "Etat:"
 
-#: src/glade/ptask.glade:434 src/glade/ptask.glade:506
+#: src/glade/ptask.glade:434 src/glade/ptask.glade:507
 msgid "Project"
 msgstr "Projet"
 
@@ -114,34 +114,34 @@ msgstr "Projet"
 msgid "Count"
 msgstr ""
 
-#: src/glade/ptask.glade:493
+#: src/glade/ptask.glade:494
 msgid "Priority"
 msgstr "Priorite"
 
-#: src/glade/ptask.glade:523
+#: src/glade/ptask.glade:524
 msgid "Description"
 msgstr "Description"
 
-#: src/glade/ptask.glade:539
+#: src/glade/ptask.glade:540
 msgid "Urgency"
 msgstr ""
 
-#: src/glade/ptask.glade:596
+#: src/glade/ptask.glade:597
 msgid "Note:"
 msgstr "Note:"
 
-#: src/glade/ptask.glade:730
+#: src/glade/ptask.glade:731
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: src/glade/ptask.glade:744
+#: src/glade/ptask.glade:745
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/glade/ptask.glade:758
+#: src/glade/ptask.glade:759
 msgid "Mark Done"
 msgstr "Marquer fait"
 
-#: src/glade/ptask.glade:772
+#: src/glade/ptask.glade:773
 msgid "Remove"
 msgstr ""

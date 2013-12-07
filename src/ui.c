@@ -30,6 +30,8 @@
 static GtkComboBox *w_status;
 static GSettings *gsettings;
 static GtkWindow *window;
+static GtkPaned *vpaned;
+static GtkPaned *hpaned;
 
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
@@ -40,17 +42,23 @@ int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 
 static void save_settings(GtkWindow *window, GSettings *settings)
 {
-	int w, h, x, y;
+	int w, h, x, y, pos;
 
 	gtk_window_get_size(window, &w, &h);
 	gtk_window_get_position(window, &x, &y);
 
-	log_debug("save_settings(): x=%d, y=%d, w=%d, h=%d", x, y, w, h);
+	log_fct("x=%d, y=%d, w=%d, h=%d", x, y, w, h);
 
 	g_settings_set_int(settings, "window-width", w);
 	g_settings_set_int(settings, "window-height", h);
 	g_settings_set_int(settings, "window-x", x);
 	g_settings_set_int(settings, "window-y", y);
+
+	pos = gtk_paned_get_position(vpaned);
+	g_settings_set_int(settings, "spliter-vertical-pos", pos);
+
+	pos = gtk_paned_get_position(hpaned);
+	g_settings_set_int(settings, "spliter-horizontal-pos", pos);
 
 	ui_tasktree_save_settings(settings);
 
@@ -97,7 +105,7 @@ static int status_changed_cbk(GtkComboBox *w, gpointer data)
 
 GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 {
-	int x, y, w, h;
+	int x, y, w, h, pos;
 
 	gsettings = settings;
 
@@ -115,6 +123,14 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 	x = g_settings_get_int(settings, "window-x");
 	y = g_settings_get_int(settings, "window-y");
 	gtk_window_move(window, x, y);
+
+	vpaned = GTK_PANED(gtk_builder_get_object(builder, "vpaned"));
+	pos = g_settings_get_int(settings, "spliter-vertical-pos");
+	gtk_paned_set_position(vpaned, pos);
+
+	hpaned = GTK_PANED(gtk_builder_get_object(builder, "hpaned"));
+	pos = g_settings_get_int(settings, "spliter-horizontal-pos");
+	gtk_paned_set_position(hpaned, pos);
 
 	g_signal_connect(window, "delete_event",
 			 G_CALLBACK(delete_event_cbk), settings);

@@ -19,10 +19,10 @@
       <default>0</default>
     </key>
     <key name="spliter-horizontal-pos" type="i">
-      <default>50</default>
+      <default>200</default>
     </key>
     <key name="spliter-vertical-pos" type="i">
-      <default>200</default>
+      <default>100</default>
     </key>
   </schema>
 </schemalist>
