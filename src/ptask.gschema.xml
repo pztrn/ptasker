@@ -27,5 +27,29 @@
     <key name="tasktree-creation-date-visible" type="b">
       <default>false</default>
     </key>
+    <key name="tasktree-id-visible" type="b">
+      <default>false</default>
+    </key>
+    <key name="tasktree-description-visible" type="b">
+      <default>true</default>
+    </key>
+    <key name="tasktree-project-visible" type="b">
+      <default>true</default>
+    </key>
+    <key name="tasktree-uuid-visible" type="b">
+      <default>false</default>
+    </key>
+    <key name="tasktree-priority-visible" type="b">
+      <default>true</default>
+    </key>
+    <key name="tasktree-urgency-visible" type="b">
+      <default>false</default>
+    </key>
+    <key name="tasktree-due-visible" type="b">
+      <default>true</default>
+    </key>
+    <key name="tasktree-start-visible" type="b">
+      <default>false</default>
+    </key>
   </schema>
 </schemalist>
