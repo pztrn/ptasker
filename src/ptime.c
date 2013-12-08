@@ -18,9 +18,10 @@
  */
 #include <stdlib.h>
 
-#include "ptime.h"
+#include <log.h>
+#include <ptime.h>
 
-char *time_to_str(time_t *t)
+static char *time_to_str(time_t *t)
 {
 	struct tm lt;
 	char *str;
@@ -44,4 +45,19 @@ char *get_time_str()
 
 	t = time(NULL);
 	return time_to_str(&t);
+}
+
+char *tm_to_str(const struct tm *tm)
+{
+	char *str;
+	size_t s;
+
+	str = malloc(11);
+	s = strftime(str, 11, "%Y/%m/%d", tm);
+
+	if (s)
+		return str;
+
+	log_err("Failed to convert time");
+	return NULL;
 }

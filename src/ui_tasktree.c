@@ -16,11 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA
  */
+#define _XOPEN_SOURCE
+#include <time.h>
+
+#include <stdlib.h>
 #include <string.h>
 
 #include <gtk/gtk.h>
 
 #include <log.h>
+#include <ptime.h>
 #include <ui_projecttree.h>
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
@@ -34,7 +39,10 @@ enum {
 	COL_PROJECT,
 	COL_UUID,
 	COL_PRIORITY,
-	COL_URGENCY
+	COL_URGENCY,
+	COL_CREATION_DATE,
+	COL_DUE,
+	COL_START
 };
 
 static int priority_to_int(const char *str)
@@ -231,6 +239,7 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 	struct task *task;
 	GtkTreeIter iter;
 	const char *prj;
+	char *s;
 
 	current_tasks = tasks;
 
@@ -253,14 +262,52 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 
 			gtk_list_store_set(GTK_LIST_STORE(model),
 					   &iter,
-					   COL_ID, (*tasks_cur)->id,
+					   COL_ID,
+					   (*tasks_cur)->id,
 					   COL_DESCRIPTION,
 					   (*tasks_cur)->description,
-					   COL_PROJECT, prj,
-					   COL_UUID, (*tasks_cur)->uuid,
-					   COL_PRIORITY, (*tasks_cur)->priority,
-					   COL_URGENCY, (*tasks_cur)->urgency,
+					   COL_PROJECT,
+					   prj,
+					   COL_UUID,
+					   (*tasks_cur)->uuid,
+					   COL_PRIORITY,
+					   (*tasks_cur)->priority,
+					   COL_URGENCY,
+					   (*tasks_cur)->urgency,
 					   -1);
+
+			if ((*tasks_cur)->start) {
+				s = tm_to_str((*tasks_cur)->start);
+				gtk_list_store_set
+					(GTK_LIST_STORE(model),
+					 &iter,
+					 COL_START,
+					 s,
+					 -1);
+				free(s);
+			}
+
+			if ((*tasks_cur)->due) {
+				s = tm_to_str((*tasks_cur)->due);
+				gtk_list_store_set
+					(GTK_LIST_STORE(model),
+					 &iter,
+					 COL_DUE,
+					 s,
+					 -1);
+				free(s);
+			}
+
+			if ((*tasks_cur)->entry) {
+				s = tm_to_str((*tasks_cur)->entry);
+				gtk_list_store_set
+					(GTK_LIST_STORE(model),
+					 &iter,
+					 COL_CREATION_DATE,
+					 s,
+					 -1);
+				free(s);
+			}
 		}
 	}
 

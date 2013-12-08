@@ -16,11 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA
  */
+#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 
 #include <json/json.h>
 
@@ -29,6 +31,17 @@
 #include "note.h"
 #include <pstr.h>
 #include "tw.h"
+
+struct tm *parse_time(const char *t)
+{
+	struct tm *tm;
+
+	tm = malloc(sizeof(struct tm));
+	memset(tm, 0, sizeof(struct tm));
+	strptime(t, "%Y%m%dT%H%M%S%Z", tm);
+
+	return tm;
+}
 
 static char *task_exec(char *opts)
 {
@@ -206,6 +219,23 @@ struct task **tw_get_all_tasks(const char *status)
 			tasks[i]->urgency = NULL;
 
 		tasks[i]->note = note_get(tasks[i]->uuid);
+
+		json = json_object_object_get(jtask, "entry");
+		tasks[i]->entry = parse_time(json_object_get_string(json));
+
+		json = json_object_object_get(jtask, "due");
+		if (json)
+			tasks[i]->due
+				= parse_time(json_object_get_string(json));
+		else
+			tasks[i]->due = NULL;
+
+		json = json_object_object_get(jtask, "start");
+		if (json)
+			tasks[i]->start
+				= parse_time(json_object_get_string(json));
+		else
+			tasks[i]->start = NULL;
 	}
 
 	tasks[n] = NULL;
@@ -394,6 +424,9 @@ static void task_free(struct task *task)
 	free(task->project);
 	free(task->priority);
 	free(task->urgency);
+	free(task->entry);
+	free(task->due);
+	free(task->start);
 
 	free(task);
 }

@@ -22,6 +22,6 @@
 #include <time.h>
 
 char *get_time_str();
-char *time_to_str(time_t *t);
+char *tm_to_str(const struct tm *);
 
 #endif

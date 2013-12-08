@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkListStore" id="prioritystore">
-    <columns>
-      <!-- column-name priority -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Low</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Medium</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">High</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkDialog" id="diag_tasknew">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -200,6 +180,26 @@
       <action-widget response="0">button2</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkListStore" id="prioritystore">
+    <columns>
+      <!-- column-name priority -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Low</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Medium</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">High</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="projectstore">
     <columns>
       <!-- column-name gchararray1 -->
@@ -238,6 +238,12 @@
       <!-- column-name priority -->
       <column type="gchararray"/>
       <!-- column-name urgency -->
+      <column type="gchararray"/>
+      <!-- column-name creation -->
+      <column type="gchararray"/>
+      <!-- column-name due -->
+      <column type="gchararray"/>
+      <!-- column-name start -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -518,6 +524,54 @@
                           </object>
                         </child>
                         <child>
+                          <object class="GtkTreeViewColumn" id="urgency">
+                            <property name="title" translatable="yes">Urgency</property>
+                            <property name="sort_column_id">5</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext9"/>
+                              <attributes>
+                                <attribute name="text">5</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="creation date">
+                            <property name="title" translatable="yes">Creation date</property>
+                            <property name="sort_column_id">6</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext10"/>
+                              <attributes>
+                                <attribute name="text">6</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="Due">
+                            <property name="title" translatable="yes">Due</property>
+                            <property name="sort_column_id">7</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext11"/>
+                              <attributes>
+                                <attribute name="text">7</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="treeviewcolumn3">
+                            <property name="title" translatable="yes">Start date</property>
+                            <property name="sort_column_id">8</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext12"/>
+                              <attributes>
+                                <attribute name="text">8</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkTreeViewColumn" id="description">
                             <property name="fixed_width">10</property>
                             <property name="min_width">30</property>
@@ -531,18 +585,6 @@
                               <object class="GtkCellRendererText" id="cellrenderertext2"/>
                               <attributes>
                                 <attribute name="text">1</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="urgency">
-                            <property name="title" translatable="yes">Urgency</property>
-                            <property name="sort_column_id">5</property>
-                            <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext9"/>
-                              <attributes>
-                                <attribute name="text">5</attribute>
                               </attributes>
                             </child>
                           </object>
