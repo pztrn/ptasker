@@ -24,5 +24,8 @@
     <key name="spliter-vertical-pos" type="i">
       <default>100</default>
     </key>
+    <key name="tasktree-creation-date-visible" type="b">
+      <default>false</default>
+    </key>
   </schema>
 </schemalist>
