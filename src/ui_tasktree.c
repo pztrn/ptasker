@@ -30,7 +30,33 @@
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
 
+static const char * const SETTINGS_KEYS[] = {
+	"tasktree-id-visible",
+	"tasktree-description-visible",
+	"tasktree-project-visible",
+	"tasktree-uuid-visible",
+	"tasktree-priority-visible",
+	"tasktree-urgency-visible",
+	"tasktree-creation-date-visible",
+	"tasktree-due-visible",
+	"tasktree-start-visible",
+};
+
+static const char * const MENU_NAMES[] = {
+	"menu_id_visible",
+	"menu_description_visible",
+	"menu_project_visible",
+	"menu_uuid_visible",
+	"menu_priority_visible",
+	"menu_urgency_visible",
+	"menu_creation_date_visible",
+	"menu_due_visible",
+	"menu_start_visible",
+};
+
+static GSettings *gsettings;
 static GtkTreeView *w_treeview;
+static GtkMenu *w_menu;
 static struct task **current_tasks;
 
 enum {
@@ -42,8 +68,12 @@ enum {
 	COL_URGENCY,
 	COL_CREATION_DATE,
 	COL_DUE,
-	COL_START
+	COL_START,
+	COL_COUNT
 };
+
+static GtkTreeViewColumn *w_cols[COL_COUNT];
+static GtkCheckMenuItem *w_menus[COL_COUNT];
 
 static int priority_to_int(const char *str)
 {
@@ -98,8 +128,11 @@ int tasktree_cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 void ui_tasktree_init(GtkBuilder *builder)
 {
 	GtkTreeModel *model;
+	int i;
 
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder, "tasktree"));
+	w_menu = GTK_MENU(gtk_builder_get_object(builder, "tasktree_menu"));
+	g_object_ref(w_menu);
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(model),
@@ -107,19 +140,60 @@ void ui_tasktree_init(GtkBuilder *builder)
 					priority_cmp,
 					NULL,
 					NULL);
+
+	w_cols[COL_ID] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_id"));
+	w_cols[COL_DESCRIPTION] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_description"));
+	w_cols[COL_PROJECT] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_project"));
+	w_cols[COL_UUID] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_uuid"));
+	w_cols[COL_PRIORITY] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_priority"));
+	w_cols[COL_URGENCY] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_urgency"));
+	w_cols[COL_CREATION_DATE] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_creation_date"));
+	w_cols[COL_DUE] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_due"));
+	w_cols[COL_START] = GTK_TREE_VIEW_COLUMN
+		(gtk_builder_get_object(builder, "col_start"));
+
+	for (i = 0; i < COL_COUNT; i++)
+		w_menus[i] = GTK_CHECK_MENU_ITEM
+			(gtk_builder_get_object(builder, MENU_NAMES[i]));
 }
 
 void ui_tasktree_load_settings(GSettings *settings)
 {
-	int sort_col_id;
+	int sort_col_id, i;
 	GtkSortType sort_order;
 	GtkTreeModel *model;
+	const char *key;
+	gboolean b;
+
+
+	gsettings = settings;
 
 	sort_col_id = g_settings_get_int(settings, "tasks-sort-col");
 	sort_order = g_settings_get_int(settings, "tasks-sort-order");
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
 					     sort_col_id, sort_order);
+
+
+	for (i = 0; i < COL_COUNT; i++) {
+		key = SETTINGS_KEYS[i];
+		b = g_settings_get_boolean(gsettings, key);
+		gtk_tree_view_column_set_visible(w_cols[i], b);
+	}
+
+	for (i = 0; i < COL_COUNT; i++) {
+		key = SETTINGS_KEYS[i];
+		b = g_settings_get_boolean(gsettings, key);
+		gtk_check_menu_item_set_active(w_menus[i], b);
+	}
 }
 
 void ui_tasktree_save_settings(GSettings *settings)
@@ -316,4 +390,56 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 void ui_tasktree_update_filter(const char *prj_filter)
 {
 	ui_tasktree_update(current_tasks, prj_filter);
+}
+
+gboolean tasktree_button_press_event_cbk(GtkWidget *widget,
+					 GdkEventButton *evt,
+					 gpointer data)
+{
+	log_fct_enter();
+
+	if (evt->button == 3)
+		gtk_menu_popup(w_menu,
+			       NULL, NULL, NULL, NULL, evt->button, evt->time);
+
+	log_fct_exit();
+
+	return FALSE;
+}
+
+void tasktree_visible_activate_cbk(GtkAction *action, gpointer data)
+{
+	gboolean b;
+	int id;
+	const char *aname, *key;
+
+	aname = gtk_action_get_name(action);
+
+	if (!strcmp(aname, "tasktree_id_visible"))
+		id = COL_ID;
+	else if (!strcmp(aname, "tasktree_description_visible"))
+		id = COL_DESCRIPTION;
+	else if (!strcmp(aname, "tasktree_project_visible"))
+		id = COL_PROJECT;
+	else if (!strcmp(aname, "tasktree_uuid_visible"))
+		id = COL_UUID;
+	else if (!strcmp(aname, "tasktree_priority_visible"))
+		id = COL_PRIORITY;
+	else if (!strcmp(aname, "tasktree_urgency_visible"))
+		id = COL_URGENCY;
+	else if (!strcmp(aname, "tasktree_creation_date_visible"))
+		id = COL_CREATION_DATE;
+	else if (!strcmp(aname, "tasktree_due_visible"))
+		id = COL_DUE;
+	else if (!strcmp(aname, "tasktree_start_visible"))
+		id = COL_START;
+	else
+		id = -1;
+
+	if (id != -1) {
+		key = SETTINGS_KEYS[id];
+		b = g_settings_get_boolean(gsettings, key);
+		g_settings_set_boolean(gsettings, key, !b);
+		gtk_tree_view_column_set_visible(w_cols[id], !b);
+	}
 }

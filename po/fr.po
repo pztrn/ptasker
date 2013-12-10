@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ptask\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2013-12-06 09:00+0100\n"
+"POT-Creation-Date: 2013-12-10 09:00+0100\n"
 "PO-Revision-Date: 2012-05-13 18:15+0000\n"
 "Last-Translator: jeanfi <Unknown>\n"
 "Language-Team: French <>\n"
@@ -78,70 +78,91 @@ msgstr ""
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/glade/ptask.glade:27
+#: src/glade/ptask.glade:93
 msgid "New Task"
 msgstr "Nouvelle Tache"
 
-#: src/glade/ptask.glade:86 src/glade/ptask.glade:579
+#: src/glade/ptask.glade:152 src/glade/ptask.glade:839
 msgid "Description:"
 msgstr "Description:"
 
-#: src/glade/ptask.glade:121 src/glade/ptask.glade:657
+#: src/glade/ptask.glade:187 src/glade/ptask.glade:917
 msgid "Project:"
 msgstr "Projet:"
 
-#: src/glade/ptask.glade:156 src/glade/ptask.glade:691
+#: src/glade/ptask.glade:222 src/glade/ptask.glade:951
 msgid "Priority:"
 msgstr "Priorite:"
 
-#: src/glade/ptask.glade:246 src/glade/ptask.glade:266
-msgid "ptask"
-msgstr "ptask"
-
-#: src/glade/ptask.glade:290
-msgid "_Help"
+#: src/glade/ptask.glade:345 src/glade/ptask.glade:790
+msgid "Id"
 msgstr ""
 
-#: src/glade/ptask.glade:373
-msgid "Status:"
-msgstr "Etat:"
-
-#: src/glade/ptask.glade:434 src/glade/ptask.glade:507
+#: src/glade/ptask.glade:355 src/glade/ptask.glade:635
+#: src/glade/ptask.glade:709
 msgid "Project"
 msgstr "Projet"
 
-#: src/glade/ptask.glade:445
-msgid "Count"
+#: src/glade/ptask.glade:365 src/glade/ptask.glade:801
+msgid "UUID"
 msgstr ""
 
-#: src/glade/ptask.glade:494
+#: src/glade/ptask.glade:375 src/glade/ptask.glade:695
 msgid "Priority"
 msgstr "Priorite"
 
-#: src/glade/ptask.glade:524
-msgid "Description"
-msgstr "Description"
-
-#: src/glade/ptask.glade:540
+#: src/glade/ptask.glade:385 src/glade/ptask.glade:724
 msgid "Urgency"
 msgstr ""
 
-#: src/glade/ptask.glade:597
+#: src/glade/ptask.glade:395 src/glade/ptask.glade:736
+msgid "Creation date"
+msgstr ""
+
+#: src/glade/ptask.glade:405 src/glade/ptask.glade:748
+msgid "Due"
+msgstr ""
+
+#: src/glade/ptask.glade:415 src/glade/ptask.glade:760
+msgid "Start date"
+msgstr ""
+
+#: src/glade/ptask.glade:425 src/glade/ptask.glade:774
+msgid "Description"
+msgstr "Description"
+
+#: src/glade/ptask.glade:432 src/glade/ptask.glade:452
+msgid "ptask"
+msgstr "ptask"
+
+#: src/glade/ptask.glade:491
+msgid "_Help"
+msgstr ""
+
+#: src/glade/ptask.glade:574
+msgid "Status:"
+msgstr "Etat:"
+
+#: src/glade/ptask.glade:646
+msgid "Count"
+msgstr ""
+
+#: src/glade/ptask.glade:857
 msgid "Note:"
 msgstr "Note:"
 
-#: src/glade/ptask.glade:731
+#: src/glade/ptask.glade:991
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: src/glade/ptask.glade:745
+#: src/glade/ptask.glade:1005
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/glade/ptask.glade:759
+#: src/glade/ptask.glade:1019
 msgid "Mark Done"
 msgstr "Marquer fait"
 
-#: src/glade/ptask.glade:773
+#: src/glade/ptask.glade:1033
 msgid "Remove"
 msgstr ""
