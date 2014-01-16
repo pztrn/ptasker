@@ -4,7 +4,7 @@
 AC_PREREQ([2.64])
 AC_INIT([ptask], [0.0.x],[jeanfi@gmail.com],[ptask],[http://wpitchoune.net/ptask])
 
-AM_INIT_AUTOMAKE([-Wall -Werror gnu])
+AM_INIT_AUTOMAKE([-Wall gnu])
 
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h])
