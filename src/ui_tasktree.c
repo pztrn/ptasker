@@ -26,21 +26,10 @@
 
 #include <log.h>
 #include <ptime.h>
+#include <settings.h>
 #include <ui_projecttree.h>
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
-
-static const char * const SETTINGS_KEYS[] = {
-	"tasktree-id-visible",
-	"tasktree-description-visible",
-	"tasktree-project-visible",
-	"tasktree-uuid-visible",
-	"tasktree-priority-visible",
-	"tasktree-urgency-visible",
-	"tasktree-creation-date-visible",
-	"tasktree-due-visible",
-	"tasktree-start-visible",
-};
 
 static const char * const MENU_NAMES[] = {
 	"menu_id_visible",
@@ -54,7 +43,6 @@ static const char * const MENU_NAMES[] = {
 	"menu_start_visible",
 };
 
-static GSettings *gsettings;
 static GtkTreeView *w_treeview;
 static GtkMenu *w_menu;
 static struct task **current_tasks;
@@ -165,7 +153,7 @@ void ui_tasktree_init(GtkBuilder *builder)
 			(gtk_builder_get_object(builder, MENU_NAMES[i]));
 }
 
-void ui_tasktree_load_settings(GSettings *settings)
+void ui_tasktree_load_settings()
 {
 	int sort_col_id, i;
 	GtkSortType sort_order;
@@ -173,30 +161,27 @@ void ui_tasktree_load_settings(GSettings *settings)
 	const char *key;
 	gboolean b;
 
-
-	gsettings = settings;
-
-	sort_col_id = g_settings_get_int(settings, "tasks-sort-col");
-	sort_order = g_settings_get_int(settings, "tasks-sort-order");
+	sort_col_id = settings_get_int(SETTINGS_KEY_TASKS_SORT_COL);
+	sort_order = settings_get_int(SETTINGS_KEY_TASKS_SORT_ORDER);
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
 					     sort_col_id, sort_order);
 
 
 	for (i = 0; i < COL_COUNT; i++) {
-		key = SETTINGS_KEYS[i];
-		b = g_settings_get_boolean(gsettings, key);
+		key = SETTINGS_VISIBLE_COL_KEYS[i];
+		b = settings_get_boolean(key);
 		gtk_tree_view_column_set_visible(w_cols[i], b);
 	}
 
 	for (i = 0; i < COL_COUNT; i++) {
-		key = SETTINGS_KEYS[i];
-		b = g_settings_get_boolean(gsettings, key);
+		key = SETTINGS_VISIBLE_COL_KEYS[i];
+		b = settings_get_boolean(key);
 		gtk_check_menu_item_set_active(w_menus[i], b);
 	}
 }
 
-void ui_tasktree_save_settings(GSettings *settings)
+void ui_tasktree_save_settings()
 {
 	int sort_col_id;
 	GtkTreeModel *model;
@@ -209,8 +194,8 @@ void ui_tasktree_save_settings(GSettings *settings)
 	log_debug("ui_tasktree_save_settings(): sort_col_id=%d", sort_col_id);
 	log_debug("ui_tasktree_save_settings(): sort_col_order=%d", sort_order);
 
-	g_settings_set_int(settings, "tasks-sort-col", sort_col_id);
-	g_settings_set_int(settings, "tasks-sort-order", sort_order);
+	settings_set_int(SETTINGS_KEY_TASKS_SORT_COL, sort_col_id);
+	settings_set_int(SETTINGS_KEY_TASKS_SORT_ORDER, sort_order);
 }
 
 const char *ui_tasktree_get_task_uuid()
@@ -437,9 +422,9 @@ void tasktree_visible_activate_cbk(GtkAction *action, gpointer data)
 		id = -1;
 
 	if (id != -1) {
-		key = SETTINGS_KEYS[id];
-		b = g_settings_get_boolean(gsettings, key);
-		g_settings_set_boolean(gsettings, key, !b);
+		key = SETTINGS_VISIBLE_COL_KEYS[id];
+		b = settings_get_boolean(key);
+		settings_set_boolean(key, !b);
 		gtk_tree_view_column_set_visible(w_cols[id], !b);
 	}
 }

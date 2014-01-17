@@ -17,6 +17,7 @@ ptask_SOURCES = list.c list.h \
 	note.c note.h \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
+	settings.c settings.h \
 	tw.c tw.h \
 	ui.c ui.h \
 	ui_newtask_diag.c ui_newtask_diag.h \

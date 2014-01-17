@@ -22,7 +22,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWindow *create_window(GtkBuilder *, GSettings *);
+GtkWindow *create_window(GtkBuilder *);
 void refresh();
 const char *ui_get_status_filter();
 

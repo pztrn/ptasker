@@ -30,6 +30,7 @@
 
 #include <log.h>
 #include <note.h>
+#include <settings.h>
 #include <tw.h>
 #include <ui.h>
 #include <ui_projecttree.h>
@@ -38,7 +39,6 @@
 
 static const char *program_name;
 static struct task **tasks;
-static GSettings *settings;
 
 static struct option long_options[] = {
 	{"version", no_argument, 0, 'v'},
@@ -195,14 +195,14 @@ int main(int argc, char **argv)
 
 	gtk_init(NULL, NULL);
 
-	settings = g_settings_new("ptask");
+	settings_init();
 
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
 		(builder,
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
 		 NULL);
-	window = create_window(builder, settings);
+	window = create_window(builder);
 
 	gtk_builder_connect_signals(builder, NULL);
 

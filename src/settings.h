@@ -16,20 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA
  */
-#ifndef _PTASK_UI_TASKTREE_H_
-#define _PTASK_UI_TASKTREE_H_
+
+#ifndef _PTASK_SETTINGS_H_
+#define _PTASK_SETTINGS_H_
 
 #include <gtk/gtk.h>
 
-#include <tw.h>
+extern const char *SETTINGS_KEY_WINDOW_WIDTH;
+extern const char *SETTINGS_KEY_WINDOW_HEIGHT;
+extern const char *SETTINGS_KEY_WINDOW_X;
+extern const char *SETTINGS_KEY_WINDOW_Y;
+extern const char *SETTINGS_KEY_SPLITER_VERTICAL_POS;
+extern const char *SETTINGS_KEY_SPLITER_HORIZONTAL_POS;
+extern const char *SETTINGS_KEY_TASKS_SORT_COL;
+extern const char *SETTINGS_KEY_TASKS_SORT_ORDER;
+extern const char * const SETTINGS_VISIBLE_COL_KEYS[];
 
-void ui_tasktree_init(GtkBuilder *);
-void ui_tasktree_load_settings();
-void ui_tasktree_save_settings();
-struct task *ui_tasktree_get_selected_task();
-void ui_tasktree_set_selected_task(const char *uuid);
-const char *ui_tasktree_get_task_uuid();
-void ui_tasktree_update(struct task **, const char *);
-void ui_tasktree_update_filter(const char *);
+void settings_init();
+
+gint settings_get_int(const gchar *key);
+void settings_set_int(const gchar *key, gint value);
+gboolean settings_get_boolean(const gchar *key);
+void settings_set_boolean(const gchar *key, gboolean value);
 
 #endif

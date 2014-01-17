@@ -21,6 +21,7 @@
 #include <glib/gi18n.h>
 
 #include <log.h>
+#include <settings.h>
 #include <ui.h>
 #include <ui_newtask_diag.h>
 #include <ui_projecttree.h>
@@ -28,7 +29,6 @@
 #include <ui_tasktree.h>
 
 static GtkComboBox *w_status;
-static GSettings *gsettings;
 static GtkWindow *window;
 static GtkPaned *vpaned;
 static GtkPaned *hpaned;
@@ -40,7 +40,7 @@ int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
-static void save_settings(GtkWindow *window, GSettings *settings)
+static void save_settings(GtkWindow *window)
 {
 	int w, h, x, y, pos;
 
@@ -49,18 +49,18 @@ static void save_settings(GtkWindow *window, GSettings *settings)
 
 	log_fct("x=%d, y=%d, w=%d, h=%d", x, y, w, h);
 
-	g_settings_set_int(settings, "window-width", w);
-	g_settings_set_int(settings, "window-height", h);
-	g_settings_set_int(settings, "window-x", x);
-	g_settings_set_int(settings, "window-y", y);
+	settings_set_int(SETTINGS_KEY_WINDOW_WIDTH, w);
+	settings_set_int(SETTINGS_KEY_WINDOW_HEIGHT, h);
+	settings_set_int(SETTINGS_KEY_WINDOW_X, x);
+	settings_set_int(SETTINGS_KEY_WINDOW_Y, y);
 
 	pos = gtk_paned_get_position(vpaned);
-	g_settings_set_int(settings, "spliter-vertical-pos", pos);
+	settings_set_int(SETTINGS_KEY_SPLITER_VERTICAL_POS, pos);
 
 	pos = gtk_paned_get_position(hpaned);
-	g_settings_set_int(settings, "spliter-horizontal-pos", pos);
+	settings_set_int(SETTINGS_KEY_SPLITER_HORIZONTAL_POS, pos);
 
-	ui_tasktree_save_settings(settings);
+	ui_tasktree_save_settings();
 
 	g_settings_sync();
 }
@@ -76,7 +76,7 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 
 static void ui_quit()
 {
-	save_settings(window, gsettings);
+	save_settings(window);
 	gtk_widget_destroy(GTK_WIDGET(window));
 	gtk_main_quit();
 }
@@ -103,11 +103,9 @@ static int status_changed_cbk(GtkComboBox *w, gpointer data)
 	return FALSE;
 }
 
-GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
+GtkWindow *create_window(GtkBuilder *builder)
 {
 	int x, y, w, h, pos;
-
-	gsettings = settings;
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
@@ -116,30 +114,30 @@ GtkWindow *create_window(GtkBuilder *builder, GSettings *settings)
 			 "changed", (GCallback)status_changed_cbk,
 			 NULL);
 
-	w = g_settings_get_int(settings, "window-width");
-	h = g_settings_get_int(settings, "window-height");
+	w = settings_get_int(SETTINGS_KEY_WINDOW_WIDTH);
+	h = settings_get_int(SETTINGS_KEY_WINDOW_HEIGHT);
 	gtk_window_set_default_size(window, w, h);
 
-	x = g_settings_get_int(settings, "window-x");
-	y = g_settings_get_int(settings, "window-y");
+	x = settings_get_int(SETTINGS_KEY_WINDOW_X);
+	y = settings_get_int(SETTINGS_KEY_WINDOW_Y);
 	gtk_window_move(window, x, y);
 
 	vpaned = GTK_PANED(gtk_builder_get_object(builder, "vpaned"));
-	pos = g_settings_get_int(settings, "spliter-vertical-pos");
+	pos = settings_get_int(SETTINGS_KEY_SPLITER_VERTICAL_POS);
 	gtk_paned_set_position(vpaned, pos);
 
 	hpaned = GTK_PANED(gtk_builder_get_object(builder, "hpaned"));
-	pos = g_settings_get_int(settings, "spliter-horizontal-pos");
+	pos = settings_get_int(SETTINGS_KEY_SPLITER_HORIZONTAL_POS);
 	gtk_paned_set_position(hpaned, pos);
 
 	g_signal_connect(window, "delete_event",
-			 G_CALLBACK(delete_event_cbk), settings);
+			 G_CALLBACK(delete_event_cbk), NULL);
 
 	ui_taskpanel_init(builder);
 	ui_tasktree_init(builder);
 	ui_projecttree_init(builder);
 
-	ui_tasktree_load_settings(settings);
+	ui_tasktree_load_settings();
 
 	return window;
 }
@@ -163,6 +161,34 @@ void quit_activate_cbk(GtkWidget *menu_item, gpointer data)
 	log_fct_enter();
 	ui_quit();
 	log_fct_exit();
+}
+
+
+
+void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
+{
+	gint result;
+	static GtkDialog *diag;
+	GtkBuilder *builder;
+
+	builder = gtk_builder_new();
+	gtk_builder_add_from_file
+		(builder,
+		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
+		 NULL);
+	diag = GTK_DIALOG(gtk_builder_get_object(builder, "diag_preferences"));
+	gtk_builder_connect_signals(builder, NULL);
+
+	result = gtk_dialog_run(diag);
+
+	if (result == GTK_RESPONSE_ACCEPT)
+		log_debug("preferences_activate_cbk(): accept");
+	else
+		log_debug("preferences_activate_cbk(): cancel");
+
+	g_object_unref(G_OBJECT(builder));
+
+	gtk_widget_destroy(GTK_WIDGET(diag));
 }
 
 void about_activate_cbk(GtkWidget *menu_item, gpointer data)

@@ -26,7 +26,7 @@
 #include <log.h>
 #include <note.h>
 
-static char *get_path(const char *uuid)
+static char *get_default_path(const char *uuid)
 {
 	char *home, *dir, *path;
 
@@ -47,6 +47,11 @@ static char *get_path(const char *uuid)
 	free(dir);
 
 	return path;
+}
+
+static char *get_path(const char *uuid)
+{
+	return get_default_path(uuid);
 }
 
 void note_put(const char *uuid, const char *note)
