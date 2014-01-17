@@ -51,5 +51,8 @@
     <key name="tasktree-start-visible" type="b">
       <default>false</default>
     </key>
+    <key name="notes-dir" type="s">
+      <default>''</default>
+    </key>
   </schema>
 </schemalist>
