@@ -22,6 +22,12 @@
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
 
+/* Use JSON */
+#undef HAVE_JSON
+
+/* Use JSON0 */
+#undef HAVE_JSON_0
+
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #undef NO_MINUS_C_MINUS_O
 
