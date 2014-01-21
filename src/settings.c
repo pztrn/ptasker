@@ -77,3 +77,13 @@ void settings_set_str(const gchar *key, const gchar *value)
 {
 	g_settings_set_string(settings, key, value);
 }
+
+const char *settings_get_notes_dir()
+{
+	return settings_get_str(SETTINGS_KEY_NOTES_DIR);
+}
+
+void settings_set_notes_dir(const char *dir)
+{
+	settings_set_str(SETTINGS_KEY_NOTES_DIR, dir);
+}

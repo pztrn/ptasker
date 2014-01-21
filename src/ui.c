@@ -172,6 +172,7 @@ void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
 	GtkBuilder *builder;
 	GtkFileChooser *w_dir;
 	char *dir;
+	const char *sdir;
 
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
@@ -184,6 +185,10 @@ void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
 	w_dir = GTK_FILE_CHOOSER(gtk_builder_get_object(builder,
 							"dir_chooser"));
 
+	sdir = settings_get_notes_dir();
+	if (sdir && *sdir)
+		gtk_file_chooser_set_filename(w_dir, sdir);
+
 	result = gtk_dialog_run(diag);
 
 	if (result) {
@@ -192,9 +197,11 @@ void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
 
 		if (dir) {
 			log_debug("preferences_activate_cbk(): path=%s", dir);
+			settings_set_notes_dir(dir);
 			free(dir);
 		}
 
+		refresh();
 	} else {
 		log_debug("preferences_activate_cbk(): cancel");
 	}

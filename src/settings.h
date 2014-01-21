@@ -30,7 +30,6 @@ extern const char *SETTINGS_KEY_SPLITER_VERTICAL_POS;
 extern const char *SETTINGS_KEY_SPLITER_HORIZONTAL_POS;
 extern const char *SETTINGS_KEY_TASKS_SORT_COL;
 extern const char *SETTINGS_KEY_TASKS_SORT_ORDER;
-extern const char *SETTINGS_KEY_NOTES_DIR;
 extern const char * const SETTINGS_VISIBLE_COL_KEYS[];
 
 void settings_init();
@@ -41,5 +40,8 @@ gboolean settings_get_boolean(const gchar *key);
 void settings_set_boolean(const gchar *key, gboolean value);
 gchar *settings_get_str(const gchar *key);
 void settings_set_str(const gchar *key, const gchar *value);
+
+const char *settings_get_notes_dir();
+void settings_set_notes_dir(const char *dir);
 
 #endif

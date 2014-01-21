@@ -53,11 +53,11 @@ static char *get_path(const char *uuid)
 	const char *sdir;
 	char *path, *dir;
 
-	sdir = settings_get_str(SETTINGS_KEY_NOTES_DIR);
+	sdir = settings_get_notes_dir();
 
 	if (sdir == NULL || *sdir == '\0') {
 		dir = get_default_path();
-		settings_set_str(SETTINGS_KEY_NOTES_DIR, dir);
+		settings_set_notes_dir(dir);
 	} else {
 		dir = strdup(sdir);
 	}
