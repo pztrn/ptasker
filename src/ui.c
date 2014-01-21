@@ -18,6 +18,8 @@
  */
 #include <config.h>
 
+#include <stdlib.h>
+
 #include <glib/gi18n.h>
 
 #include <log.h>
@@ -163,13 +165,13 @@ void quit_activate_cbk(GtkWidget *menu_item, gpointer data)
 	log_fct_exit();
 }
 
-
-
 void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
 {
 	gint result;
 	static GtkDialog *diag;
 	GtkBuilder *builder;
+	GtkFileChooser *w_dir;
+	char *dir;
 
 	builder = gtk_builder_new();
 	gtk_builder_add_from_file
@@ -179,12 +181,23 @@ void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
 	diag = GTK_DIALOG(gtk_builder_get_object(builder, "diag_preferences"));
 	gtk_builder_connect_signals(builder, NULL);
 
+	w_dir = GTK_FILE_CHOOSER(gtk_builder_get_object(builder,
+							"dir_chooser"));
+
 	result = gtk_dialog_run(diag);
 
-	if (result == GTK_RESPONSE_ACCEPT)
+	if (result) {
 		log_debug("preferences_activate_cbk(): accept");
-	else
+		dir = gtk_file_chooser_get_filename(w_dir);
+
+		if (dir) {
+			log_debug("preferences_activate_cbk(): path=%s", dir);
+			free(dir);
+		}
+
+	} else {
 		log_debug("preferences_activate_cbk(): cancel");
+	}
 
 	g_object_unref(G_OBJECT(builder));
 

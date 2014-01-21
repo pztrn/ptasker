@@ -93,7 +93,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ptask_OBJECTS = list.$(OBJEXT) log.$(OBJEXT) main.$(OBJEXT) \
-	note.$(OBJEXT) pstr.$(OBJEXT) ptime.$(OBJEXT) \
+	note.$(OBJEXT) pio.$(OBJEXT) pstr.$(OBJEXT) ptime.$(OBJEXT) \
 	settings.$(OBJEXT) tw.$(OBJEXT) ui.$(OBJEXT) \
 	ui_newtask_diag.$(OBJEXT) ui_projecttree.$(OBJEXT) \
 	ui_taskpanel.$(OBJEXT) ui_tasktree.$(OBJEXT)
@@ -364,6 +364,7 @@ ptask_SOURCES = list.c list.h \
 	log.c log.h \
 	main.c \
 	note.c note.h \
+	pio.c pio.h \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
 	settings.c settings.h \
@@ -468,6 +469,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/note.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pstr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ptime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/settings.Po@am__quote@

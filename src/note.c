@@ -25,10 +25,14 @@
 
 #include <log.h>
 #include <note.h>
+#include <pio.h>
+#include <settings.h>
 
-static char *get_default_path(const char *uuid)
+static const char *NOTE_SUF = ".note";
+
+static char *get_default_path()
 {
-	char *home, *dir, *path;
+	char *home, *dir;
 
 	home = getenv("HOME");
 
@@ -41,17 +45,31 @@ static char *get_default_path(const char *uuid)
 	sprintf(dir, "%s/%s", home, ".task");
 	mkdir(dir, 0777);
 
-	path = malloc(strlen(dir) + 1 + strlen(uuid) + strlen(".note") + 1);
-	sprintf(path, "%s/%s.note", dir, uuid);
-
-	free(dir);
-
-	return path;
+	return dir;
 }
 
 static char *get_path(const char *uuid)
 {
-	return get_default_path(uuid);
+	const char *sdir;
+	char *path, *dir;
+
+	sdir = settings_get_str(SETTINGS_KEY_NOTES_DIR);
+
+	if (sdir == NULL || *sdir == '\0') {
+		dir = get_default_path();
+		settings_set_str(SETTINGS_KEY_NOTES_DIR, dir);
+	} else {
+		dir = strdup(sdir);
+	}
+
+	mkdirs(dir, 0777);
+
+	path = malloc(strlen(dir) + 1 + strlen(uuid) + strlen(NOTE_SUF) + 1);
+	sprintf(path, "%s/%s%s", dir, uuid, NOTE_SUF);
+
+	free(dir);
+
+	return path;
 }
 
 void note_put(const char *uuid, const char *note)

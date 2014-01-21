@@ -95,7 +95,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFileChooserButton" id="filechooserbutton1">
+              <object class="GtkFileChooserButton" id="dir_chooser">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
@@ -120,7 +120,7 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">button3</action-widget>
+      <action-widget response="1">button3</action-widget>
       <action-widget response="0">button4</action-widget>
     </action-widgets>
   </object>

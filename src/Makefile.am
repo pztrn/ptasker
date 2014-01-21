@@ -15,6 +15,7 @@ ptask_SOURCES = list.c list.h \
 	log.c log.h \
 	main.c \
 	note.c note.h \
+	pio.c pio.h \
 	pstr.c pstr.h \
 	ptime.c ptime.h \
 	settings.c settings.h \

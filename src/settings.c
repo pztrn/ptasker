@@ -27,6 +27,7 @@ const char *SETTINGS_KEY_SPLITER_VERTICAL_POS = "spliter-vertical-pos";
 const char *SETTINGS_KEY_SPLITER_HORIZONTAL_POS = "spliter-horizontal-pos";
 const char *SETTINGS_KEY_TASKS_SORT_COL = "tasks-sort-col";
 const char *SETTINGS_KEY_TASKS_SORT_ORDER = "tasks-sort-order";
+const char *SETTINGS_KEY_NOTES_DIR = "notes-dir";
 
 const char * const SETTINGS_VISIBLE_COL_KEYS[] = {
 	"tasktree-id-visible",
@@ -65,4 +66,14 @@ gboolean settings_get_boolean(const gchar *key)
 void settings_set_boolean(const gchar *key, gboolean value)
 {
 	g_settings_set_boolean(settings, key, value);
+}
+
+gchar *settings_get_str(const gchar *key)
+{
+	return g_settings_get_string(settings, key);
+}
+
+void settings_set_str(const gchar *key, const gchar *value)
+{
+	g_settings_set_string(settings, key, value);
 }
