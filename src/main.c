@@ -22,7 +22,7 @@
 #include <getopt.h>
 #include <sys/stat.h>
 
-#include <json/json.h>
+#include <json.h>
 
 #include <glib/gi18n.h>
 
