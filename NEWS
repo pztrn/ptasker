@@ -15,6 +15,7 @@ v0.0.5
    list of tasks.
  * popup menu to filter columns of the table of tasks.
  * allow to change the directory containing the notes.
+ * fixed compilation with gtk+ 3.10 (ignore deprecation of GtkAction).
 
 v0.0.4
 ------
