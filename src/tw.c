@@ -153,6 +153,9 @@ static struct json_object *task_exec_json(const char *opts)
 
 	free(cmd);
 
+	if (o && is_error(o))
+		return NULL;
+
 	return o;
 }
 
