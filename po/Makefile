@@ -34,14 +34,14 @@ INSTALL_DATA = ${INSTALL} -m 644
 # We use $(mkdir_p).
 # In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
 # "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
-# ${SHELL} /home/jporsini/work/wpitchoune/svnpub/ptask/trunk/install-sh does not start with $(SHELL), so we add it.
-# In automake >= 1.10, /bin/mkdir -p is derived from ${MKDIR_P}, which is defined
+# ${SHELL} /home/jporsini/work/ptask/install-sh does not start with $(SHELL), so we add it.
+# In automake >= 1.10, $(MKDIR_P) is derived from ${MKDIR_P}, which is defined
 # either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
 # versions, $(mkinstalldirs) and $(install_sh) are unused.
-mkinstalldirs = $(SHELL) ${SHELL} /home/jporsini/work/wpitchoune/svnpub/ptask/trunk/install-sh -d
-install_sh = $(SHELL) ${SHELL} /home/jporsini/work/wpitchoune/svnpub/ptask/trunk/install-sh
+mkinstalldirs = $(SHELL) ${SHELL} /home/jporsini/work/ptask/install-sh -d
+install_sh = $(SHELL) ${SHELL} /home/jporsini/work/ptask/install-sh
 MKDIR_P = /bin/mkdir -p
-mkdir_p = /bin/mkdir -p
+mkdir_p = $(MKDIR_P)
 
 GMSGFMT_ = /usr/bin/msgfmt
 GMSGFMT_no = /usr/bin/msgfmt
@@ -443,50 +443,3 @@ force:
 # Tell versions [3.59,3.63) of GNU make not to export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
-# Special Makefile rules for English message catalogs with quotation marks.
-
-DISTFILES.common.extra1 = quot.sed boldquot.sed en@quot.header en@boldquot.header insert-header.sin Rules-quot
-
-.SUFFIXES: .insert-header .po-update-en
-
-en@quot.po-create:
-	$(MAKE) en@quot.po-update
-en@boldquot.po-create:
-	$(MAKE) en@boldquot.po-update
-
-en@quot.po-update: en@quot.po-update-en
-en@boldquot.po-update: en@boldquot.po-update-en
-
-.insert-header.po-update-en:
-	@lang=`echo $@ | sed -e 's/\.po-update-en$$//'`; \
-	if test "$(PACKAGE)" = "gettext"; then PATH=`pwd`/../src:$$PATH; GETTEXTLIBDIR=`cd $(top_srcdir)/src && pwd`; export GETTEXTLIBDIR; fi; \
-	tmpdir=`pwd`; \
-	echo "$$lang:"; \
-	ll=`echo $$lang | sed -e 's/@.*//'`; \
-	LC_ALL=C; export LC_ALL; \
-	cd $(srcdir); \
-	if $(MSGINIT) -i $(DOMAIN).pot --no-translator -l $$ll -o - 2>/dev/null | sed -f $$tmpdir/$$lang.insert-header | $(MSGCONV) -t UTF-8 | $(MSGFILTER) sed -f `echo $$lang | sed -e 's/.*@//'`.sed 2>/dev/null > $$tmpdir/$$lang.new.po; then \
-	  if cmp $$lang.po $$tmpdir/$$lang.new.po >/dev/null 2>&1; then \
-	    rm -f $$tmpdir/$$lang.new.po; \
-	  else \
-	    if mv -f $$tmpdir/$$lang.new.po $$lang.po; then \
-	      :; \
-	    else \
-	      echo "creation of $$lang.po failed: cannot move $$tmpdir/$$lang.new.po to $$lang.po" 1>&2; \
-	      exit 1; \
-	    fi; \
-	  fi; \
-	else \
-	  echo "creation of $$lang.po failed!" 1>&2; \
-	  rm -f $$tmpdir/$$lang.new.po; \
-	fi
-
-en@quot.insert-header: insert-header.sin
-	sed -e '/^#/d' -e 's/HEADER/en@quot.header/g' $(srcdir)/insert-header.sin > en@quot.insert-header
-
-en@boldquot.insert-header: insert-header.sin
-	sed -e '/^#/d' -e 's/HEADER/en@boldquot.header/g' $(srcdir)/insert-header.sin > en@boldquot.insert-header
-
-mostlyclean: mostlyclean-quot
-mostlyclean-quot:
-	rm -f *.insert-header

@@ -438,7 +438,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/jporsini/work/wpitchoune/svnpub/ptask/trunk'
+ac_pwd='/home/jporsini/work/ptask'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -644,8 +644,8 @@ S["GSETTINGS_RULES"]="\n"\
 "gsettings__enum_file = $(addsuffix .enums.xml,$(gsettings_ENUM_NAMESPACE))\n"\
 "\n"\
 "%.gschema.valid: %.gschema.xml $(gsettings__enum_file)\n"\
-"	$(AM_V_GEN) if test -f \"$<\"; then d=; else d=\"$(srcdir)/\"; fi; $(GLIB_COMPILE_SCHEMAS) --strict --dry-run $(addprefix --schema-file=,$(gsettings__e"\
-"num_file)) --schema-file=$${d}$< && touch $@\n"\
+"	$(AM_V_GEN) $(GLIB_COMPILE_SCHEMAS) --strict --dry-run $(addprefix --schema-file=,$(gsettings__enum_file)) --schema-file=$< && mkdir -p $(@D) && to"\
+"uch $@\n"\
 "\n"\
 "all-am: $(gsettings_SCHEMAS:.xml=.valid)\n"\
 "uninstall-am: uninstall-gsettings-schemas\n"\
@@ -724,6 +724,7 @@ S["GMSGFMT"]="/usr/bin/msgfmt"
 S["MSGFMT"]="/usr/bin/msgfmt"
 S["GETTEXT_MACRO_VERSION"]="0.18"
 S["USE_NLS"]="yes"
+S["SED"]="/bin/sed"
 S["CPP"]="gcc -std=gnu99 -E"
 S["XMKMF"]=""
 S["am__fastdepCC_FALSE"]="#"
@@ -753,16 +754,16 @@ S["AMTAR"]="$${TAR-tar}"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
 S["AWK"]="gawk"
-S["mkdir_p"]="/bin/mkdir -p"
+S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /home/jporsini/work/wpitchoune/svnpub/ptask/trunk/install-sh"
+S["install_sh"]="${SHELL} /home/jporsini/work/ptask/install-sh"
 S["MAKEINFO"]="makeinfo"
 S["AUTOHEADER"]="autoheader"
-S["AUTOMAKE"]="automake-1.13"
+S["AUTOMAKE"]="automake-1.14"
 S["AUTOCONF"]="autoconf"
-S["ACLOCAL"]="aclocal-1.13"
+S["ACLOCAL"]="aclocal-1.14"
 S["VERSION"]="0.0.x"
 S["PACKAGE"]="ptask"
 S["CYGPATH_W"]="echo"
@@ -1287,7 +1288,7 @@ $as_echo X"$file" |
       case "$ac_file" in */Makefile.in)
         # Adjust a relative srcdir.
         ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
-        ac_dir_suffix="/`echo "$ac_dir"|sed 's%^\./%%'`"
+        ac_dir_suffix=/`echo "$ac_dir"|sed 's%^\./%%'`
         ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
         # In autoconf-2.13 it is called $ac_given_srcdir.
         # In autoconf-2.50 it is called $srcdir.
@@ -1303,7 +1304,8 @@ $as_echo X"$file" |
         if test -f "$ac_given_srcdir/$ac_dir/POTFILES.in"; then
           rm -f "$ac_dir/POTFILES"
           test -n "$as_me" && echo "$as_me: creating $ac_dir/POTFILES" || echo "creating $ac_dir/POTFILES"
-          cat "$ac_given_srcdir/$ac_dir/POTFILES.in" | sed -e "/^#/d" -e "/^[ 	]*\$/d" -e "s,.*,     $top_srcdir/& \\\\," | sed -e "\$s/\(.*\) \\\\/\1/" > "$ac_dir/POTFILES"
+          gt_tab=`printf '\t'`
+          cat "$ac_given_srcdir/$ac_dir/POTFILES.in" | sed -e "/^#/d" -e "/^[ ${gt_tab}]*\$/d" -e "s,.*,     $top_srcdir/& \\\\," | sed -e "\$s/\(.*\) \\\\/\1/" > "$ac_dir/POTFILES"
           POMAKEFILEDEPS="POTFILES.in"
           # ALL_LINGUAS, POFILES, UPDATEPOFILES, DUMMYPOFILES, GMOFILES depend
           # on $ac_dir but don't depend on user-specified configuration
@@ -1314,12 +1316,12 @@ $as_echo X"$file" |
               test -n "$as_me" && echo "$as_me: setting ALL_LINGUAS in configure.in is obsolete" || echo "setting ALL_LINGUAS in configure.in is obsolete"
             fi
             ALL_LINGUAS_=`sed -e "/^#/d" -e "s/#.*//" "$ac_given_srcdir/$ac_dir/LINGUAS"`
-            # Hide the ALL_LINGUAS assigment from automake < 1.5.
+            # Hide the ALL_LINGUAS assignment from automake < 1.5.
             eval 'ALL_LINGUAS''=$ALL_LINGUAS_'
             POMAKEFILEDEPS="$POMAKEFILEDEPS LINGUAS"
           else
             # The set of available languages was given in configure.in.
-            # Hide the ALL_LINGUAS assigment from automake < 1.5.
+            # Hide the ALL_LINGUAS assignment from automake < 1.5.
             eval 'ALL_LINGUAS''=$OBSOLETE_ALL_LINGUAS'
           fi
           # Compute POFILES
