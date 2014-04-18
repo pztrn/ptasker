@@ -203,7 +203,7 @@ void ui_taskpanel_update(struct task *task)
 int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	if (current_task) {
-		tw_done(current_task->uuid);
+		tw_task_done(current_task->uuid);
 		refresh();
 	}
 

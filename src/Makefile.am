@@ -11,8 +11,7 @@ LIBS = $(JSON_LIBS) $(GTK_LIBS)
 
 bin_PROGRAMS = ptask
 
-ptask_SOURCES = list.c list.h \
-	log.c log.h \
+ptask_SOURCES = log.c log.h \
 	main.c \
 	note.c note.h \
 	pio.c pio.h \

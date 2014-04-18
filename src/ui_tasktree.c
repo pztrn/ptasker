@@ -27,6 +27,7 @@
 #include <log.h>
 #include <ptime.h>
 #include <settings.h>
+#include <ui.h>
 #include <ui_projecttree.h>
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
@@ -427,4 +428,52 @@ void tasktree_visible_activate_cbk(GtkAction *action, gpointer data)
 		settings_set_boolean(key, !b);
 		gtk_tree_view_column_set_visible(w_cols[id], !b);
 	}
+}
+
+void tasktree_done_activate_cbk(GtkAction *action, gpointer data)
+{
+	struct task *t;
+
+	log_fct_enter();
+
+	t = ui_tasktree_get_selected_task();
+
+	if (t) {
+		tw_task_done(t->uuid);
+		refresh();
+	}
+
+	log_fct_exit();
+}
+
+void tasktree_start_activate_cbk(GtkAction *action, gpointer data)
+{
+	struct task *t;
+
+	log_fct_enter();
+
+	t = ui_tasktree_get_selected_task();
+
+	if (t) {
+		tw_task_start(t->uuid);
+		refresh();
+	}
+
+	log_fct_exit();
+}
+
+void tasktree_stop_activate_cbk(GtkAction *action, gpointer data)
+{
+	struct task *t;
+
+	log_fct_enter();
+
+	t = ui_tasktree_get_selected_task();
+
+	if (t) {
+		tw_task_stop(t->uuid);
+		refresh();
+	}
+
+	log_fct_exit();
 }

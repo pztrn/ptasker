@@ -7,6 +7,10 @@
   <object class="GtkAction" id="tasktree_description_visible">
     <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
   </object>
+  <object class="GtkAction" id="tasktree_done">
+    <property name="label" translatable="yes">Done</property>
+    <signal name="activate" handler="tasktree_done_activate_cbk" swapped="no"/>
+  </object>
   <object class="GtkAction" id="tasktree_due_visible">
     <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
   </object>
@@ -19,8 +23,16 @@
   <object class="GtkAction" id="tasktree_project_visible">
     <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
   </object>
+  <object class="GtkAction" id="tasktree_start">
+    <property name="label" translatable="yes">Start</property>
+    <signal name="activate" handler="tasktree_start_activate_cbk" swapped="no"/>
+  </object>
   <object class="GtkAction" id="tasktree_start_visible">
     <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_stop">
+    <property name="label" translatable="yes">Stop</property>
+    <signal name="activate" handler="tasktree_stop_activate_cbk" swapped="no"/>
   </object>
   <object class="GtkAction" id="tasktree_urgency_visible">
     <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
@@ -373,6 +385,33 @@
   <object class="GtkMenu" id="tasktree_menu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="menu_start">
+        <property name="related_action">tasktree_start</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menu_stop">
+        <property name="related_action">tasktree_stop</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menu_done">
+        <property name="related_action">tasktree_done</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="menuitem5">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
     <child>
       <object class="GtkCheckMenuItem" id="menu_id_visible">
         <property name="use_action_appearance">False</property>

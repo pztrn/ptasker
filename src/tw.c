@@ -26,7 +26,6 @@
 
 #include <json.h>
 
-#include <list.h>
 #include <log.h>
 #include "note.h"
 #include <pstr.h>
@@ -382,7 +381,7 @@ void tw_add(const char *newdesc, const char *prj, const char *prio)
 	log_fct_exit();
 }
 
-void tw_done(const char *uuid)
+void tw_task_done(const char *uuid)
 {
 	char *opts;
 
@@ -391,6 +390,36 @@ void tw_done(const char *uuid)
 		      + strlen(" done")
 		      + 1);
 	sprintf(opts, " %s done", uuid);
+
+	tw_exec(opts);
+
+	free(opts);
+}
+
+void tw_task_start(const char *uuid)
+{
+	char *opts;
+
+	opts = malloc(1
+		      + strlen(uuid)
+		      + strlen(" start")
+		      + 1);
+	sprintf(opts, " %s start", uuid);
+
+	tw_exec(opts);
+
+	free(opts);
+}
+
+void tw_task_stop(const char *uuid)
+{
+	char *opts;
+
+	opts = malloc(1
+		      + strlen(uuid)
+		      + strlen(" stop")
+		      + 1);
+	sprintf(opts, " %s stop", uuid);
 
 	tw_exec(opts);
 
@@ -489,6 +518,41 @@ static struct project *project_new(const char *name, int count)
 	return prj;
 }
 
+static int projects_length(struct project **list)
+{
+	int n;
+
+	if (!list)
+		return 0;
+
+	n = 0;
+	while (*list) {
+		n++;
+		list++;
+	}
+
+	return n;
+}
+
+static struct project **projects_add(struct project **list, void *item)
+{
+	int n;
+	struct project **result;
+
+	n = projects_length(list);
+
+	result = (struct project **)malloc
+		((n + 1 + 1) * sizeof(struct project *));
+
+	if (list)
+		memcpy(result, list, n * sizeof(struct project *));
+
+	result[n] = item;
+	result[n + 1] = NULL;
+
+	return result;
+}
+
 struct project **tw_get_projects(struct task **tasks)
 {
 	struct task **t_cur;
@@ -509,7 +573,7 @@ struct project **tw_get_projects(struct task **tasks)
 		} else {
 			prj = project_new(prj_name, 1);
 
-			tmp = (struct project **)list_add((void **)prjs, prj);
+			tmp = projects_add(prjs, prj);
 
 			free(prjs);
 			prjs = tmp;
