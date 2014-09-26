@@ -108,7 +108,9 @@ static int task_check_version()
 
 	log_debug("task version: %s", ver);
 
-	if (!strcmp(ver, "2.2.0") || !strcmp(ver, "2.0.0"))
+	if (!strcmp(ver, "2.2.0")
+	    || !strcmp(ver, "2.0.0")
+	    || !strcmp(ver, "2.3.0"))
 		return 1;
 	else
 		return 0;
