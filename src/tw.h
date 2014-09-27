@@ -29,6 +29,7 @@ struct task {
 	char *project;
 	char *priority;
 	char *urgency;
+	char *recur;
 	struct tm *entry;
 	struct tm *due;
 	struct tm *start;

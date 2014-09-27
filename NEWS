@@ -5,6 +5,9 @@ v0.0.7
 ------
  * added support of 2.3.0.
  * added combo box for project in the new task dialog.
+ * disable the removal of recurrent tasks which is freezing ptask
+   because taskwarrior CLI is prompting a confirmation. That's the
+   consequence of the taskwarrior bug TW-638.
 
 v0.0.6
 ------

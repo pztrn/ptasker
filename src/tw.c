@@ -240,6 +240,12 @@ struct task **tw_get_all_tasks(const char *status)
 				= parse_time(json_object_get_string(json));
 		else
 			tasks[i]->start = NULL;
+
+		json = json_object_object_get(jtask, "recur");
+		if (json)
+			tasks[i]->recur = strdup(json_object_get_string(json));
+		else
+			tasks[i]->recur = NULL;
 	}
 
 	tasks[n] = NULL;
@@ -461,6 +467,7 @@ static void task_free(struct task *task)
 	free(task->entry);
 	free(task->due);
 	free(task->start);
+	free(task->recur);
 
 	free(task);
 }
