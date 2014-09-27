@@ -45,13 +45,13 @@ static void enable(int enable)
 	if (current_task && current_task->recur) {
 		gtk_widget_set_sensitive(GTK_WIDGET(w_taskremove_btn), FALSE);
 		gtk_widget_set_tooltip_text
-			(w_taskremove_btn,
+			(GTK_WIDGET(w_taskremove_btn),
 			 "The removal of recurrent tasks is not supported due "
 			 "to the taskwarrior bug TW-638");
-		gtk_widget_set_has_tooltip(w_taskremove_btn, TRUE);
+		gtk_widget_set_has_tooltip(GTK_WIDGET(w_taskremove_btn), TRUE);
 	} else {
 		gtk_widget_set_sensitive(GTK_WIDGET(w_taskremove_btn), enable);
-		gtk_widget_set_has_tooltip(w_taskremove_btn, FALSE);
+		gtk_widget_set_has_tooltip(GTK_WIDGET(w_taskremove_btn), FALSE);
 	}
 
 	gtk_widget_set_sensitive(GTK_WIDGET(w_taskcancel_btn), enable);
