@@ -17,6 +17,8 @@
  * 02110-1301 USA
  */
 
+#include <string.h>
+
 #include <gtk/gtk.h>
 
 #include <log.h>
