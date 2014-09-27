@@ -1,45 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkAction" id="tasktree_creation_date_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_description_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_done">
-    <property name="label" translatable="yes">Done</property>
-    <signal name="activate" handler="tasktree_done_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_due_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_id_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_priority_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_project_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_start">
-    <property name="label" translatable="yes">Start</property>
-    <signal name="activate" handler="tasktree_start_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_start_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_stop">
-    <property name="label" translatable="yes">Stop</property>
-    <signal name="activate" handler="tasktree_stop_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_urgency_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
-  <object class="GtkAction" id="tasktree_uuid_visible">
-    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
-  </object>
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkDialog" id="diag_preferences">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -111,7 +73,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
-                <property name="orientation">vertical</property>
                 <property name="action">select-folder</property>
                 <property name="title" translatable="yes">Select a directory</property>
               </object>
@@ -135,6 +96,26 @@
       <action-widget response="1">button3</action-widget>
       <action-widget response="0">button4</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkListStore" id="prioritystore">
+    <columns>
+      <!-- column-name priority -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Low</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Medium</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">High</col>
+      </row>
+    </data>
   </object>
   <object class="GtkDialog" id="diag_tasknew">
     <property name="can_focus">False</property>
@@ -216,7 +197,7 @@
                 <property name="margin_top">4</property>
                 <property name="margin_bottom">4</property>
                 <property name="invisible_char">•</property>
-                <property name="invisible_char_set">True</property>
+                <property name="width_chars">60</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -246,12 +227,12 @@
               <object class="GtkEntry" id="diag_tasknew_project">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="halign">start</property>
                 <property name="margin_left">4</property>
                 <property name="margin_right">4</property>
                 <property name="margin_top">4</property>
                 <property name="margin_bottom">4</property>
                 <property name="invisible_char">•</property>
-                <property name="invisible_char_set">True</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -281,6 +262,7 @@
               <object class="GtkComboBox" id="diag_tasknew_priority">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="margin_left">4</property>
                 <property name="margin_right">4</property>
                 <property name="margin_top">4</property>
@@ -314,26 +296,6 @@
       <action-widget response="-3">button1</action-widget>
       <action-widget response="0">button2</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkListStore" id="prioritystore">
-    <columns>
-      <!-- column-name priority -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Low</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Medium</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">High</col>
-      </row>
-    </data>
   </object>
   <object class="GtkListStore" id="projectstore">
     <columns>
@@ -381,127 +343,6 @@
       <!-- column-name start -->
       <column type="gchararray"/>
     </columns>
-  </object>
-  <object class="GtkMenu" id="tasktree_menu">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkMenuItem" id="menu_start">
-        <property name="related_action">tasktree_start</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="menu_stop">
-        <property name="related_action">tasktree_stop</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="menu_done">
-        <property name="related_action">tasktree_done</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem5">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_id_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_id_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Id</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_project_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_project_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Project</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_uuid_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_uuid_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">UUID</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_priority_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_priority_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Priority</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_urgency_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_urgency_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Urgency</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_creation_date_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_creation_date_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Creation date</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_due_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_due_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Due</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_start_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_start_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Start date</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkCheckMenuItem" id="menu_description_visible">
-        <property name="use_action_appearance">False</property>
-        <property name="related_action">tasktree_description_visible</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Description</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
   </object>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
@@ -762,8 +603,8 @@
                         <property name="search_column">1</property>
                         <property name="enable_grid_lines">both</property>
                         <property name="enable_tree_lines">True</property>
-                        <signal name="cursor-changed" handler="tasktree_cursor_changed_cbk" swapped="no"/>
                         <signal name="button-press-event" handler="tasktree_button_press_event_cbk" swapped="no"/>
+                        <signal name="cursor-changed" handler="tasktree_cursor_changed_cbk" swapped="no"/>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="treeview-selection3"/>
                         </child>
@@ -973,7 +814,6 @@
                             <property name="margin_top">4</property>
                             <property name="margin_bottom">4</property>
                             <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1156,6 +996,166 @@
             <property name="position">2</property>
           </packing>
         </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAction" id="tasktree_creation_date_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_description_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_done">
+    <property name="label" translatable="yes">Done</property>
+    <signal name="activate" handler="tasktree_done_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_due_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_id_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_priority_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_project_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_start">
+    <property name="label" translatable="yes">Start</property>
+    <signal name="activate" handler="tasktree_start_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_start_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_stop">
+    <property name="label" translatable="yes">Stop</property>
+    <signal name="activate" handler="tasktree_stop_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_urgency_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkAction" id="tasktree_uuid_visible">
+    <signal name="activate" handler="tasktree_visible_activate_cbk" swapped="no"/>
+  </object>
+  <object class="GtkMenu" id="tasktree_menu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="menu_start">
+        <property name="related_action">tasktree_start</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menu_stop">
+        <property name="related_action">tasktree_stop</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menu_done">
+        <property name="related_action">tasktree_done</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="menuitem5">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_id_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_id_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Id</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_project_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_project_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Project</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_uuid_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_uuid_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">UUID</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_priority_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_priority_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Priority</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_urgency_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_urgency_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Urgency</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_creation_date_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_creation_date_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Creation date</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_due_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_due_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Due</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_start_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_start_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Start date</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkCheckMenuItem" id="menu_description_visible">
+        <property name="use_action_appearance">False</property>
+        <property name="related_action">tasktree_description_visible</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Description</property>
+        <property name="use_underline">True</property>
       </object>
     </child>
   </object>
