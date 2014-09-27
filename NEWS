@@ -1,6 +1,11 @@
 What's New
 ==========
 
+v0.0.7
+------
+ * added support of 2.3.0.
+ * added combo box for project in the new task dialog.
+
 v0.0.6
 ------
  * added contextal menu item in the task tree: task done.

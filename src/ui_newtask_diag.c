@@ -41,6 +41,27 @@ static const char *ui_get_priority(GtkComboBox *combo)
 	}
 }
 
+static void populate_project(GtkComboBoxText *w)
+{
+	struct task **tasks;
+	struct project **all_prjs, **prjs;
+
+	tasks = tw_get_all_tasks("pending");
+
+	all_prjs = tw_get_projects(tasks);
+
+	prjs = all_prjs;
+	while (*prjs) {
+		if (strcmp((*prjs)->name, "ALL"))
+			gtk_combo_box_text_append_text(w, (*prjs)->name);
+
+		prjs++;
+	}
+
+	tw_task_list_free(tasks);
+	tw_project_list_free(all_prjs);
+}
+
 void ui_newtask()
 {
 	gint result;
@@ -49,6 +70,7 @@ void ui_newtask()
 	GtkEntry *entry;
 	const char *desc, *prj, *prio;
 	GtkComboBox *combo;
+	GtkComboBoxText *w_prj;
 
 	log_debug("ui_newtask()");
 
@@ -60,6 +82,10 @@ void ui_newtask()
 	diag = GTK_DIALOG(gtk_builder_get_object(builder, "diag_tasknew"));
 	gtk_builder_connect_signals(builder, NULL);
 
+	w_prj = GTK_COMBO_BOX_TEXT(gtk_builder_get_object
+				   (builder, "diag_tasknew_project"));
+	populate_project(w_prj);
+
 	result = gtk_dialog_run(diag);
 
 	if (result == GTK_RESPONSE_ACCEPT) {
@@ -69,9 +95,9 @@ void ui_newtask()
 				  (builder, "diag_tasknew_description"));
 		desc = gtk_entry_get_text(entry);
 
-		entry = GTK_ENTRY(gtk_builder_get_object
-				  (builder, "diag_tasknew_project"));
-		prj = gtk_entry_get_text(entry);
+		w_prj = GTK_COMBO_BOX_TEXT(gtk_builder_get_object
+					   (builder, "diag_tasknew_project"));
+		prj = gtk_combo_box_text_get_active_text(w_prj);
 
 		combo = GTK_COMBO_BOX(gtk_builder_get_object
 				      (builder, "diag_tasknew_priority"));
