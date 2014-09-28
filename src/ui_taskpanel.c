@@ -32,6 +32,7 @@ static GtkButton *w_tasksave_btn;
 static GtkButton *w_taskremove_btn;
 static GtkButton *w_taskdone_btn;
 static GtkButton *w_taskcancel_btn;
+static GtkLabel *w_tasktags;
 
 static struct task *current_task;
 
@@ -68,6 +69,9 @@ static void enable(int enable)
 	if (!enable)
 		gtk_entry_set_text(w_project, "");
 	gtk_widget_set_sensitive(GTK_WIDGET(w_project), enable);
+
+	if (!enable)
+		gtk_label_set_label(w_tasktags, "");
 
 	if (!enable)
 		gtk_combo_box_set_active(w_priority, 0);
@@ -138,7 +142,7 @@ void ui_taskpanel_init(GtkBuilder *builder)
 	log_fct("ENTER");
 
 	w_note = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "tasknote"));
-
+	w_tasktags = GTK_LABEL(gtk_builder_get_object(builder, "tasktags"));
 	w_description = GTK_ENTRY(gtk_builder_get_object(builder,
 							 "taskdescription"));
 	w_project = GTK_ENTRY(gtk_builder_get_object(builder, "taskproject"));
@@ -183,6 +187,8 @@ void ui_taskpanel_update(struct task *task)
 {
 	GtkTextBuffer *buf;
 	int priority;
+	char **tags;
+	gchar *tmp, *gtags;
 
 	if (task) {
 		current_task = task;
@@ -204,6 +210,27 @@ void ui_taskpanel_update(struct task *task)
 
 		priority = priority_to_int(task->priority);
 		gtk_combo_box_set_active(w_priority, priority);
+
+		tags = task->tags;
+		gtags = NULL;
+		if (tags) {
+			while (*tags) {
+				if (gtags) {
+					tmp = g_strconcat(gtags,
+							  " ",
+							  *tags,
+							  NULL);
+					g_free(gtags);
+					gtags = tmp;
+				} else {
+					gtags = g_strdup(*tags);
+				}
+				tags++;
+			}
+			gtk_label_set_label(w_tasktags, gtags);
+		} else {
+			gtk_label_set_label(w_tasktags, "");
+		}
 
 		enable(1);
 	} else {

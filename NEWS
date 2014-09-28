@@ -8,6 +8,7 @@ v0.0.7
  * disable the removal of recurrent tasks which is freezing ptask
    because taskwarrior CLI is prompting a confirmation. That's the
    consequence of the taskwarrior bug TW-638.
+ * display the tags of the selected task.
 
 v0.0.6
 ------

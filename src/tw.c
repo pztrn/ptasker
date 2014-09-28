@@ -161,13 +161,109 @@ static struct json_object *task_exec_json(const char *opts)
 	return o;
 }
 
+char **json_to_tags(struct json_object *jtask)
+{
+	struct json_object *jtags, *jtag;
+	char **tags;
+	int n, i;
+
+	jtags = json_object_object_get(jtask, "tags");
+
+	if (!jtags)
+		return NULL;
+
+
+	n = json_object_array_length(jtags);
+
+	tags = malloc((n + 1) * sizeof(char *));
+
+	for (i = 0; i < n; i++) {
+		jtag = json_object_array_get_idx(jtags, i);
+		tags[i] = strdup(json_object_get_string(jtag));
+	}
+
+	tags[n] = NULL;
+
+	return tags;
+}
+
+struct task *json_to_task(struct json_object *jtask)
+{
+	struct task *task;
+	const char *urg;
+	struct json_object *json;
+
+	task = malloc(sizeof(struct task));
+
+	json = json_object_object_get(jtask, "id");
+	task->id = json_object_get_int(json);
+
+	json = json_object_object_get(jtask, "description");
+	task->description = strdup(json_object_get_string(json));
+
+	json = json_object_object_get(jtask, "status");
+	task->status = strdup(json_object_get_string(json));
+
+	json = json_object_object_get(jtask, "project");
+	if (json)
+		task->project
+			= strdup(json_object_get_string(json));
+	else
+		task->project = strdup("");
+
+	json = json_object_object_get(jtask, "priority");
+	if (json)
+		task->priority
+			= strdup(json_object_get_string(json));
+	else
+		task->priority = strdup("");
+
+	json = json_object_object_get(jtask, "uuid");
+	task->uuid = strdup(json_object_get_string(json));
+
+	json = json_object_object_get(jtask, "urgency");
+	urg = json_object_get_string(json);
+	if (urg)
+		task->urgency = strdup(urg);
+	else
+		task->urgency = NULL;
+
+	task->note = note_get(task->uuid);
+
+	json = json_object_object_get(jtask, "entry");
+	task->entry = parse_time(json_object_get_string(json));
+
+	json = json_object_object_get(jtask, "due");
+	if (json)
+		task->due
+			= parse_time(json_object_get_string(json));
+	else
+		task->due = NULL;
+
+	json = json_object_object_get(jtask, "start");
+	if (json)
+		task->start
+			= parse_time(json_object_get_string(json));
+	else
+		task->start = NULL;
+
+	json = json_object_object_get(jtask, "recur");
+	if (json)
+		task->recur = strdup(json_object_get_string(json));
+	else
+		task->recur = NULL;
+
+	task->tags = json_to_tags(jtask);
+
+	return task;
+}
+
 struct task **tw_get_all_tasks(const char *status)
 {
 	int i, n;
-	struct json_object *jtasks, *jtask, *json;
+	struct json_object *jtasks, *jtask;
 	struct task **tasks;
 	char *opts;
-	const char *urg;
 
 	opts = malloc(strlen("export status:") + strlen(status) + 1);
 
@@ -187,65 +283,7 @@ struct task **tw_get_all_tasks(const char *status)
 	for (i = 0; i < n; i++) {
 		jtask = json_object_array_get_idx(jtasks, i);
 
-		tasks[i] = malloc(sizeof(struct task));
-
-		json = json_object_object_get(jtask, "id");
-		tasks[i]->id = json_object_get_int(json);
-
-		json = json_object_object_get(jtask, "description");
-		tasks[i]->description = strdup(json_object_get_string(json));
-
-		json = json_object_object_get(jtask, "status");
-		tasks[i]->status = strdup(json_object_get_string(json));
-
-		json = json_object_object_get(jtask, "project");
-		if (json)
-			tasks[i]->project
-				= strdup(json_object_get_string(json));
-		else
-			tasks[i]->project = strdup("");
-
-		json = json_object_object_get(jtask, "priority");
-		if (json)
-			tasks[i]->priority
-				= strdup(json_object_get_string(json));
-		else
-			tasks[i]->priority = strdup("");
-
-		json = json_object_object_get(jtask, "uuid");
-		tasks[i]->uuid = strdup(json_object_get_string(json));
-
-		json = json_object_object_get(jtask, "urgency");
-		urg = json_object_get_string(json);
-		if (urg)
-			tasks[i]->urgency = strdup(urg);
-		else
-			tasks[i]->urgency = NULL;
-
-		tasks[i]->note = note_get(tasks[i]->uuid);
-
-		json = json_object_object_get(jtask, "entry");
-		tasks[i]->entry = parse_time(json_object_get_string(json));
-
-		json = json_object_object_get(jtask, "due");
-		if (json)
-			tasks[i]->due
-				= parse_time(json_object_get_string(json));
-		else
-			tasks[i]->due = NULL;
-
-		json = json_object_object_get(jtask, "start");
-		if (json)
-			tasks[i]->start
-				= parse_time(json_object_get_string(json));
-		else
-			tasks[i]->start = NULL;
-
-		json = json_object_object_get(jtask, "recur");
-		if (json)
-			tasks[i]->recur = strdup(json_object_get_string(json));
-		else
-			tasks[i]->recur = NULL;
+		tasks[i] = json_to_task(jtask);
 	}
 
 	tasks[n] = NULL;
@@ -454,6 +492,8 @@ void tw_task_remove(const char *uuid)
 
 static void task_free(struct task *task)
 {
+	char **tags;
+
 	if (!task)
 		return ;
 
@@ -468,6 +508,15 @@ static void task_free(struct task *task)
 	free(task->due);
 	free(task->start);
 	free(task->recur);
+
+	tags = task->tags;
+	if (tags) {
+		while (*tags) {
+			free(*tags);
+			tags++;
+		}
+		free(tags);
+	}
 
 	free(task);
 }
