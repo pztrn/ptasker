@@ -154,7 +154,10 @@ int main(int argc, char **argv)
 {
 	GtkWindow *window;
 	GtkBuilder *builder;
-	int optc, cmdok, opti;
+	int optc, cmdok, opti, ret;
+	GError *err;
+	gchar *msg;
+	GtkMessageDialog *diag;
 
 	program_name = argv[0];
 
@@ -198,10 +201,31 @@ int main(int argc, char **argv)
 	settings_init();
 
 	builder = gtk_builder_new();
-	gtk_builder_add_from_file
+	ret = gtk_builder_add_from_file
 		(builder,
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
-		 NULL);
+		 &err);
+
+	if (!ret) {
+		msg = g_strdup_printf(_("Failed to load UI: %s"),
+				      err->message);
+		log_err(msg);
+
+		diag = GTK_MESSAGE_DIALOG(gtk_message_dialog_new
+					  (NULL,
+					   GTK_DIALOG_DESTROY_WITH_PARENT,
+					   GTK_MESSAGE_ERROR,
+					   GTK_BUTTONS_CLOSE,
+					   msg,
+					   NULL));
+
+		gtk_dialog_run(GTK_DIALOG(diag));
+
+		g_free(msg);
+
+		exit(EXIT_FAILURE);
+	}
+
 	window = create_window(builder);
 
 	gtk_builder_connect_signals(builder, NULL);
