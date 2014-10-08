@@ -203,6 +203,7 @@ int main(int argc, char **argv)
 	settings_init();
 
 	builder = gtk_builder_new();
+	err = NULL;
 	ret = gtk_builder_add_from_file
 		(builder,
 		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
