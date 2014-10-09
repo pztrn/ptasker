@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ptask\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2014-09-29 14:57+0200\n"
+"POT-Creation-Date: 2014-10-09 18:46+0200\n"
 "PO-Revision-Date: 2012-05-13 18:15+0000\n"
 "Last-Translator: jeanfi <Unknown>\n"
 "Language-Team: French <>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Launchpad-Export-Date: 2012-07-02 08:28+0000\n"
 "X-Generator: Launchpad (build 15520)\n"
 
-#: src/main.c:53
+#: src/main.c:55
 #, c-format
 msgid ""
 "Copyright (C) %s jeanfi@gmail.com\n"
@@ -29,56 +29,56 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/main.c:64
+#: src/main.c:66
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: src/main.c:66
+#: src/main.c:68
 msgid "ptask is a task management user interface based on taskwarrior."
 msgstr ""
 
-#: src/main.c:70
+#: src/main.c:72
 #, fuzzy
 msgid "Options:"
 msgstr "Description:"
 
-#: src/main.c:71
+#: src/main.c:73
 msgid ""
 "  -h, --help          display this help and exit\n"
 "  -v, --version       display version information and exit"
 msgstr ""
 
-#: src/main.c:76
+#: src/main.c:78
 msgid "  -d, --debug=LEVEL   set the debug level, integer between 0 and 3"
-msgstr ""
-
-#: src/main.c:81
-#, c-format
-msgid "Report bugs to: %s\n"
 msgstr ""
 
 #: src/main.c:83
 #, c-format
+msgid "Report bugs to: %s\n"
+msgstr ""
+
+#: src/main.c:85
+#, c-format
 msgid "%s home page: <%s>\n"
 msgstr ""
 
-#: src/main.c:118
+#: src/main.c:120
 msgid ""
 "Error loading tasks, verify that a supported version of taskwarrior is "
 "installed "
 msgstr ""
 
-#: src/main.c:183
+#: src/main.c:185
 msgid "Enables debug mode."
 msgstr ""
 
-#: src/main.c:192
+#: src/main.c:194
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/main.c:210
+#: src/main.c:213
 #, c-format
 msgid "Failed to load UI: %s"
 msgstr ""

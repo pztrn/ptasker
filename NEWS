@@ -1,6 +1,11 @@
 What's New
 ==========
 
+v0.0.8
+------
+ * fixed a critical gtk error when loading the glade file
+   which can also cause a memory corruption.
+
 v0.0.7
 ------
  * added support of taskwarrior 2.3.0.
