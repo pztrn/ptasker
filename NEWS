@@ -5,7 +5,7 @@ v0.0.8
 ------
  * fixed a critical gtk error when loading the glade file
    which can also cause a memory corruption.
- * fixed creash when creating task with a project
+ * fixed crash when creating task with a project
    containing a task with a tag.
 
 v0.0.7
