@@ -515,7 +515,7 @@ static void task_free(struct task *task)
 			free(*tags);
 			tags++;
 		}
-		free(tags);
+		free(task->tags);
 	}
 
 	free(task);
