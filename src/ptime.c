@@ -55,9 +55,11 @@ char *tm_to_str(const struct tm *tm)
 	str = malloc(11);
 	s = strftime(str, 11, "%Y/%m/%d", tm);
 
-	if (s)
+	if (s) {
 		return str;
-
-	log_err("Failed to convert time");
-	return NULL;
+	} else {
+		log_err("Failed to convert time");
+		free(str);
+		return NULL;
+	}
 }
