@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.64])
-AC_INIT([ptask], [0.0.8a],[jeanfi@gmail.com],[ptask],[http://wpitchoune.net/ptask])
+AC_INIT([ptask], [0.0.9a],[jeanfi@gmail.com],[ptask],[http://wpitchoune.net/ptask])
 
 AM_INIT_AUTOMAKE([-Wall gnu])
 
