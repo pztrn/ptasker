@@ -44,7 +44,7 @@ The compilation of +ptask+ requires:
  * cppcheck (optional, static source checker)
  * gcc
  * help2man
- * library gtk3
+ * library gtk3 >= 3.12
  * library json-c
  * make
 

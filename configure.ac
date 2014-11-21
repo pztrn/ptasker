@@ -31,7 +31,7 @@ AC_SUBST(XEXT_CFLAGS)
 AC_SUBST(XEXT_LIBS)
 
 # Checks GTK+ 3.0
-PKG_CHECK_MODULES(GTK, gtk+-3.0)		
+PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.12])
 # ensure that only allowed headers are included
 GTK_CFLAGS+=" -DGTK_DISABLE_SINGLE_INCLUDES "
 # ensure that no gtk deprecated symbols are used
