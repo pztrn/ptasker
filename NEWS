@@ -3,8 +3,9 @@ What's New
 
 v0.0.9
 ------
- * fixed potention memory leak when failing to convert time to string
+ * fixed potential memory leak when failing to convert time to string
    which is unlikely.
+ * added incremental search.
 
 v0.0.8
 ------

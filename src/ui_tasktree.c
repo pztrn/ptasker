@@ -47,6 +47,7 @@ static const char * const MENU_NAMES[] = {
 static GtkTreeView *w_treeview;
 static GtkMenu *w_menu;
 static struct task **current_tasks;
+static gchar *search_keywords;
 
 enum {
 	COL_ID,
@@ -292,14 +293,18 @@ void ui_tasktree_set_selected_task(const char *uuid)
 }
 
 
-void ui_tasktree_update(struct task **tasks, const char *prj_filter)
+void ui_tasktree_update(struct task **tasks)
 {
 	GtkTreeModel *model;
 	struct task **tasks_cur;
 	struct task *task;
 	GtkTreeIter iter;
-	const char *prj;
+	const char *prj, *prj_filter;
 	char *s;
+	gchar *desc;
+	int ok;
+
+	prj_filter = ui_projecttree_get_project();
 
 	current_tasks = tasks;
 
@@ -317,6 +322,22 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 
 			if (prj_filter && strcmp(prj, prj_filter))
 				continue;
+
+			if (search_keywords
+			    && strlen(search_keywords)
+			    && task->description) {
+				desc = g_ascii_strup(task->description, -1);
+
+				if (strstr(desc, search_keywords))
+					ok = 1;
+				else
+					ok = 0;
+
+				free(desc);
+
+				if (!ok)
+					continue;
+			}
 
 			gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
@@ -371,11 +392,6 @@ void ui_tasktree_update(struct task **tasks, const char *prj_filter)
 		}
 	}
 
-}
-
-void ui_tasktree_update_filter(const char *prj_filter)
-{
-	ui_tasktree_update(current_tasks, prj_filter);
 }
 
 gboolean tasktree_button_press_event_cbk(GtkWidget *widget,
@@ -476,4 +492,20 @@ void tasktree_stop_activate_cbk(GtkAction *action, gpointer data)
 	}
 
 	log_fct_exit();
+}
+
+void
+ui_tasktree_search_changed_cbk(GtkEntry *entry, gchar *preedit, gpointer data)
+{
+	if (search_keywords)
+		g_free(search_keywords);
+
+	search_keywords = g_ascii_strup(gtk_entry_get_text(entry), -1);
+
+	ui_tasktree_update(current_tasks);
+}
+
+void ui_tasktree_update_filter(const char *prj)
+{
+	ui_tasktree_update(current_tasks);
 }

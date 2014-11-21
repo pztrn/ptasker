@@ -98,7 +98,7 @@ void refresh()
 		old_tasks = tasks;
 		current_prj = ui_projecttree_get_project();
 		current_uuid = ui_tasktree_get_task_uuid();
-		ui_tasktree_update(NULL, NULL);
+		ui_tasktree_update(NULL);
 	} else {
 		old_tasks = NULL;
 		current_prj = NULL;
@@ -109,7 +109,7 @@ void refresh()
 
 	if (tasks) {
 		ui_projecttree_update(tasks);
-		ui_tasktree_update(tasks, current_prj);
+		ui_tasktree_update(tasks);
 		if (current_uuid)
 			ui_tasktree_set_selected_task(current_uuid);
 	} else {
