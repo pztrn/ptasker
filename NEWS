@@ -5,7 +5,9 @@ v0.0.9
 ------
  * fixed potential memory leak when failing to convert time to string
    which is unlikely.
- * added incremental search (ctrl-g).
+ * added incremental search (ctrl-shift f).
+ * ctrl-n for new task.
+ * ctrl-r for refresh.
 
 v0.0.8
 ------
