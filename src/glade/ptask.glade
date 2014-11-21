@@ -900,10 +900,11 @@
                             <property name="layout_style">start</property>
                             <child>
                               <object class="GtkButton" id="tasksave">
-                                <property name="label" translatable="yes">Save</property>
+                                <property name="label">gtk-save</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="use_stock">True</property>
                                 <property name="image_position">top</property>
                               </object>
                               <packing>
@@ -914,10 +915,11 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="taskcancel">
-                                <property name="label" translatable="yes">Cancel</property>
+                                <property name="label">gtk-cancel</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="use_stock">True</property>
                                 <signal name="clicked" handler="taskpanel_cancel_clicked_cbk" swapped="no"/>
                               </object>
                               <packing>
@@ -942,10 +944,11 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="taskremove">
-                                <property name="label" translatable="yes">Remove</property>
+                                <property name="label">gtk-remove</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="receives_default">True</property>
+                                <property name="use_stock">True</property>
                                 <signal name="clicked" handler="taskremove_clicked_cbk" swapped="no"/>
                               </object>
                               <packing>
