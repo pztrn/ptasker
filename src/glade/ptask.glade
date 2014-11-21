@@ -441,6 +441,7 @@
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="refresh_clicked_cbk" swapped="no"/>
+                    <accelerator key="r" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -456,6 +457,7 @@
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="newtask_clicked_cbk" swapped="no"/>
+                    <accelerator key="n" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -523,7 +525,7 @@
                 <property name="secondary_icon_activatable">False</property>
                 <property name="secondary_icon_sensitive">False</property>
                 <signal name="changed" handler="ui_tasktree_search_changed_cbk" swapped="no"/>
-                <accelerator key="g" signal="grab-focus" modifiers="GDK_CONTROL_MASK"/>
+                <accelerator key="f" signal="grab-focus" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>
