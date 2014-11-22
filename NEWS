@@ -5,7 +5,7 @@ v0.0.9
 ------
  * fixed potential memory leak when failing to convert time to string
    which is unlikely.
- * added incremental search (ctrl-shift f).
+ * added incremental search (ctrl-shift f) on description and tags.
  * ctrl-n for new task.
  * ctrl-r for refresh.
 

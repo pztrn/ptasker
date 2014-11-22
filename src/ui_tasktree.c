@@ -292,6 +292,51 @@ void ui_tasktree_set_selected_task(const char *uuid)
 	log_fct_exit();
 }
 
+static int match_search_keywords(struct task *task)
+{
+	gchar *desc;
+	int ret;
+	char **tags;
+	gchar *tag;
+
+	if (!search_keywords || !strlen(search_keywords))
+		return 1;
+
+	if (!task->description || !strlen(task->description))
+		return 0;
+
+	desc = g_ascii_strup(task->description, -1);
+
+	if (strstr(desc, search_keywords))
+		ret = 1;
+	else
+		ret = 0;
+
+	free(desc);
+
+	if (ret)
+		return 1;
+
+	tags = task->tags;
+	if (!tags)
+		return 0;
+
+	while (*tags) {
+		tag = g_ascii_strup(*tags, -1);
+
+		if (strstr(tag, search_keywords))
+			ret = 1;
+
+		free(tag);
+
+		if (ret)
+			return 1;
+
+		tags++;
+	}
+
+	return 0;
+}
 
 void ui_tasktree_update(struct task **tasks)
 {
@@ -301,8 +346,6 @@ void ui_tasktree_update(struct task **tasks)
 	GtkTreeIter iter;
 	const char *prj, *prj_filter;
 	char *s;
-	gchar *desc;
-	int ok;
 
 	prj_filter = ui_projecttree_get_project();
 
@@ -323,21 +366,8 @@ void ui_tasktree_update(struct task **tasks)
 			if (prj_filter && strcmp(prj, prj_filter))
 				continue;
 
-			if (search_keywords
-			    && strlen(search_keywords)
-			    && task->description) {
-				desc = g_ascii_strup(task->description, -1);
-
-				if (strstr(desc, search_keywords))
-					ok = 1;
-				else
-					ok = 0;
-
-				free(desc);
-
-				if (!ok)
-					continue;
-			}
+			if (!match_search_keywords(task))
+				continue;
 
 			gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
