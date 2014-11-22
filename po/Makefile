@@ -11,7 +11,7 @@
 # Origin: gettext-0.16
 
 PACKAGE = ptask
-VERSION = 0.0.8a
+VERSION = 0.0.9
 PACKAGE_BUGREPORT = jeanfi@gmail.com
 
 SHELL = /bin/sh
@@ -21,7 +21,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /tmp
+prefix = /usr/local
 exec_prefix = ${prefix}
 datarootdir = ${prefix}/share
 datadir = ${datarootdir}
