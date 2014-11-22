@@ -192,6 +192,7 @@
                 <property name="margin_bottom">4</property>
                 <property name="invisible_char">•</property>
                 <property name="width_chars">60</property>
+                <property name="input_hints">GTK_INPUT_HINT_SPELLCHECK | GTK_INPUT_HINT_WORD_COMPLETION | GTK_INPUT_HINT_NONE</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -522,8 +523,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="primary_icon_stock">gtk-find</property>
+                <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
                 <property name="secondary_icon_sensitive">False</property>
+                <property name="input_purpose">alpha</property>
                 <signal name="changed" handler="ui_tasktree_search_changed_cbk" swapped="no"/>
                 <accelerator key="f" signal="grab-focus" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
               </object>
@@ -801,6 +804,7 @@
                               <object class="GtkTextView" id="tasknote">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="input_hints">GTK_INPUT_HINT_SPELLCHECK | GTK_INPUT_HINT_WORD_COMPLETION | GTK_INPUT_HINT_NONE</property>
                               </object>
                             </child>
                           </object>
