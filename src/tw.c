@@ -111,7 +111,8 @@ static int task_check_version()
 	if (!strcmp(ver, "2.2.0")
 	    || !strcmp(ver, "2.0.0")
 	    || !strcmp(ver, "2.3.0")
-	    || !strcmp(ver, "2.4.0"))
+	    || !strcmp(ver, "2.4.0")
+	    || !strcmp(ver, "2.4.1"))
 		return 1;
 	else
 		return 0;
