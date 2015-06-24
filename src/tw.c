@@ -116,9 +116,9 @@ static int task_check_version()
 	    || !strcmp(ver, "2.3.0")
 	    || !strcmp(ver, "2.4.0")
 	    || !strcmp(ver, "2.4.1"))
-		return 0;
-	else
 		return 1;
+	else
+		return 0;
 }
 
 static char *tw_exec(char *opts)
