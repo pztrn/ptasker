@@ -45,6 +45,7 @@ static struct task **tasks;
 static struct option long_options[] = {
 	{"version", no_argument, 0, 'v'},
 	{"help", no_argument, 0, 'h'},
+	{"force-unsupported-taskwarrior", no_argument, 0, 'f'},
 	{"debug", required_argument, 0, 'd'},
 	{0, 0, 0, 0}
 };
@@ -74,7 +75,8 @@ static void print_help()
 	       "  -v, --version       display version information and exit"));
 
 	puts("");
-
+	puts(_("  -f, --force-unsupported-taskwarrior force usage of an"
+	       " unsupported version of taskwarrior"));
 	puts(_("  -d, --debug=LEVEL   "
 	       "set the debug level, integer between 0 and 3"));
 
@@ -119,7 +121,7 @@ void refresh()
 						GTK_BUTTONS_CLOSE,
 						_("Error loading tasks, verify "
 						  "that a supported version of "
-						  "taskwarrior is installed "));
+						  "taskwarrior is installed."));
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 	}
@@ -171,7 +173,7 @@ int main(int argc, char **argv)
 #endif
 
 	cmdok = 1;
-	while ((optc = getopt_long(argc, argv, "vhd:", long_options,
+	while ((optc = getopt_long(argc, argv, "vhfd:", long_options,
 				   &opti)) != -1) {
 		switch (optc) {
 		case 'h':
@@ -183,6 +185,11 @@ int main(int argc, char **argv)
 		case 'd':
 			log_level = atoi(optarg);
 			log_info(_("Enables debug mode."));
+			break;
+		case 'f':
+			log_info(_("Force usage of an unsupported version of "
+				   "taskwarrior."));
+			tw_enable_check_version(0);
 			break;
 		default:
 			cmdok = 0;

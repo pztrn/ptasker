@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ptask\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2014-11-22 12:27+0100\n"
+"POT-Creation-Date: 2015-06-24 22:18+0200\n"
 "PO-Revision-Date: 2012-05-13 18:15+0000\n"
 "Last-Translator: jeanfi <Unknown>\n"
 "Language-Team: French <>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Launchpad-Export-Date: 2012-07-02 08:28+0000\n"
 "X-Generator: Launchpad (build 15520)\n"
 
-#: src/main.c:55
+#: src/main.c:56
 #, c-format
 msgid ""
 "Copyright (C) %s jeanfi@gmail.com\n"
@@ -29,56 +29,66 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
 
-#: src/main.c:66
+#: src/main.c:67
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: src/main.c:68
+#: src/main.c:69
 msgid "ptask is a task management user interface based on taskwarrior."
 msgstr ""
 
-#: src/main.c:72
+#: src/main.c:73
 #, fuzzy
 msgid "Options:"
 msgstr "Description:"
 
-#: src/main.c:73
+#: src/main.c:74
 msgid ""
 "  -h, --help          display this help and exit\n"
 "  -v, --version       display version information and exit"
 msgstr ""
 
 #: src/main.c:78
-msgid "  -d, --debug=LEVEL   set the debug level, integer between 0 and 3"
+msgid ""
+"  -f, --force-unsupported-taskwarrior force usage of an unsupported version "
+"of taskwarrior"
 msgstr ""
 
-#: src/main.c:83
-#, c-format
-msgid "Report bugs to: %s\n"
+#: src/main.c:80
+msgid "  -d, --debug=LEVEL   set the debug level, integer between 0 and 3"
 msgstr ""
 
 #: src/main.c:85
 #, c-format
+msgid "Report bugs to: %s\n"
+msgstr ""
+
+#: src/main.c:87
+#, c-format
 msgid "%s home page: <%s>\n"
 msgstr ""
 
-#: src/main.c:120
+#: src/main.c:122
 msgid ""
 "Error loading tasks, verify that a supported version of taskwarrior is "
-"installed "
+"installed."
 msgstr ""
 
-#: src/main.c:185
+#: src/main.c:187
 msgid "Enables debug mode."
 msgstr ""
 
-#: src/main.c:194
+#: src/main.c:190
+msgid "Force usage of an unsupported version of taskwarrior."
+msgstr ""
+
+#: src/main.c:201
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/main.c:213
+#: src/main.c:220
 #, c-format
 msgid "Failed to load UI: %s"
 msgstr ""

@@ -54,4 +54,7 @@ void tw_task_list_free(struct task **tasks);
 struct project **tw_get_projects(struct task **tasks);
 void tw_project_list_free(struct project **);
 
+/* Whether ptask check that the taskwarrior version is supported. */
+void tw_enable_check_version(int e);
+
 #endif

@@ -31,6 +31,9 @@
 #include <pstr.h>
 #include "tw.h"
 
+/* Whether ptask check that the taskwarrior version is supported. */
+static int check_version_enabled = 1;
+
 struct tm *parse_time(const char *t)
 {
 	struct tm *tm;
@@ -113,18 +116,20 @@ static int task_check_version()
 	    || !strcmp(ver, "2.3.0")
 	    || !strcmp(ver, "2.4.0")
 	    || !strcmp(ver, "2.4.1"))
-		return 1;
-	else
 		return 0;
+	else
+		return 1;
 }
 
 static char *tw_exec(char *opts)
 {
 	char *opts2;
 
-	if (!task_check_version()) {
-		log_err("ptask is not compatible with the installed version of"
-			" taskwarrior.");
+	if (check_version_enabled && !task_check_version()) {
+		log_err("ptask is not compatible with the installed version of "
+			"taskwarrior. The command line option -f can force "
+			"the usage of an unsupported version of taskwarrior "
+			"(risk of malfunction like damaging data).");
 		return NULL;
 	}
 
@@ -647,4 +652,9 @@ struct project **tw_get_projects(struct task **tasks)
 	log_fct_exit();
 
 	return prjs;
+}
+
+void tw_enable_check_version(int e)
+{
+	check_version_enabled = e;
 }
