@@ -90,7 +90,7 @@ static void print_help()
 void refresh()
 {
 	GtkWidget *dialog;
-	const char *current_prj, *current_uuid;
+	const char *current_uuid;
 	struct task **old_tasks;
 
 	log_fct_enter();
@@ -98,12 +98,10 @@ void refresh()
 
 	if (tasks) {
 		old_tasks = tasks;
-		current_prj = ui_projecttree_get_project();
 		current_uuid = ui_tasktree_get_task_uuid();
 		ui_tasktree_update(NULL);
 	} else {
 		old_tasks = NULL;
-		current_prj = NULL;
 		current_uuid = NULL;
 	}
 
