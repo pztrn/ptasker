@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 jeanfi@gmail.com
+ * Copyright (C) 2012-2016 jeanfi@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -220,7 +220,7 @@ void about_activate_cbk(GtkWidget *menu_item, gpointer data)
 		 "comments",
 		 _("ptask is a GTK+ task management application"),
 		 "copyright",
-		 _("Copyright(c) 2010-2013\njeanfi@gmail.com"),
+		 _("Copyright(c) 2010-2016\njeanfi@gmail.com"),
 		 "logo-icon-name", "ptask",
 		 "program-name", "ptask",
 		 "title", _("About ptask"),
