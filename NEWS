@@ -7,6 +7,7 @@ v1.0.0
  * added keywords in the desktop file.
  * added a command line option to force usage of an unsupported
    version of taskwarrior (risk of malfunction like damaging data).
+ * upadted the date of copyrights in source files.
 
 v0.0.9
 ------
