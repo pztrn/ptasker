@@ -3,7 +3,7 @@ What's New
 
 v1.0.0
 ------
- * allowed 2.4.0 and 2.4.1 release of taskwarrior.
+ * allowed 2.4.0, 2.4.1 and 2.5 release of taskwarrior.
  * added keywords in the desktop file.
  * added a command line option to force usage of an unsupported
    version of taskwarrior (risk of malfunction like damaging data).

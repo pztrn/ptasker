@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: jeanfi@gmail.com\n"
-"POT-Creation-Date: 2015-06-24 22:18+0200\n"
+"POT-Creation-Date: 2016-05-23 19:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,159 +66,26 @@ msgstr ""
 msgid "%s home page: <%s>\n"
 msgstr ""
 
-#: src/main.c:122
+#: src/main.c:120
 msgid ""
 "Error loading tasks, verify that a supported version of taskwarrior is "
 "installed."
 msgstr ""
 
-#: src/main.c:187
+#: src/main.c:185
 msgid "Enables debug mode."
 msgstr ""
 
-#: src/main.c:190
+#: src/main.c:188
 msgid "Force usage of an unsupported version of taskwarrior."
 msgstr ""
 
-#: src/main.c:201
+#: src/main.c:199
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/main.c:220
+#: src/main.c:218
 #, c-format
 msgid "Failed to load UI: %s"
-msgstr ""
-
-#: src/glade/ptask.glade:62
-msgid "Notes directory: "
-msgstr ""
-
-#: src/glade/ptask.glade:75
-msgid "Select a directory"
-msgstr ""
-
-#: src/glade/ptask.glade:103
-msgid "None"
-msgstr ""
-
-#: src/glade/ptask.glade:106
-msgid "Low"
-msgstr ""
-
-#: src/glade/ptask.glade:109
-msgid "Medium"
-msgstr ""
-
-#: src/glade/ptask.glade:112
-msgid "High"
-msgstr ""
-
-#: src/glade/ptask.glade:119
-msgid "New Task"
-msgstr ""
-
-#: src/glade/ptask.glade:178 src/glade/ptask.glade:770
-msgid "Description:"
-msgstr ""
-
-#: src/glade/ptask.glade:211 src/glade/ptask.glade:840
-msgid "Project:"
-msgstr ""
-
-#: src/glade/ptask.glade:227 src/glade/ptask.glade:870
-msgid "Priority:"
-msgstr ""
-
-#: src/glade/ptask.glade:307
-msgid "pending"
-msgstr ""
-
-#: src/glade/ptask.glade:310
-msgid "completed"
-msgstr ""
-
-#: src/glade/ptask.glade:313
-msgid "deleted"
-msgstr ""
-
-#: src/glade/ptask.glade:341 src/glade/ptask.glade:361
-msgid "ptask"
-msgstr ""
-
-#: src/glade/ptask.glade:401
-msgid "_Help"
-msgstr ""
-
-#: src/glade/ptask.glade:486
-msgid "Status:"
-msgstr ""
-
-#: src/glade/ptask.glade:566 src/glade/ptask.glade:640
-#: src/glade/ptask.glade:1120
-msgid "Project"
-msgstr ""
-
-#: src/glade/ptask.glade:577
-msgid "Count"
-msgstr ""
-
-#: src/glade/ptask.glade:626 src/glade/ptask.glade:1140
-msgid "Priority"
-msgstr ""
-
-#: src/glade/ptask.glade:655 src/glade/ptask.glade:1150
-msgid "Urgency"
-msgstr ""
-
-#: src/glade/ptask.glade:667 src/glade/ptask.glade:1160
-msgid "Creation date"
-msgstr ""
-
-#: src/glade/ptask.glade:679 src/glade/ptask.glade:1170
-msgid "Due"
-msgstr ""
-
-#: src/glade/ptask.glade:691 src/glade/ptask.glade:1180
-msgid "Start date"
-msgstr ""
-
-#: src/glade/ptask.glade:705 src/glade/ptask.glade:1190
-msgid "Description"
-msgstr ""
-
-#: src/glade/ptask.glade:721 src/glade/ptask.glade:1110
-msgid "Id"
-msgstr ""
-
-#: src/glade/ptask.glade:732 src/glade/ptask.glade:1130
-msgid "UUID"
-msgstr ""
-
-#: src/glade/ptask.glade:786
-msgid "Note:"
-msgstr ""
-
-#: src/glade/ptask.glade:937
-msgid "Mark Done"
-msgstr ""
-
-#: src/glade/ptask.glade:980
-msgid "Tags:"
-msgstr ""
-
-#: src/glade/ptask.glade:996
-msgid "label"
-msgstr ""
-
-#: src/glade/ptask.glade:1042
-msgid "Done"
-msgstr ""
-
-#: src/glade/ptask.glade:1058
-msgid "Start"
-msgstr ""
-
-#: src/glade/ptask.glade:1065
-msgid "Stop"
 msgstr ""
