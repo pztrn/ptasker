@@ -12,5 +12,5 @@ override_dh_strip:
 
 override_dh_auto_install:
 	dh_auto_install
-	-rm -f $(CURDIR)/debian/ptask/usr/share/doc/ptask/COPYING
-	-rm -f $(CURDIR)/debian/ptask/usr/share/doc/ptask/INSTALL
+	-rm -f $(CURDIR)/debian/ptasker/usr/share/doc/ptasker/COPYING
+	-rm -f $(CURDIR)/debian/ptasker/usr/share/doc/ptasker/INSTALL

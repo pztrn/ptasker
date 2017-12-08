@@ -1,7 +1,7 @@
-Source: ptask
+Source: ptasker
 Section: utils
 Priority: optional
-Maintainer: ChangZhuo Chen (陳昌倬) <czchen@debian.org>
+Maintainer: Stanislav N. aka pztrn <pztrn@pztrn.name)
 Build-Depends: debhelper (>= 9.20151219),
                autotools-dev,
                dh-autoreconf,
@@ -11,17 +11,19 @@ Build-Depends: debhelper (>= 9.20151219),
                libxext-dev,
                pkg-config,
 Standards-Version: 3.9.8
-Homepage: http://wpitchoune.net/blog/ptask/
-Vcs-Git: https://anonscm.debian.org/git/collab-maint/ptask.git
-Vcs-Browser: https://anonscm.debian.org/git/collab-maint/ptask.git
+Homepage: https://lab.pztrn.name/pztrn/ptasker/
+Vcs-Git: https://lab.pztrn.name/pztrn/ptasker.git
+Vcs-Browser: https://lab.pztrn.name/pztrn/ptasker/
 
-Package: ptask
+Package: ptasker
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends}, 
          taskwarrior (>= 2.2.0),
-Description: GTK+ graphical user interface for managing tasks
- ptask is a GTK+ graphical user interface for managing tasks.  It is based on
- taskwarrior, a well-known and robust command line tasks manager.  Unlike
+Description: GTK+ graphical user interface for managing tasks, fork of PTask
+ ptasker is a GTK+ graphical user interface for managing tasks. It is based on
+ taskwarrior, a well-known and robust command line tasks manager. Unlike
  taskwarrior, it is possible to associate a note (long description) to each
  task.
+
+ PTaskER is a fork of PTask.

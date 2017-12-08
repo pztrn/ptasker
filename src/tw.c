@@ -103,6 +103,8 @@ static char *task_get_version()
 static int task_check_version()
 {
 	char *ver;
+	unsigned int major, minor, patch;
+	int ret;
 
 	ver = task_get_version();
 
@@ -111,15 +113,15 @@ static int task_check_version()
 
 	log_debug("task version: %s", ver);
 
-	if (!strcmp(ver, "2.2.0")
-	    || !strcmp(ver, "2.0.0")
-	    || !strcmp(ver, "2.3.0")
-	    || !strcmp(ver, "2.4.0")
-	    || !strcmp(ver, "2.4.1")
-	    || !strcmp(ver, "2.5.0"))
-		return 1;
-	else
-		return 0;
+	ret = sscanf(ver, "%9u.%9u.%9u", &major, &minor, &patch);
+
+	if (ret == 3) {
+		if (major == 2)
+			if (minor == 0 || minor >= 2)
+				return 1;
+	}
+
+	return 0;
 }
 
 static char *tw_exec(char *opts)
