@@ -9,9 +9,9 @@ DEFS = -DPACKAGE_DATA_DIR=\"$(pkgdatadir)\" -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 LIBS = $(JSON_LIBS) $(GTK_LIBS)
 
-bin_PROGRAMS = ptask
+bin_PROGRAMS = ptasker
 
-ptask_SOURCES = log.c log.h \
+ptasker_SOURCES = log.c log.h \
 	main.c \
 	note.c note.h \
 	pio.c pio.h \
@@ -23,15 +23,16 @@ ptask_SOURCES = log.c log.h \
 	ui_newtask_diag.c ui_newtask_diag.h \
 	ui_projecttree.c ui_projecttree.h \
 	ui_taskpanel.c ui_taskpanel.h \
-	ui_tasktree.c ui_tasktree.h
+	ui_tasktree.c ui_tasktree.h \
+	ui_toolbar.c ui_toolbar.h
 
-dist_man_MANS = ptask.1
+dist_man_MANS = ptasker.1
 
-ptask.1: main.c $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) ptask$(EXEEXT)
-	help2man -N --name="GTk+ Task application" --output=ptask.1 ./ptask$(EXEEXT)
+ptasker.1: main.c $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) ptasker$(EXEEXT)
+	help2man -N --name="GTk+ Task application" --output=ptasker.1 ./ptask$(EXEEXT)
 
-gsettings_SCHEMAS=ptask.gschema.xml
+gsettings_SCHEMAS=ptasker.gschema.xml
 EXTRA_DIST=$(gsettings_SCHEMAS)
 
 @GSETTINGS_RULES@

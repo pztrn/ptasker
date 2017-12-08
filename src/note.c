@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -36,7 +37,8 @@ static char *get_default_path()
 
 	home = getenv("HOME");
 
-	if (!home) {
+	if (!home)
+	{
 		log_err("HOME environment variable not defined");
 		return NULL;
 	}
@@ -55,10 +57,13 @@ static char *get_path(const char *uuid)
 
 	sdir = settings_get_notes_dir();
 
-	if (sdir == NULL || *sdir == '\0') {
+	if (sdir == NULL || *sdir == '\0')
+	{
 		dir = get_default_path();
 		settings_set_notes_dir(dir);
-	} else {
+	}
+	else
+	{
 		dir = strdup(sdir);
 	}
 
@@ -80,16 +85,19 @@ void note_put(const char *uuid, const char *note)
 	path = get_path(uuid);
 
 	if (!path)
-		return ;
+		return;
 
 	log_debug("note_put %s %s %s", path, uuid, note);
 
 	f = fopen(path, "w");
 
-	if (f) {
+	if (f)
+	{
 		fwrite(note, 1, strlen(note), f);
 		fclose(f);
-	} else {
+	}
+	else
+	{
 		log_err("Failed to open %s", path);
 	}
 
@@ -112,8 +120,10 @@ char *note_get(const char *uuid)
 
 	f = fopen(path, "r");
 
-	if (f) {
-		while ((s = fread(buf, 1, 1024, f))) {
+	if (f)
+	{
+		while ((s = fread(buf, 1, 1024, f)))
+		{
 			tmp = malloc(strlen(str) + s + (size_t)1);
 			memcpy(tmp, str, strlen(str));
 			memcpy(tmp + strlen(str), buf, s);
@@ -122,7 +132,9 @@ char *note_get(const char *uuid)
 			str = tmp;
 		}
 		fclose(f);
-	} else {
+	}
+	else
+	{
 		log_debug("%s does not exist or cannot be opened", path);
 	}
 

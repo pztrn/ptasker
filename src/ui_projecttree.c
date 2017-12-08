@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -24,7 +25,8 @@
 #include <ui_projecttree.h>
 #include <ui_tasktree.h>
 
-enum {
+enum
+{
 	COL_NAME,
 	COL_COUNT
 };
@@ -49,10 +51,10 @@ static int cursor_changed_cbk(GtkTreeView *treeview, gpointer data)
 void ui_projecttree_init(GtkBuilder *builder)
 {
 	w_treeview = GTK_TREE_VIEW(gtk_builder_get_object(builder,
-							  "projecttree"));
+													  "projecttree"));
 	g_signal_connect(w_treeview,
-			 "cursor-changed", (GCallback)cursor_changed_cbk,
-			 NULL);
+					 "cursor-changed", (GCallback)cursor_changed_cbk,
+					 NULL);
 }
 
 const char *ui_projecttree_get_project()
@@ -61,14 +63,17 @@ const char *ui_projecttree_get_project()
 	GtkTreeViewColumn *cols;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
-	GValue value = {0,};
+	GValue value = {
+		0,
+	};
 	const char *prj;
 
 	log_fct_enter();
 
 	gtk_tree_view_get_cursor(w_treeview, &path, &cols);
 
-	if (path) {
+	if (path)
+	{
 		model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 		gtk_tree_model_get_iter(model, &iter, path);
 		gtk_tree_model_get_value(model, &iter, COL_NAME, &value);
@@ -77,7 +82,9 @@ const char *ui_projecttree_get_project()
 
 		if (!strcmp(prj, "ALL"))
 			prj = NULL;
-	} else {
+	}
+	else
+	{
 		prj = NULL;
 	}
 
@@ -85,7 +92,6 @@ const char *ui_projecttree_get_project()
 
 	return prj;
 }
-
 
 void ui_projecttree_update(struct task **ts)
 {
@@ -104,23 +110,27 @@ void ui_projecttree_update(struct task **ts)
 	gtk_list_store_clear(GTK_LIST_STORE(model));
 
 	prjs = tw_get_projects(ts);
-	for (cur = prjs; *cur; cur++) {
+	for (cur = prjs; *cur; cur++)
+	{
 		gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
 		gtk_list_store_set(GTK_LIST_STORE(model),
-				   &iter,
-				   COL_NAME, (*cur)->name,
-				   COL_COUNT, (*cur)->count,
-				   -1);
+						   &iter,
+						   COL_NAME, (*cur)->name,
+						   COL_COUNT, (*cur)->count,
+						   -1);
 
-		if (current_prj) {
-			if (!strcmp((*cur)->name, current_prj)) {
+		if (current_prj)
+		{
+			if (!strcmp((*cur)->name, current_prj))
+			{
 				p = gtk_tree_model_get_path(model, &iter);
-				if (p) {
+				if (p)
+				{
 					gtk_tree_view_set_cursor(w_treeview,
-								 p,
-								 NULL,
-								 FALSE);
+											 p,
+											 NULL,
+											 FALSE);
 				}
 			}
 		}
@@ -130,4 +140,3 @@ void ui_projecttree_update(struct task **ts)
 
 	log_fct_exit();
 }
-

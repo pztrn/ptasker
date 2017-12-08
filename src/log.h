@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2010-2016 jeanfi@gmail.com
+ * Copyright (C) 2017, pztrn@pztrn.name
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,8 +20,9 @@
 #ifndef _PTASK_LOG_H_
 #define _PTASK_LOG_H_
 
-enum log_level {
-	LOG_ERR ,
+enum log_level
+{
+	LOG_ERR,
 	LOG_WARN,
 	LOG_INFO,
 	LOG_DEBUG

@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2011-2014 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -38,8 +39,10 @@ void mkdirs(const char *dirs, mode_t mode)
 	char *dir = malloc(strlen(dirs) + 1);
 
 	int i = 0;
-	while (*c) {
-		if ((*c == DIRSEP || *c == '\0') && c != dirs) {
+	while (*c)
+	{
+		if ((*c == DIRSEP || *c == '\0') && c != dirs)
+		{
 			strncpy(dir, dirs, i);
 			dir[i] = '\0';
 			mkdir(dir, mode);

@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -20,7 +21,8 @@
 #ifndef _PTASK_TW_H_
 #define _PTASK_TW_H_
 
-struct task {
+struct task
+{
 	int id;
 	char *description;
 	char *status;
@@ -36,7 +38,8 @@ struct task {
 	struct tm *start;
 };
 
-struct project {
+struct project
+{
 	char *name;
 	int count;
 };

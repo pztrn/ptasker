@@ -7,17 +7,10 @@ dist_doc_DATA = AUTHORS \
 	COPYING \
 	INSTALL \
 	NEWS \
-	NEWS.html \
 	README \
-	README.html
-
-NEWS.html: NEWS style.css
-	asciidoc --theme style -a themedir=`pwd` NEWS
+	README.md
 
 desktopdir = $(datadir)/applications
-desktop_DATA = ptask.desktop
+desktop_DATA = ptasker.desktop
 
 EXTRA_DIST = $(desktop_DATA) style.css
-
-README.html: README style.css
-	asciidoc --theme style -a themedir=`pwd` -n -a toc README

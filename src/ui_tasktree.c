@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -32,7 +33,7 @@
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
 
-static const char * const MENU_NAMES[] = {
+static const char *const MENU_NAMES[] = {
 	"menu_id_visible",
 	"menu_description_visible",
 	"menu_project_visible",
@@ -49,7 +50,8 @@ static GtkMenu *w_menu;
 static struct task **current_tasks;
 static gchar *search_keywords;
 
-enum {
+enum
+{
 	COL_ID,
 	COL_DESCRIPTION,
 	COL_PROJECT,
@@ -67,7 +69,8 @@ static GtkCheckMenuItem *w_menus[COL_COUNT];
 
 static int priority_to_int(const char *str)
 {
-	switch (*str) {
+	switch (*str)
+	{
 	case 'H':
 		return 3;
 	case 'M':
@@ -80,11 +83,16 @@ static int priority_to_int(const char *str)
 }
 
 static gint priority_cmp(GtkTreeModel *model,
-			 GtkTreeIter *a,
-			 GtkTreeIter *b,
-			 gpointer user_data)
+						 GtkTreeIter *a,
+						 GtkTreeIter *b,
+						 gpointer user_data)
 {
-	GValue v1 = {0,}, v2 = {0,};
+	GValue v1 = {
+			   0,
+		   },
+		   v2 = {
+			   0,
+		   };
 	const char *str1, *str2;
 	int i1, i2;
 
@@ -126,33 +134,23 @@ void ui_tasktree_init(GtkBuilder *builder)
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(model),
-					COL_PRIORITY,
-					priority_cmp,
-					NULL,
-					NULL);
+									COL_PRIORITY,
+									priority_cmp,
+									NULL,
+									NULL);
 
-	w_cols[COL_ID] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_id"));
-	w_cols[COL_DESCRIPTION] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_description"));
-	w_cols[COL_PROJECT] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_project"));
-	w_cols[COL_UUID] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_uuid"));
-	w_cols[COL_PRIORITY] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_priority"));
-	w_cols[COL_URGENCY] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_urgency"));
-	w_cols[COL_CREATION_DATE] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_creation_date"));
-	w_cols[COL_DUE] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_due"));
-	w_cols[COL_START] = GTK_TREE_VIEW_COLUMN
-		(gtk_builder_get_object(builder, "col_start"));
+	w_cols[COL_ID] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_id"));
+	w_cols[COL_DESCRIPTION] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_description"));
+	w_cols[COL_PROJECT] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_project"));
+	w_cols[COL_UUID] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_uuid"));
+	w_cols[COL_PRIORITY] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_priority"));
+	w_cols[COL_URGENCY] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_urgency"));
+	w_cols[COL_CREATION_DATE] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_creation_date"));
+	w_cols[COL_DUE] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_due"));
+	w_cols[COL_START] = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder, "col_start"));
 
 	for (i = 0; i < COL_COUNT; i++)
-		w_menus[i] = GTK_CHECK_MENU_ITEM
-			(gtk_builder_get_object(builder, MENU_NAMES[i]));
+		w_menus[i] = GTK_CHECK_MENU_ITEM(gtk_builder_get_object(builder, MENU_NAMES[i]));
 }
 
 void ui_tasktree_load_settings()
@@ -167,16 +165,17 @@ void ui_tasktree_load_settings()
 	sort_order = settings_get_int(SETTINGS_KEY_TASKS_SORT_ORDER);
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
-					     sort_col_id, sort_order);
+										 sort_col_id, sort_order);
 
-
-	for (i = 0; i < COL_COUNT; i++) {
+	for (i = 0; i < COL_COUNT; i++)
+	{
 		key = SETTINGS_VISIBLE_COL_KEYS[i];
 		b = settings_get_boolean(key);
 		gtk_tree_view_column_set_visible(w_cols[i], b);
 	}
 
-	for (i = 0; i < COL_COUNT; i++) {
+	for (i = 0; i < COL_COUNT; i++)
+	{
 		key = SETTINGS_VISIBLE_COL_KEYS[i];
 		b = settings_get_boolean(key);
 		gtk_check_menu_item_set_active(w_menus[i], b);
@@ -191,8 +190,8 @@ void ui_tasktree_save_settings()
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_tree_sortable_get_sort_column_id(GTK_TREE_SORTABLE(model),
-					     &sort_col_id,
-					     &sort_order);
+										 &sort_col_id,
+										 &sort_order);
 	log_debug("ui_tasktree_save_settings(): sort_col_id=%d", sort_col_id);
 	log_debug("ui_tasktree_save_settings(): sort_col_order=%d", sort_order);
 
@@ -219,23 +218,27 @@ struct task *ui_tasktree_get_selected_task()
 	struct task **tasks_cur, *result;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
-	GValue value = {0,};
+	GValue value = {
+		0,
+	};
 	const char *uuid;
 
 	log_fct_enter();
 
 	result = NULL;
 
-	if (current_tasks) {
+	if (current_tasks)
+	{
 		gtk_tree_view_get_cursor(w_treeview, &path, &cols);
 
-		if (path) {
+		if (path)
+		{
 			model = gtk_tree_view_get_model(w_treeview);
 			gtk_tree_model_get_iter(model, &iter, path);
 			gtk_tree_model_get_value(model,
-						 &iter,
-						 COL_UUID,
-						 &value);
+									 &iter,
+									 COL_UUID,
+									 &value);
 
 			uuid = g_value_get_string(&value);
 
@@ -257,26 +260,31 @@ void ui_tasktree_set_selected_task(const char *uuid)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
-	GValue value = {0,};
+	GValue value = {
+		0,
+	};
 	const char *c_uuid;
 
 	log_fct_enter();
 
-	if (current_tasks) {
+	if (current_tasks)
+	{
 		model = gtk_tree_view_get_model(w_treeview);
 
 		if (!gtk_tree_model_get_iter_first(model, &iter))
-			return ;
+			return;
 
 		path = NULL;
-		while (gtk_tree_model_iter_next(model, &iter)) {
+		while (gtk_tree_model_iter_next(model, &iter))
+		{
 			gtk_tree_model_get_value(model,
-						 &iter,
-						 COL_UUID,
-						 &value);
+									 &iter,
+									 COL_UUID,
+									 &value);
 			c_uuid = g_value_get_string(&value);
 
-			if (!strcmp(uuid, c_uuid)) {
+			if (!strcmp(uuid, c_uuid))
+			{
 				path = gtk_tree_model_get_path(model, &iter);
 				break;
 			}
@@ -321,7 +329,8 @@ static int match_search_keywords(struct task *task)
 	if (!tags)
 		return 0;
 
-	while (*tags) {
+	while (*tags)
+	{
 		tag = g_ascii_strup(*tags, -1);
 
 		if (strstr(tag, search_keywords))
@@ -354,8 +363,10 @@ void ui_tasktree_update(struct task **tasks)
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(w_treeview));
 	gtk_list_store_clear(GTK_LIST_STORE(model));
 
-	if (current_tasks) {
-		for (tasks_cur = current_tasks; *tasks_cur; tasks_cur++) {
+	if (current_tasks)
+	{
+		for (tasks_cur = current_tasks; *tasks_cur; tasks_cur++)
+		{
 			task = (*tasks_cur);
 
 			if (task->project)
@@ -372,67 +383,66 @@ void ui_tasktree_update(struct task **tasks)
 			gtk_list_store_append(GTK_LIST_STORE(model), &iter);
 
 			gtk_list_store_set(GTK_LIST_STORE(model),
-					   &iter,
-					   COL_ID,
-					   (*tasks_cur)->id,
-					   COL_DESCRIPTION,
-					   (*tasks_cur)->description,
-					   COL_PROJECT,
-					   prj,
-					   COL_UUID,
-					   (*tasks_cur)->uuid,
-					   COL_PRIORITY,
-					   (*tasks_cur)->priority,
-					   COL_URGENCY,
-					   (*tasks_cur)->urgency,
-					   -1);
+							   &iter,
+							   COL_ID,
+							   (*tasks_cur)->id,
+							   COL_DESCRIPTION,
+							   (*tasks_cur)->description,
+							   COL_PROJECT,
+							   prj,
+							   COL_UUID,
+							   (*tasks_cur)->uuid,
+							   COL_PRIORITY,
+							   (*tasks_cur)->priority,
+							   COL_URGENCY,
+							   (*tasks_cur)->urgency,
+							   -1);
 
-			if ((*tasks_cur)->start) {
+			if ((*tasks_cur)->start)
+			{
 				s = tm_to_str((*tasks_cur)->start);
-				gtk_list_store_set
-					(GTK_LIST_STORE(model),
-					 &iter,
-					 COL_START,
-					 s,
-					 -1);
+				gtk_list_store_set(GTK_LIST_STORE(model),
+								   &iter,
+								   COL_START,
+								   s,
+								   -1);
 				free(s);
 			}
 
-			if ((*tasks_cur)->due) {
+			if ((*tasks_cur)->due)
+			{
 				s = tm_to_str((*tasks_cur)->due);
-				gtk_list_store_set
-					(GTK_LIST_STORE(model),
-					 &iter,
-					 COL_DUE,
-					 s,
-					 -1);
+				gtk_list_store_set(GTK_LIST_STORE(model),
+								   &iter,
+								   COL_DUE,
+								   s,
+								   -1);
 				free(s);
 			}
 
-			if ((*tasks_cur)->entry) {
+			if ((*tasks_cur)->entry)
+			{
 				s = tm_to_str((*tasks_cur)->entry);
-				gtk_list_store_set
-					(GTK_LIST_STORE(model),
-					 &iter,
-					 COL_CREATION_DATE,
-					 s,
-					 -1);
+				gtk_list_store_set(GTK_LIST_STORE(model),
+								   &iter,
+								   COL_CREATION_DATE,
+								   s,
+								   -1);
 				free(s);
 			}
 		}
 	}
-
 }
 
 gboolean tasktree_button_press_event_cbk(GtkWidget *widget,
-					 GdkEventButton *evt,
-					 gpointer data)
+										 GdkEventButton *evt,
+										 gpointer data)
 {
 	log_fct_enter();
 
 	if (evt->button == 3)
 		gtk_menu_popup(w_menu,
-			       NULL, NULL, NULL, NULL, evt->button, evt->time);
+					   NULL, NULL, NULL, NULL, evt->button, evt->time);
 
 	log_fct_exit();
 
@@ -468,7 +478,8 @@ void tasktree_visible_activate_cbk(GtkAction *action, gpointer data)
 	else
 		id = -1;
 
-	if (id != -1) {
+	if (id != -1)
+	{
 		key = SETTINGS_VISIBLE_COL_KEYS[id];
 		b = settings_get_boolean(key);
 		settings_set_boolean(key, !b);
@@ -484,7 +495,8 @@ void tasktree_done_activate_cbk(GtkAction *action, gpointer data)
 
 	t = ui_tasktree_get_selected_task();
 
-	if (t) {
+	if (t)
+	{
 		tw_task_done(t->uuid);
 		refresh();
 	}
@@ -500,7 +512,8 @@ void tasktree_start_activate_cbk(GtkAction *action, gpointer data)
 
 	t = ui_tasktree_get_selected_task();
 
-	if (t) {
+	if (t)
+	{
 		tw_task_start(t->uuid);
 		refresh();
 	}
@@ -516,7 +529,8 @@ void tasktree_stop_activate_cbk(GtkAction *action, gpointer data)
 
 	t = ui_tasktree_get_selected_task();
 
-	if (t) {
+	if (t)
+	{
 		tw_task_stop(t->uuid);
 		refresh();
 	}
@@ -524,8 +538,7 @@ void tasktree_stop_activate_cbk(GtkAction *action, gpointer data)
 	log_fct_exit();
 }
 
-void
-ui_tasktree_search_changed_cbk(GtkEntry *entry, gchar *preedit, gpointer data)
+void ui_tasktree_search_changed_cbk(GtkEntry *entry, gchar *preedit, gpointer data)
 {
 	if (search_keywords)
 		g_free(search_keywords);

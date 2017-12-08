@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -64,13 +65,15 @@ static char *task_exec(char *opts)
 
 	free(cmd);
 
-	if (!f) {
+	if (!f)
+	{
 		perror("popen");
 		return NULL;
 	}
 
 	str = strdup("");
-	while ((s = fread(buf, 1, 1024, f))) {
+	while ((s = fread(buf, 1, 1024, f)))
+	{
 		tmp = malloc(strlen(str) + s + (size_t)1);
 		memcpy(tmp, str, strlen(str));
 		memcpy(tmp + strlen(str), buf, s);
@@ -128,17 +131,16 @@ static char *tw_exec(char *opts)
 {
 	char *opts2;
 
-	if (check_version_enabled && !task_check_version()) {
+	if (check_version_enabled && !task_check_version())
+	{
 		log_err("ptask is not compatible with the installed version of "
-			"taskwarrior. The command line option -f can force "
-			"the usage of an unsupported version of taskwarrior "
-			"(risk of malfunction like damaging data).");
+				"taskwarrior. The command line option -f can force "
+				"the usage of an unsupported version of taskwarrior "
+				"(risk of malfunction like damaging data).");
 		return NULL;
 	}
 
-	opts2 = malloc(strlen("rc.confirmation:no ")
-		       + strlen(opts)
-		       + 1);
+	opts2 = malloc(strlen("rc.confirmation:no ") + strlen(opts) + 1);
 	strcpy(opts2, "rc.confirmation:no ");
 	strcat(opts2, opts);
 
@@ -156,10 +158,13 @@ static struct json_object *task_exec_json(const char *opts)
 
 	str = tw_exec(cmd);
 
-	if (str) {
+	if (str)
+	{
 		o = json_tokener_parse(str);
 		free(str);
-	} else {
+	}
+	else
+	{
 		o = NULL;
 	}
 
@@ -182,12 +187,12 @@ char **json_to_tags(struct json_object *jtask)
 	if (!jtags)
 		return NULL;
 
-
 	n = json_object_array_length(jtags);
 
 	tags = malloc((n + 1) * sizeof(char *));
 
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < n; i++)
+	{
 		jtag = json_object_array_get_idx(jtags, i);
 		tags[i] = strdup(json_object_get_string(jtag));
 	}
@@ -216,15 +221,13 @@ struct task *json_to_task(struct json_object *jtask)
 
 	json = json_object_object_get(jtask, "project");
 	if (json)
-		task->project
-			= strdup(json_object_get_string(json));
+		task->project = strdup(json_object_get_string(json));
 	else
 		task->project = strdup("");
 
 	json = json_object_object_get(jtask, "priority");
 	if (json)
-		task->priority
-			= strdup(json_object_get_string(json));
+		task->priority = strdup(json_object_get_string(json));
 	else
 		task->priority = strdup("");
 
@@ -245,15 +248,13 @@ struct task *json_to_task(struct json_object *jtask)
 
 	json = json_object_object_get(jtask, "due");
 	if (json)
-		task->due
-			= parse_time(json_object_get_string(json));
+		task->due = parse_time(json_object_get_string(json));
 	else
 		task->due = NULL;
 
 	json = json_object_object_get(jtask, "start");
 	if (json)
-		task->start
-			= parse_time(json_object_get_string(json));
+		task->start = parse_time(json_object_get_string(json));
 	else
 		task->start = NULL;
 
@@ -290,7 +291,8 @@ struct task **tw_get_all_tasks(const char *status)
 
 	tasks = malloc((n + 1) * sizeof(struct task *));
 
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < n; i++)
+	{
 		jtask = json_object_array_get_idx(jtasks, i);
 
 		tasks[i] = json_to_task(jtask);
@@ -308,17 +310,20 @@ static char *escape(const char *txt)
 	char *result;
 	char *c;
 
-	result = malloc(2*strlen(txt)+1);
+	result = malloc(2 * strlen(txt) + 1);
 	c = result;
 
-	while (*txt) {
-		switch (*txt) {
+	while (*txt)
+	{
+		switch (*txt)
+		{
 		case '"':
 		case '$':
 		case '&':
 		case '<':
 		case '>':
-			*c = '\\'; c++;
+			*c = '\\';
+			c++;
 			*c = *txt;
 			break;
 		default:
@@ -337,12 +342,7 @@ void tw_modify_description(const char *uuid, const char *newdesc)
 {
 	char *opts;
 
-	opts = malloc(1
-		      + strlen(uuid)
-		      + strlen(" modify :\"")
-		      + strlen(newdesc)
-		      + strlen("\"")
-		      + 1);
+	opts = malloc(1 + strlen(uuid) + strlen(" modify :\"") + strlen(newdesc) + strlen("\"") + 1);
 	sprintf(opts, " %s modify \"%s\"", uuid, newdesc);
 
 	tw_exec(opts);
@@ -357,12 +357,7 @@ void tw_modify_project(const char *uuid, const char *newproject)
 
 	str = escape(newproject);
 
-	opts = malloc(1
-		      + strlen(uuid)
-		      + strlen(" modify project:\"")
-		      + strlen(str)
-		      + strlen("\"")
-		      + 1);
+	opts = malloc(1 + strlen(uuid) + strlen(" modify project:\"") + strlen(str) + strlen("\"") + 1);
 	sprintf(opts, " %s modify project:\"%s\"", uuid, str);
 
 	tw_exec(opts);
@@ -380,12 +375,7 @@ void tw_modify_priority(const char *uuid, const char *priority)
 
 	str = escape(priority);
 
-	opts = malloc(1
-		      + strlen(uuid)
-		      + strlen(" modify priority:\"")
-		      + strlen(str)
-		      + strlen("\"")
-		      + 1);
+	opts = malloc(1 + strlen(uuid) + strlen(" modify priority:\"") + strlen(str) + strlen("\"") + 1);
 	sprintf(opts, " %s modify priority:\"%s\"", uuid, str);
 
 	tw_exec(opts);
@@ -404,25 +394,18 @@ void tw_add(const char *newdesc, const char *prj, const char *prio)
 
 	eprj = escape(prj);
 
-	opts = malloc(strlen("add")
-		      + strlen(" priority:")
-		      + 1
-		      + strlen(" project:\\\"")
-		      + strlen(eprj)
-		      + strlen("\\\"")
-		      + strlen(" \"")
-		      + strlen(newdesc)
-		      + strlen("\"")
-		      + 1);
+	opts = malloc(strlen("add") + strlen(" priority:") + 1 + strlen(" project:\\\"") + strlen(eprj) + strlen("\\\"") + strlen(" \"") + strlen(newdesc) + strlen("\"") + 1);
 
 	strcpy(opts, "add");
 
-	if (prio && strlen(prio) == 1) {
+	if (prio && strlen(prio) == 1)
+	{
 		strcat(opts, " priority:");
 		strcat(opts, prio);
 	}
 
-	if (eprj && strlen(prj)) {
+	if (eprj && strlen(prj))
+	{
 		strcat(opts, " project:\\\"");
 		strcat(opts, eprj);
 		strcat(opts, "\\\"");
@@ -444,10 +427,7 @@ void tw_task_done(const char *uuid)
 {
 	char *opts;
 
-	opts = malloc(1
-		      + strlen(uuid)
-		      + strlen(" done")
-		      + 1);
+	opts = malloc(1 + strlen(uuid) + strlen(" done") + 1);
 	sprintf(opts, " %s done", uuid);
 
 	tw_exec(opts);
@@ -459,10 +439,7 @@ void tw_task_start(const char *uuid)
 {
 	char *opts;
 
-	opts = malloc(1
-		      + strlen(uuid)
-		      + strlen(" start")
-		      + 1);
+	opts = malloc(1 + strlen(uuid) + strlen(" start") + 1);
 	sprintf(opts, " %s start", uuid);
 
 	tw_exec(opts);
@@ -474,10 +451,7 @@ void tw_task_stop(const char *uuid)
 {
 	char *opts;
 
-	opts = malloc(1
-		      + strlen(uuid)
-		      + strlen(" stop")
-		      + 1);
+	opts = malloc(1 + strlen(uuid) + strlen(" stop") + 1);
 	sprintf(opts, " %s stop", uuid);
 
 	tw_exec(opts);
@@ -489,10 +463,7 @@ void tw_task_remove(const char *uuid)
 {
 	char *opts;
 
-	opts = malloc(1
-		      + strlen(uuid)
-		      + strlen(" delete")
-		      + 1);
+	opts = malloc(1 + strlen(uuid) + strlen(" delete") + 1);
 	sprintf(opts, " %s delete", uuid);
 
 	tw_exec(opts);
@@ -505,7 +476,7 @@ static void task_free(struct task *task)
 	char **tags;
 
 	if (!task)
-		return ;
+		return;
 
 	free(task->description);
 	free(task->status);
@@ -520,8 +491,10 @@ static void task_free(struct task *task)
 	free(task->recur);
 
 	tags = task->tags;
-	if (tags) {
-		while (*tags) {
+	if (tags)
+	{
+		while (*tags)
+		{
 			free(*tags);
 			tags++;
 		}
@@ -536,7 +509,7 @@ void tw_task_list_free(struct task **tasks)
 	struct task **cur;
 
 	if (!tasks)
-		return ;
+		return;
 
 	for (cur = tasks; *cur; cur++)
 		task_free(*cur);
@@ -547,7 +520,7 @@ void tw_task_list_free(struct task **tasks)
 static void project_free(struct project *p)
 {
 	if (!p)
-		return ;
+		return;
 
 	free(p->name);
 	free(p);
@@ -558,7 +531,7 @@ void tw_project_list_free(struct project **prjs)
 	struct project **cur;
 
 	if (!prjs)
-		return ;
+		return;
 
 	for (cur = prjs; *cur; cur++)
 		project_free(*cur);
@@ -597,7 +570,8 @@ static int projects_length(struct project **list)
 		return 0;
 
 	n = 0;
-	while (*list) {
+	while (*list)
+	{
 		n++;
 		list++;
 	}
@@ -612,8 +586,7 @@ static struct project **projects_add(struct project **list, void *item)
 
 	n = projects_length(list);
 
-	result = (struct project **)malloc
-		((n + 1 + 1) * sizeof(struct project *));
+	result = (struct project **)malloc((n + 1 + 1) * sizeof(struct project *));
 
 	if (list)
 		memcpy(result, list, n * sizeof(struct project *));
@@ -636,12 +609,16 @@ struct project **tw_get_projects(struct task **tasks)
 	prjs[0] = project_new("ALL", 0);
 	prjs[1] = NULL;
 
-	for (t_cur = tasks; *t_cur; t_cur++) {
+	for (t_cur = tasks; *t_cur; t_cur++)
+	{
 		prj_name = (*t_cur)->project;
 		prj = project_list_get(prjs, prj_name);
-		if (prj) {
+		if (prj)
+		{
 			prj->count++;
-		} else {
+		}
+		else
+		{
 			prj = project_new(prj_name, 1);
 
 			tmp = projects_add(prjs, prj);

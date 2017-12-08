@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -28,8 +29,9 @@ void trim(char *str)
 	p = str;
 
 	l = strlen(str) - 1;
-	while (l && isspace(*(p+l))) {
-		*(p+l) = '\0';
+	while (l && isspace(*(p + l)))
+	{
+		*(p + l) = '\0';
 		l--;
 	}
 

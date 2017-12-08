@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -43,14 +44,16 @@ static void enable(int enable)
 	gtk_widget_set_sensitive(GTK_WIDGET(w_tasksave_btn), enable);
 	gtk_widget_set_sensitive(GTK_WIDGET(w_taskdone_btn), enable);
 
-	if (current_task && current_task->recur) {
+	if (current_task && current_task->recur)
+	{
 		gtk_widget_set_sensitive(GTK_WIDGET(w_taskremove_btn), FALSE);
-		gtk_widget_set_tooltip_text
-			(GTK_WIDGET(w_taskremove_btn),
-			 "The removal of recurrent tasks is not supported due "
-			 "to the taskwarrior bug TW-638");
+		gtk_widget_set_tooltip_text(GTK_WIDGET(w_taskremove_btn),
+									"The removal of recurrent tasks is not supported due "
+									"to the taskwarrior bug TW-638");
 		gtk_widget_set_has_tooltip(GTK_WIDGET(w_taskremove_btn), TRUE);
-	} else {
+	}
+	else
+	{
 		gtk_widget_set_sensitive(GTK_WIDGET(w_taskremove_btn), enable);
 		gtk_widget_set_has_tooltip(GTK_WIDGET(w_taskremove_btn), FALSE);
 	}
@@ -115,7 +118,8 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 	priority = gtk_combo_box_get_active(w_priority);
 	log_debug("priority: %d", priority);
 
-	switch (priority) {
+	switch (priority)
+	{
 	case 3:
 		pri = "H";
 		break;
@@ -146,26 +150,25 @@ void ui_taskpanel_init(GtkBuilder *builder)
 	gtk_text_view_set_wrap_mode(w_note, GTK_WRAP_WORD);
 	w_tasktags = GTK_LABEL(gtk_builder_get_object(builder, "tasktags"));
 	w_description = GTK_ENTRY(gtk_builder_get_object(builder,
-							 "taskdescription"));
+													 "taskdescription"));
 	w_project = GTK_ENTRY(gtk_builder_get_object(builder, "taskproject"));
 	w_priority = GTK_COMBO_BOX(gtk_builder_get_object(builder,
-							  "taskpriority"));
+													  "taskpriority"));
 
 	w_tasksave_btn = GTK_BUTTON(gtk_builder_get_object(builder,
-							   "tasksave"));
+													   "tasksave"));
 	w_taskremove_btn = GTK_BUTTON(gtk_builder_get_object(builder,
-							     "taskremove"));
+														 "taskremove"));
 
 	g_signal_connect(w_tasksave_btn,
-			 "clicked",
-			 (GCallback)tasksave_clicked_cbk,
-			 NULL);
+					 "clicked",
+					 (GCallback)tasksave_clicked_cbk,
+					 NULL);
 
 	w_taskdone_btn = GTK_BUTTON(gtk_builder_get_object(builder,
-							   "taskdone"));
+													   "taskdone"));
 	w_taskcancel_btn = GTK_BUTTON(gtk_builder_get_object(builder,
-							     "taskcancel"));
-
+														 "taskcancel"));
 	enable(0);
 
 	log_fct("EXIT");
@@ -173,7 +176,8 @@ void ui_taskpanel_init(GtkBuilder *builder)
 
 static int priority_to_int(const char *str)
 {
-	switch (*str) {
+	switch (*str)
+	{
 	case 'H':
 		return 3;
 	case 'M':
@@ -192,14 +196,15 @@ void ui_taskpanel_update(struct task *task)
 	char **tags;
 	gchar *tmp, *gtags;
 
-	if (task) {
+	if (task)
+	{
 		current_task = task;
 
 		buf = gtk_text_view_get_buffer(w_note);
 		if (task->note)
 			gtk_text_buffer_set_text(buf,
-						 task->note,
-						 strlen(task->note));
+									 task->note,
+									 strlen(task->note));
 		else
 			gtk_text_buffer_set_text(buf, "", 0);
 
@@ -215,27 +220,36 @@ void ui_taskpanel_update(struct task *task)
 
 		tags = task->tags;
 		gtags = NULL;
-		if (tags) {
-			while (*tags) {
-				if (gtags) {
+		if (tags)
+		{
+			while (*tags)
+			{
+				if (gtags)
+				{
 					tmp = g_strconcat(gtags,
-							  " ",
-							  *tags,
-							  NULL);
+									  " ",
+									  *tags,
+									  NULL);
 					g_free(gtags);
 					gtags = tmp;
-				} else {
+				}
+				else
+				{
 					gtags = g_strdup(*tags);
 				}
 				tags++;
 			}
 			gtk_label_set_label(w_tasktags, gtags);
-		} else {
+		}
+		else
+		{
 			gtk_label_set_label(w_tasktags, "");
 		}
 
 		enable(1);
-	} else {
+	}
+	else
+	{
 		current_task = NULL;
 		enable(0);
 	}
@@ -243,7 +257,8 @@ void ui_taskpanel_update(struct task *task)
 
 int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
 {
-	if (current_task) {
+	if (current_task)
+	{
 		tw_task_done(current_task->uuid);
 		refresh();
 	}
@@ -255,7 +270,8 @@ int taskremove_clicked_cbk(GtkButton *btn, gpointer data)
 {
 	log_fct_enter();
 
-	if (current_task) {
+	if (current_task)
+	{
 		log_fct("uuid=%d", current_task->uuid);
 		tw_task_remove(current_task->uuid);
 		refresh();

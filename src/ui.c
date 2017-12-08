@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -75,7 +76,6 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 	return FALSE;
 }
 
-
 static void ui_quit()
 {
 	save_settings(window);
@@ -113,8 +113,8 @@ GtkWindow *create_window(GtkBuilder *builder)
 
 	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
 	g_signal_connect(w_status,
-			 "changed", (GCallback)status_changed_cbk,
-			 NULL);
+					 "changed", (GCallback)status_changed_cbk,
+					 NULL);
 
 	w = settings_get_int(SETTINGS_KEY_WINDOW_WIDTH);
 	h = settings_get_int(SETTINGS_KEY_WINDOW_HEIGHT);
@@ -133,7 +133,7 @@ GtkWindow *create_window(GtkBuilder *builder)
 	gtk_paned_set_position(hpaned, pos);
 
 	g_signal_connect(window, "delete_event",
-			 G_CALLBACK(delete_event_cbk), NULL);
+					 G_CALLBACK(delete_event_cbk), NULL);
 
 	ui_taskpanel_init(builder);
 	ui_tasktree_init(builder);
@@ -175,15 +175,14 @@ void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
 	const char *sdir;
 
 	builder = gtk_builder_new();
-	gtk_builder_add_from_file
-		(builder,
-		 PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptask.glade",
-		 NULL);
+	gtk_builder_add_from_file(builder,
+							  PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "ptasker.ui",
+							  NULL);
 	diag = GTK_DIALOG(gtk_builder_get_object(builder, "diag_preferences"));
 	gtk_builder_connect_signals(builder, NULL);
 
 	w_dir = GTK_FILE_CHOOSER(gtk_builder_get_object(builder,
-							"dir_chooser"));
+													"dir_chooser"));
 
 	sdir = settings_get_notes_dir();
 	if (sdir && *sdir)
@@ -191,18 +190,22 @@ void preferences_activate_cbk(GtkWidget *menu_item, gpointer data)
 
 	result = gtk_dialog_run(diag);
 
-	if (result) {
+	if (result)
+	{
 		log_debug("preferences_activate_cbk(): accept");
 		dir = gtk_file_chooser_get_filename(w_dir);
 
-		if (dir) {
+		if (dir)
+		{
 			log_debug("preferences_activate_cbk(): path=%s", dir);
 			settings_set_notes_dir(dir);
 			free(dir);
 		}
 
 		refresh();
-	} else {
+	}
+	else
+	{
 		log_debug("preferences_activate_cbk(): cancel");
 	}
 
@@ -215,19 +218,18 @@ void about_activate_cbk(GtkWidget *menu_item, gpointer data)
 {
 	log_fct_enter();
 
-	gtk_show_about_dialog
-		(NULL,
-		 "comments",
-		 _("ptask is a GTK+ task management application"),
-		 "copyright",
-		 _("Copyright(c) 2010-2016\njeanfi@gmail.com"),
-		 "logo-icon-name", "ptask",
-		 "program-name", "ptask",
-		 "title", _("About ptask"),
-		 "version", VERSION,
-		 "website", PACKAGE_URL,
-		 "website-label", _("ptask Homepage"),
-		 NULL);
+	gtk_show_about_dialog(NULL,
+						  "comments",
+						  _("ptasker is a GTK+ task management application"),
+						  "copyright",
+						  _("Copyright(c) 2010-2016 jeanfi@gmail.com\nCopyright(c) 2017 pztrn@pztrn.name"),
+						  "logo-icon-name", "ptasker",
+						  "program-name", "ptasker",
+						  "title", _("About ptasker"),
+						  "version", VERSION,
+						  "website", PACKAGE_URL,
+						  "website-label", _("ptasker Homepage"),
+						  NULL);
 
 	log_fct_exit();
 }

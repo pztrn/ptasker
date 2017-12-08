@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -30,7 +31,7 @@ extern const char *SETTINGS_KEY_SPLITER_VERTICAL_POS;
 extern const char *SETTINGS_KEY_SPLITER_HORIZONTAL_POS;
 extern const char *SETTINGS_KEY_TASKS_SORT_COL;
 extern const char *SETTINGS_KEY_TASKS_SORT_ORDER;
-extern const char * const SETTINGS_VISIBLE_COL_KEYS[];
+extern const char *const SETTINGS_VISIBLE_COL_KEYS[];
 
 void settings_init();
 

@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -29,7 +30,7 @@ const char *SETTINGS_KEY_TASKS_SORT_COL = "tasks-sort-col";
 const char *SETTINGS_KEY_TASKS_SORT_ORDER = "tasks-sort-order";
 const char *SETTINGS_KEY_NOTES_DIR = "notes-dir";
 
-const char * const SETTINGS_VISIBLE_COL_KEYS[] = {
+const char *const SETTINGS_VISIBLE_COL_KEYS[] = {
 	"tasktree-id-visible",
 	"tasktree-description-visible",
 	"tasktree-project-visible",
@@ -45,7 +46,7 @@ static GSettings *settings;
 
 void settings_init()
 {
-	settings = g_settings_new("ptask");
+	settings = g_settings_new("ptasker");
 }
 
 gint settings_get_int(const gchar *key)

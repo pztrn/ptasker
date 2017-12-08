@@ -1,6 +1,19 @@
 What's New
 ==========
 
+v1.0.1
+------
+ * Forked and renamed to ptasker. Added pztrn's copyrights.
+ * Got rid of HTML documentation, now using Markdown one everywhere
+   where possible.
+ * Set word wrap in notes textarea.
+ * Refined UI - moved all buttons to toolbar.
+ * Added a toolbar :).
+ * Buttons on toolbar now dynamically generated, removed all buttons
+   from Glade UI.
+ * As well with buttons, removed search input field from Glade UI,
+   it is now also dynamically generated.
+
 v1.0.0
 ------
  * allowed 2.4.0, 2.4.1 and 2.5 release of taskwarrior.

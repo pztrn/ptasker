@@ -1,2 +1,2 @@
 src/main.c
-src/glade/ptask.glade
+src/glade/ptasker.ui

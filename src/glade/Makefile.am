@@ -1,4 +1,4 @@
 gladedir = $(pkgdatadir)
-glade_DATA = ptask.glade
+glade_DATA = ptasker.ui
 
-EXTRA_DIST = $(glade_DATA) 
+EXTRA_DIST = $(glade_DATA)

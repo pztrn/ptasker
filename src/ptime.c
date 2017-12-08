@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010-2016 jeanfi@gmail.com
- *
+ * Copyright (C) 2017, pztrn@pztrn.name
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -31,9 +32,12 @@ static char *time_to_str(time_t *t)
 
 	str = malloc(64);
 
-	if (strftime(str, 64, "%s", &lt)) {
+	if (strftime(str, 64, "%s", &lt))
+	{
 		return str;
-	} else {
+	}
+	else
+	{
 		free(str);
 		return NULL;
 	}
@@ -55,9 +59,12 @@ char *tm_to_str(const struct tm *tm)
 	str = malloc(11);
 	s = strftime(str, 11, "%Y/%m/%d", tm);
 
-	if (s) {
+	if (s)
+	{
 		return str;
-	} else {
+	}
+	else
+	{
 		log_err("Failed to convert time");
 		free(str);
 		return NULL;
