@@ -1,0 +1,27 @@
+Source: ptask
+Section: utils
+Priority: optional
+Maintainer: ChangZhuo Chen (陳昌倬) <czchen@debian.org>
+Build-Depends: debhelper (>= 9.20151219),
+               autotools-dev,
+               dh-autoreconf,
+               libgtk-3-dev,
+               libjson-c-dev,
+               libx11-dev,
+               libxext-dev,
+               pkg-config,
+Standards-Version: 3.9.8
+Homepage: http://wpitchoune.net/blog/ptask/
+Vcs-Git: https://anonscm.debian.org/git/collab-maint/ptask.git
+Vcs-Browser: https://anonscm.debian.org/git/collab-maint/ptask.git
+
+Package: ptask
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}, 
+         taskwarrior (>= 2.2.0),
+Description: GTK+ graphical user interface for managing tasks
+ ptask is a GTK+ graphical user interface for managing tasks.  It is based on
+ taskwarrior, a well-known and robust command line tasks manager.  Unlike
+ taskwarrior, it is possible to associate a note (long description) to each
+ task.

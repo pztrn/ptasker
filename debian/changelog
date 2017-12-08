@@ -1,0 +1,22 @@
+ptask (1.0.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump Standards-Version to 3.9.8.
+  * Remove ptask-dbg in favor of ptask-dbgsym.
+  * Update Vcs-* fields.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 11 Jun 2016 11:45:50 +0800
+
+ptask (0.0.9-2) unstable; urgency=medium
+
+  * Fix cannot start issue (Closes: 789644)
+    * Add missing dependency on taskwarrior
+    * Update taskwarrior version check
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@gmail.com>  Tue, 23 Jun 2015 21:04:58 +0800
+
+ptask (0.0.9-1) unstable; urgency=low
+
+  * Initial release (Closes: #779437)
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@gmail.com>  Sat, 28 Feb 2015 22:26:00 +0800

@@ -1,0 +1,51 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ptask
+Source: http://wpitchoune.net/blog/ptask/
+
+Files: *
+Copyright: Copyright(c) 2010-2013 Jean-Philippe Orsini <jeanfi@gmail.com>
+License: GPL-2+
+
+Files: tests/checkpatch.pl
+Copyright: (c) 2001, Dave Jones. (the file handling bit)
+           (c) 2005, Joel Schopp <jschopp@austin.ibm.com> (the ugly bit)
+           (c) 2007,2008, Andy Whitcroft <apw@uk.ibm.com> (new conditions, test suite)
+           (c) 2008-2010 Andy Whitcroft <apw@canonical.com>
+License: GPL-2
+
+Files: debian/*
+Copyright: 2015 ChangZhuo Chen (陳昌倬) <czchen@debian.org>
+License: GPL-2+
+
+License: GPL-2
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; version 2 of the License.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+
+License: GPL-2+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".

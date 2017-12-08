@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=ptasker
+GenericName=ptasker
+Comment=ptasker is a task management tool based on taskwarrior
+Keywords=task;note;taskwarrior;
+Icon=ptasker
+TryExec=ptasker
+Exec=ptasker
+Categories=Utility;
+

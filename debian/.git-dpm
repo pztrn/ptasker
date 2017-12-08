@@ -1,0 +1,11 @@
+# see git-dpm(1) from git-dpm package
+470e619a07c2cedfefb1fb753a1eaf84f9716e85
+470e619a07c2cedfefb1fb753a1eaf84f9716e85
+85f89dbcdd10fb51fe28c3e0c123626829983708
+85f89dbcdd10fb51fe28c3e0c123626829983708
+ptask_1.0.0.orig.tar.gz
+ddaab6d8797e75ba601acd12b0687e162620413d
+268984
+debianTag="debian/%e%v"
+patchedTag="patched/%e%v"
+upstreamTag="upstream/%e%u"

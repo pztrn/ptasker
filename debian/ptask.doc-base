@@ -1,0 +1,10 @@
+Document: ptask
+Title: Debian ptask Manual
+Author: jeanfi
+Abstract: This manual describes what ptask is and online resource for
+ bug report and comments.
+Section: Project Management
+
+Format: HTML
+Index: /usr/share/doc/ptask/README.html
+Files: /usr/share/doc/ptask/*.html
