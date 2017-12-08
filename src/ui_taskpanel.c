@@ -142,6 +142,8 @@ void ui_taskpanel_init(GtkBuilder *builder)
 	log_fct("ENTER");
 
 	w_note = GTK_TEXT_VIEW(gtk_builder_get_object(builder, "tasknote"));
+	// Set word wrap for notes.
+	gtk_text_view_set_wrap_mode(w_note, GTK_WRAP_WORD);
 	w_tasktags = GTK_LABEL(gtk_builder_get_object(builder, "tasktags"));
 	w_description = GTK_ENTRY(gtk_builder_get_object(builder,
 							 "taskdescription"));
