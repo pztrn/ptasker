@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="ptask" path="/apps/ptask/">
+  <schema id="ptasker" path="/apps/ptasker/">
     <key name="window-x" type="i">
       <default>100</default>
     </key>

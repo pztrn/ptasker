@@ -1,3 +1,4 @@
+*~
 Makefile
 config.h
 config.log
@@ -18,7 +19,7 @@ m4/
 po/Makevars.template
 *.o
 src/ptask
-src/ptask.gschema.valid
+src/ptasker.gschema.valid
 INSTALL
 aclocal.m4
 compile
@@ -31,3 +32,4 @@ missing
 test-driver
 .vscode
 src/ptasker
+src/ptasker.1

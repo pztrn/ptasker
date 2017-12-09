@@ -36,13 +36,6 @@ static GtkWindow *window;
 static GtkPaned *vpaned;
 static GtkPaned *hpaned;
 
-int newtask_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	ui_newtask();
-
-	return FALSE;
-}
-
 static void save_settings(GtkWindow *window)
 {
 	int w, h, x, y, pos;
@@ -66,14 +59,6 @@ static void save_settings(GtkWindow *window)
 	ui_tasktree_save_settings();
 
 	g_settings_sync();
-}
-
-int refresh_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	log_fct_enter();
-	refresh();
-	log_fct_exit();
-	return FALSE;
 }
 
 static void ui_quit()
@@ -135,6 +120,7 @@ GtkWindow *create_window(GtkBuilder *builder)
 	g_signal_connect(window, "delete_event",
 					 G_CALLBACK(delete_event_cbk), NULL);
 
+	ui_toolbar_init(builder);
 	ui_taskpanel_init(builder);
 	ui_tasktree_init(builder);
 	ui_projecttree_init(builder);

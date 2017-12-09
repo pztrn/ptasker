@@ -93,11 +93,6 @@
       <action-widget response="0">button4</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkImage" id="image1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-yes</property>
-  </object>
   <object class="GtkListStore" id="prioritystore">
     <columns>
       <!-- column-name priority -->
@@ -363,7 +358,7 @@
               <object class="GtkMenuItem" id="menuitem1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">ptask</property>
+                <property name="label" translatable="yes">ptasker</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="menu1">
@@ -435,36 +430,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
-            <child>
-              <object class="GtkToolButton" id="newtask">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">Create new task.</property>
-                <property name="label" translatable="yes">New task</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-add</property>
-                <signal name="clicked" handler="newtask_clicked_cbk" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="refresh">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">Refreshes tasks list from Taskwarrior.</property>
-                <property name="label" translatable="yes">Refresh</property>
-                <property name="use_underline">True</property>
-                <property name="stock_id">gtk-refresh</property>
-                <signal name="clicked" handler="refresh_clicked_cbk" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -902,77 +867,6 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButtonBox" id="buttonbox2">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="layout_style">start</property>
-                            <child>
-                              <object class="GtkButton" id="tasksave">
-                                <property name="label">gtk-save</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="use_stock">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="taskcancel">
-                                <property name="label">gtk-cancel</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="use_stock">True</property>
-                                <signal name="clicked" handler="taskpanel_cancel_clicked_cbk" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="taskdone">
-                                <property name="label" translatable="yes">Mark Done</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="image">image1</property>
-                                <signal name="clicked" handler="taskdone_clicked_cbk" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="taskremove">
-                                <property name="label">gtk-remove</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="receives_default">True</property>
-                                <property name="use_stock">True</property>
-                                <signal name="clicked" handler="taskremove_clicked_cbk" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                            <property name="width">2</property>
-                          </packing>
-                        </child>
-                        <child>
                           <object class="GtkLabel" id="label10">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -1004,15 +898,15 @@
                             <property name="top_attach">4</property>
                           </packing>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>

@@ -29,10 +29,8 @@ static GtkTextView *w_note;
 static GtkEntry *w_description;
 static GtkEntry *w_project;
 static GtkComboBox *w_priority;
-static GtkButton *w_tasksave_btn;
 static GtkButton *w_taskremove_btn;
 static GtkButton *w_taskdone_btn;
-static GtkButton *w_taskcancel_btn;
 static GtkLabel *w_tasktags;
 
 static struct task *current_task;
@@ -41,7 +39,6 @@ static void enable(int enable)
 {
 	GtkTextBuffer *buf;
 
-	gtk_widget_set_sensitive(GTK_WIDGET(w_tasksave_btn), enable);
 	gtk_widget_set_sensitive(GTK_WIDGET(w_taskdone_btn), enable);
 
 	if (current_task && current_task->recur)
@@ -57,8 +54,6 @@ static void enable(int enable)
 		gtk_widget_set_sensitive(GTK_WIDGET(w_taskremove_btn), enable);
 		gtk_widget_set_has_tooltip(GTK_WIDGET(w_taskremove_btn), FALSE);
 	}
-
-	gtk_widget_set_sensitive(GTK_WIDGET(w_taskcancel_btn), enable);
 
 	buf = gtk_text_view_get_buffer(w_note);
 	if (!enable)
@@ -81,7 +76,12 @@ static void enable(int enable)
 	gtk_widget_set_sensitive(GTK_WIDGET(w_priority), enable);
 }
 
-static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
+struct task *taskpanel_get_current_task()
+{
+	return current_task;
+}
+
+void taskpanel_save()
 {
 	struct task *task;
 	GtkTextBuffer *buf;
@@ -135,10 +135,6 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
 
 	if (strcmp(task->priority, pri))
 		tw_modify_priority(task->uuid, pri);
-
-	refresh();
-
-	return FALSE;
 }
 
 void ui_taskpanel_init(GtkBuilder *builder)
@@ -155,20 +151,10 @@ void ui_taskpanel_init(GtkBuilder *builder)
 	w_priority = GTK_COMBO_BOX(gtk_builder_get_object(builder,
 													  "taskpriority"));
 
-	w_tasksave_btn = GTK_BUTTON(gtk_builder_get_object(builder,
-													   "tasksave"));
 	w_taskremove_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 														 "taskremove"));
-
-	g_signal_connect(w_tasksave_btn,
-					 "clicked",
-					 (GCallback)tasksave_clicked_cbk,
-					 NULL);
-
 	w_taskdone_btn = GTK_BUTTON(gtk_builder_get_object(builder,
 													   "taskdone"));
-	w_taskcancel_btn = GTK_BUTTON(gtk_builder_get_object(builder,
-														 "taskcancel"));
 	enable(0);
 
 	log_fct("EXIT");
@@ -253,42 +239,4 @@ void ui_taskpanel_update(struct task *task)
 		current_task = NULL;
 		enable(0);
 	}
-}
-
-int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	if (current_task)
-	{
-		tw_task_done(current_task->uuid);
-		refresh();
-	}
-
-	return FALSE;
-}
-
-int taskremove_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	log_fct_enter();
-
-	if (current_task)
-	{
-		log_fct("uuid=%d", current_task->uuid);
-		tw_task_remove(current_task->uuid);
-		refresh();
-	}
-
-	log_fct_exit();
-
-	return FALSE;
-}
-
-int taskpanel_cancel_clicked_cbk(GtkButton *btn, gpointer data)
-{
-	log_fct_enter();
-
-	ui_taskpanel_update(current_task);
-
-	log_fct_exit();
-
-	return FALSE;
 }

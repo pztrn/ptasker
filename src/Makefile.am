@@ -30,7 +30,7 @@ dist_man_MANS = ptasker.1
 
 ptasker.1: main.c $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) ptasker$(EXEEXT)
-	help2man -N --name="GTk+ Task application" --output=ptasker.1 ./ptask$(EXEEXT)
+	help2man -N --name="GTk+ Task application" --output=ptasker.1 ./ptasker$(EXEEXT)
 
 gsettings_SCHEMAS=ptasker.gschema.xml
 EXTRA_DIST=$(gsettings_SCHEMAS)
