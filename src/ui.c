@@ -31,7 +31,6 @@
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
 
-static GtkComboBox *w_status;
 static GtkWindow *window;
 static GtkPaned *vpaned;
 static GtkPaned *hpaned;
@@ -79,27 +78,11 @@ static gboolean delete_event_cbk(GtkWidget *w, GdkEvent *evt, gpointer data)
 	return TRUE;
 }
 
-static int status_changed_cbk(GtkComboBox *w, gpointer data)
-{
-	log_fct_enter();
-
-	refresh();
-
-	log_fct_exit();
-
-	return FALSE;
-}
-
 GtkWindow *create_window(GtkBuilder *builder)
 {
 	int x, y, w, h, pos;
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
-
-	w_status = GTK_COMBO_BOX(gtk_builder_get_object(builder, "status"));
-	g_signal_connect(w_status,
-					 "changed", (GCallback)status_changed_cbk,
-					 NULL);
 
 	w = settings_get_int(SETTINGS_KEY_WINDOW_WIDTH);
 	h = settings_get_int(SETTINGS_KEY_WINDOW_HEIGHT);
@@ -120,28 +103,14 @@ GtkWindow *create_window(GtkBuilder *builder)
 	g_signal_connect(window, "delete_event",
 					 G_CALLBACK(delete_event_cbk), NULL);
 
-	ui_toolbar_init(builder);
 	ui_taskpanel_init(builder);
 	ui_tasktree_init(builder);
 	ui_projecttree_init(builder);
+	ui_toolbar_init(builder);
 
 	ui_tasktree_load_settings();
 
 	return window;
-}
-
-const char *ui_get_status_filter()
-{
-	const char *status;
-
-	log_fct_enter();
-
-	status = gtk_combo_box_get_active_id(w_status);
-	log_fct("status: %s", status);
-
-	log_fct_exit();
-
-	return status;
 }
 
 void quit_activate_cbk(GtkWidget *menu_item, gpointer data)

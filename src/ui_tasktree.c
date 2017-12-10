@@ -199,7 +199,13 @@ void ui_tasktree_save_settings()
 	settings_set_int(SETTINGS_KEY_TASKS_SORT_ORDER, sort_order);
 }
 
-const char *ui_tasktree_get_task_uuid()
+struct task **ui_tasktree_get_current_tasks()
+{
+	return current_tasks;
+}
+
+const char *
+ui_tasktree_get_task_uuid()
 {
 	struct task *t;
 
@@ -536,16 +542,6 @@ void tasktree_stop_activate_cbk(GtkAction *action, gpointer data)
 	}
 
 	log_fct_exit();
-}
-
-void ui_tasktree_search_changed_cbk(GtkEntry *entry, gchar *preedit, gpointer data)
-{
-	if (search_keywords)
-		g_free(search_keywords);
-
-	search_keywords = g_ascii_strup(gtk_entry_get_text(entry), -1);
-
-	ui_tasktree_update(current_tasks);
 }
 
 void ui_tasktree_update_filter(const char *prj)

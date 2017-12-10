@@ -23,6 +23,7 @@
 
 #include <gtk/gtk.h>
 
+const char *ui_toolbar_get_status_filter();
 void ui_toolbar_init(GtkBuilder *);
 
 #endif

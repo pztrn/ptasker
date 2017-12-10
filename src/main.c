@@ -39,6 +39,7 @@
 #include <ui_projecttree.h>
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
+#include <ui_toolbar.h>
 
 static const char *program_name;
 static struct task **tasks;
@@ -110,7 +111,7 @@ void refresh()
 		current_uuid = NULL;
 	}
 
-	tasks = tw_get_all_tasks(ui_get_status_filter());
+	tasks = tw_get_all_tasks(ui_toolbar_get_status_filter());
 
 	if (tasks)
 	{

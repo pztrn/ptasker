@@ -26,6 +26,9 @@
 #include "ui.h"
 #include "ui_newtask_diag.h"
 #include "ui_taskpanel.h"
+#include "ui_tasktree.h"
+
+static GtkWidget *ti_status_cb;
 
 // Callback for new task button click.
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
@@ -40,6 +43,17 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
     log_fct_enter();
     refresh();
     log_fct_exit();
+    return FALSE;
+}
+
+static int status_changed_cbk(GtkComboBoxText *w, gpointer data)
+{
+    log_fct_enter();
+
+    refresh();
+
+    log_fct_exit();
+
     return FALSE;
 }
 
@@ -86,6 +100,28 @@ static int tasksave_clicked_cbk(GtkButton *btn, gpointer data)
     return FALSE;
 }
 
+const char *ui_toolbar_get_status_filter()
+{
+    const char *status;
+
+    log_fct_enter();
+
+    status = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(ti_status_cb));
+    log_info("status: %s", status);
+
+    log_fct_exit();
+
+    return status;
+}
+
+void ui_toolbar_search_field_changed(GtkEntry *entry, gchar *preedit, gpointer data)
+{
+    struct task **current_tasks;
+    current_tasks = (struct task **)ui_tasktree_get_current_tasks();
+
+    ui_tasktree_update(current_tasks);
+}
+
 // Toolbar initialization.
 // As of bugs in Glade about inability to add something else than just
 // a button, toolbar initialization will be done manually.
@@ -103,15 +139,23 @@ void ui_toolbar_init(GtkBuilder *builder)
     // Save task.
     GtkToolItem *ti_savetask;
     GtkWidget *ti_savetask_icon;
-    // Cancel task.
-    GtkToolItem *ti_canceltask;
-    GtkWidget *ti_canceltask_icon;
     // Mark task as done.
     GtkToolItem *ti_taskdone;
     GtkWidget *ti_taskdone_icon;
     // Remove task button.
     GtkToolItem *ti_removetask;
     GtkWidget *ti_removetask_icon;
+    // One more separator.
+    GtkToolItem *ti_sep2;
+    // Status filtering.
+    GtkToolItem *ti_status_label_item;
+    GtkWidget *ti_status_label;
+    GtkToolItem *ti_status_cb_item;
+    // Expanding separator.
+    GtkToolItem *ti_sep_exp;
+    // Search bar.
+    GtkToolItem *ti_search;
+    GtkWidget *ti_search_entry;
 
     w_toolbar = GTK_TOOLBAR(gtk_builder_get_object(builder, "maintoolbar"));
 
@@ -154,4 +198,44 @@ void ui_toolbar_init(GtkBuilder *builder)
     gtk_tool_item_set_tooltip_text(ti_removetask, "Removes task");
     g_signal_connect(ti_removetask, "clicked", G_CALLBACK(taskremove_clicked_cbk), NULL);
     gtk_toolbar_insert(w_toolbar, ti_removetask, 5);
+
+    // One more separator :)
+    ti_sep2 = gtk_separator_tool_item_new();
+    gtk_separator_tool_item_set_draw(GTK_SEPARATOR_TOOL_ITEM(ti_sep2), 1);
+    gtk_toolbar_insert(w_toolbar, ti_sep2, 6);
+
+    // Status filtering.
+    ti_status_label_item = gtk_tool_item_new();
+    ti_status_label = gtk_label_new("Status:");
+    gtk_container_add(GTK_CONTAINER(ti_status_label_item), GTK_WIDGET(ti_status_label));
+    gtk_toolbar_insert(w_toolbar, ti_status_label_item, 7);
+
+    ti_status_cb_item = gtk_tool_item_new();
+    ti_status_cb = gtk_combo_box_text_new();
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(ti_status_cb), NULL, "pending");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(ti_status_cb), NULL, "completed");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(ti_status_cb), NULL, "deleted");
+    gtk_combo_box_set_active(GTK_COMBO_BOX(ti_status_cb), 1);
+    gtk_container_add(GTK_CONTAINER(ti_status_cb_item), GTK_WIDGET(ti_status_cb));
+    gtk_toolbar_insert(w_toolbar, ti_status_cb_item, 8);
+    g_signal_connect(ti_status_cb,
+                     "changed", (GCallback)status_changed_cbk,
+                     NULL);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(ti_status_cb), 0);
+
+    // Expanding separator.
+    ti_sep_exp = gtk_separator_tool_item_new();
+    gtk_separator_tool_item_set_draw(GTK_SEPARATOR_TOOL_ITEM(ti_sep2), 0);
+    gtk_tool_item_set_expand(GTK_TOOL_ITEM(ti_sep_exp), 1);
+    gtk_toolbar_insert(w_toolbar, ti_sep_exp, 9);
+
+    // Search field.
+    ti_search = gtk_tool_item_new();
+    ti_search_entry = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(ti_search_entry), "Search for tasks...");
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(ti_search_entry), GTK_ENTRY_ICON_PRIMARY, "gtk-find");
+    gtk_container_add(GTK_CONTAINER(ti_search), GTK_WIDGET(ti_search_entry));
+    g_signal_connect(ti_search_entry,
+                     "changed", (GCallback)ui_toolbar_search_field_changed, NULL);
+    gtk_toolbar_insert(w_toolbar, ti_search, 10);
 }

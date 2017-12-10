@@ -29,6 +29,7 @@ void ui_tasktree_load_settings();
 void ui_tasktree_save_settings();
 struct task *ui_tasktree_get_selected_task();
 void ui_tasktree_set_selected_task(const char *uuid);
+struct task **ui_tasktree_get_current_tasks();
 const char *ui_tasktree_get_task_uuid();
 void ui_tasktree_update(struct task **);
 void ui_tasktree_update_filter(const char *);
