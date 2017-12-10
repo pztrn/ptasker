@@ -141,7 +141,7 @@ void ui_newtask_dialog()
 	g_object_unref(priority_store);
 	gtk_grid_attach(GTK_GRID(action_box), priority_cb, 1, 2, 1, 1);
 
-	// ComboBox need a CellRenderer shit. FFS.
+	// ComboBox needs a CellRenderer shit. FFS.
 	priority_cb_column = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(priority_cb), priority_cb_column, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(priority_cb), priority_cb_column,
@@ -171,8 +171,6 @@ void ui_newtask_dialog()
 	{
 		log_debug("ui_newtask(): cancel");
 	}
-
-	//g_object_unref(G_OBJECT(builder));
 
 	gtk_widget_destroy(GTK_WIDGET(newtask_dialog));
 }
