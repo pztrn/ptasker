@@ -51,7 +51,7 @@ void tw_modify_priority(const char *uuid, const char *priority);
 void tw_task_done(const char *uuid);
 void tw_task_start(const char *uuid);
 void tw_task_stop(const char *uuid);
-void tw_task_remove(const char *);
+void tw_task_remove(const char *uuid);
 void tw_add(const char *newdesc, const char *prj, const char *prio);
 void tw_task_list_free(struct task **tasks);
 struct project **tw_get_projects(struct task **tasks);

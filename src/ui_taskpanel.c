@@ -39,7 +39,8 @@ static void enable(int enable)
 {
 	GtkTextBuffer *buf;
 
-	gtk_widget_set_sensitive(GTK_WIDGET(w_taskdone_btn), enable);
+	// ToDo: rework this.
+	/*gtk_widget_set_sensitive(GTK_WIDGET(w_taskdone_btn), enable);
 
 	if (current_task && current_task->recur)
 	{
@@ -53,7 +54,7 @@ static void enable(int enable)
 	{
 		gtk_widget_set_sensitive(GTK_WIDGET(w_taskremove_btn), enable);
 		gtk_widget_set_has_tooltip(GTK_WIDGET(w_taskremove_btn), FALSE);
-	}
+	}*/
 
 	buf = gtk_text_view_get_buffer(w_note);
 	if (!enable)
@@ -93,6 +94,13 @@ void taskpanel_save()
 	log_fct_enter();
 
 	task = current_task;
+
+	// No crash if we're trying to click on save button and there
+	// was no task selected.
+	if (task == NULL)
+	{
+		return;
+	}
 
 	log_fct("%d", task->id);
 

@@ -57,13 +57,18 @@ int refresh_clicked_cbk(GtkButton *btn, gpointer data)
 int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
 {
     struct task *current_task;
+    current_task = (struct task *)taskpanel_get_current_task();
 
-    current_task = taskpanel_get_current_task();
-    if (current_task)
+    log_fct_enter();
+
+    if (current_task != NULL)
     {
+        log_fct("uuid=%d", current_task->uuid);
         tw_task_done(current_task->uuid);
         refresh();
     }
+
+    log_fct_exit();
 
     return FALSE;
 }
@@ -71,8 +76,7 @@ int taskdone_clicked_cbk(GtkButton *btn, gpointer data)
 int taskremove_clicked_cbk(GtkButton *btn, gpointer data)
 {
     struct task *current_task;
-
-    current_task = taskpanel_get_current_task();
+    current_task = (struct task *)taskpanel_get_current_task();
 
     log_fct_enter();
 
@@ -142,6 +146,7 @@ void ui_toolbar_init(GtkBuilder *builder)
 
     // Separator.
     ti_sep1 = gtk_separator_tool_item_new();
+    gtk_separator_tool_item_set_draw(GTK_SEPARATOR_TOOL_ITEM(ti_sep1), 1);
     gtk_toolbar_insert(w_toolbar, ti_sep1, 2);
 
     // Save task button.
@@ -156,19 +161,19 @@ void ui_toolbar_init(GtkBuilder *builder)
     ti_canceltask = gtk_tool_button_new(ti_canceltask_icon, "Cancel task");
     gtk_tool_item_set_tooltip_text(ti_canceltask, "Cancels task");
     g_signal_connect(ti_canceltask, "clicked", G_CALLBACK(taskcancel_clicked_cbk), NULL);
-    gtk_toolbar_insert(w_toolbar, ti_canceltask, 3);
+    gtk_toolbar_insert(w_toolbar, ti_canceltask, 4);
 
     // Mark task as done button.
     ti_taskdone_icon = gtk_image_new_from_icon_name("gtk-yes", GTK_ICON_SIZE_SMALL_TOOLBAR);
     ti_taskdone = gtk_tool_button_new(ti_taskdone_icon, "Mark task as done");
     gtk_tool_item_set_tooltip_text(ti_taskdone, "Marking task as done");
     g_signal_connect(ti_taskdone, "clicked", G_CALLBACK(taskdone_clicked_cbk), NULL);
-    gtk_toolbar_insert(w_toolbar, ti_taskdone, 3);
+    gtk_toolbar_insert(w_toolbar, ti_taskdone, 5);
 
     // Remove task button.
     ti_removetask_icon = gtk_image_new_from_icon_name("gtk-remove", GTK_ICON_SIZE_SMALL_TOOLBAR);
     ti_removetask = gtk_tool_button_new(ti_removetask_icon, "Remove task");
     gtk_tool_item_set_tooltip_text(ti_removetask, "Removes task");
     g_signal_connect(ti_removetask, "clicked", G_CALLBACK(taskcancel_clicked_cbk), NULL);
-    gtk_toolbar_insert(w_toolbar, ti_removetask, 3);
+    gtk_toolbar_insert(w_toolbar, ti_removetask, 6);
 }

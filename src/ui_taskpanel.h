@@ -26,5 +26,6 @@
 
 void ui_taskpanel_init(GtkBuilder *);
 void ui_taskpanel_update(struct task *);
+struct task *taskpanel_get_current_task();
 
 #endif
