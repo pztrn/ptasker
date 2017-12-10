@@ -34,7 +34,7 @@
 #include "ptime.h"
 
 static FILE *file;
-int log_level =  LOG_WARN;
+int log_level = LOG_WARN;
 
 void log_open(const char *path)
 {
@@ -47,13 +47,12 @@ void log_open(const char *path)
 void log_close()
 {
 	if (!file)
-		return ;
+		return;
 
 	fclose(file);
 
 	file = NULL;
 }
-
 
 #define LOG_BUFFER 4096
 static void vlogf(int lvl, const char *fct, const char *fmt, va_list ap)
@@ -63,12 +62,13 @@ static void vlogf(int lvl, const char *fct, const char *fmt, va_list ap)
 	FILE *stdf;
 
 	if (lvl > LOG_INFO && (!file || lvl > log_level))
-		return ;
+		return;
 
 	vsnprintf(buffer, LOG_BUFFER, fmt, ap);
 	buffer[LOG_BUFFER] = '\0';
 
-	switch (lvl) {
+	switch (lvl)
+	{
 	case LOG_WARN:
 		lvl_str = "[WARN]";
 		break;
@@ -87,20 +87,24 @@ static void vlogf(int lvl, const char *fct, const char *fmt, va_list ap)
 
 	t = get_time_str();
 	if (!t)
-		return ;
+		return;
 
-	if (file && lvl <= log_level) {
+	if (file && lvl <= log_level)
+	{
 		if (fct)
 			fprintf(file,
-				"[%s] %s %s(): %s\n", t, lvl_str, fct, buffer);
+					"[%s] %s %s(): %s\n", t, lvl_str, fct, buffer);
 		else
 			fprintf(file, "[%s] %s %s\n", t, lvl_str, buffer);
 		fflush(file);
-	} else {
+	}
+	else
+	{
 		t = NULL;
 	}
 
-	if (lvl <= LOG_INFO) {
+	if (lvl <= LOG_INFO)
+	{
 		if (lvl == LOG_WARN || lvl == LOG_ERR)
 			stdf = stderr;
 		else
@@ -108,7 +112,7 @@ static void vlogf(int lvl, const char *fct, const char *fmt, va_list ap)
 
 		if (fct)
 			fprintf(file,
-				"[%s] %s %s(): %s\n", t, lvl_str, fct, buffer);
+					"[%s] %s %s(): %s\n", t, lvl_str, fct, buffer);
 		else
 			fprintf(stdf, "[%s] %s %s\n", t, lvl_str, buffer);
 	}
@@ -130,7 +134,7 @@ void log_debug(const char *fmt, ...)
 	va_list ap;
 
 	if (log_level < LOG_DEBUG)
-		return ;
+		return;
 
 	va_start(ap, fmt);
 	vlogf(LOG_DEBUG, NULL, fmt, ap);
