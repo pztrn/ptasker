@@ -20,7 +20,7 @@ ptasker_SOURCES = log.c log.h \
 	settings.c settings.h \
 	tw.c tw.h \
 	ui.c ui.h \
-	ui_newtask_diag.c ui_newtask_diag.h \
+	ui_newtask_dialog.c ui_newtask_dialog.h \
 	ui_projecttree.c ui_projecttree.h \
 	ui_taskpanel.c ui_taskpanel.h \
 	ui_tasktree.c ui_tasktree.h \

@@ -24,7 +24,7 @@
 #include "log.h"
 #include "tw.h"
 #include "ui.h"
-#include "ui_newtask_diag.h"
+#include "ui_newtask_dialog.h"
 #include "ui_taskpanel.h"
 #include "ui_tasktree.h"
 
@@ -33,7 +33,7 @@ static GtkWidget *ti_status_cb;
 // Callback for new task button click.
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
-    ui_newtask();
+    ui_newtask_dialog();
 
     return FALSE;
 }

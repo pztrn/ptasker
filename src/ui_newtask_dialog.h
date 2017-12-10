@@ -21,6 +21,6 @@
 #ifndef _PTASK_UI_NEWTASK_DIAG_H_
 #define _PTASK_UI_NEWTASK_DIAG_H_
 
-void ui_newtask();
+void ui_newtask_dialog();
 
 #endif

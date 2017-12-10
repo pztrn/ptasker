@@ -26,7 +26,7 @@
 #include <log.h>
 #include <settings.h>
 #include <ui.h>
-#include <ui_newtask_diag.h>
+#include <ui_newtask_dialog.h>
 #include <ui_projecttree.h>
 #include <ui_taskpanel.h>
 #include <ui_tasktree.h>
