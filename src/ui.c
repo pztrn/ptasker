@@ -84,6 +84,7 @@ GtkWindow *create_window(GtkBuilder *builder)
 
 	window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
+	gtk_window_set_icon_name(window, "ptasker");
 	w = settings_get_int(SETTINGS_KEY_WINDOW_WIDTH);
 	h = settings_get_int(SETTINGS_KEY_WINDOW_HEIGHT);
 	gtk_window_set_default_size(window, w, h);

@@ -100,6 +100,8 @@ void ui_newtask_dialog()
 												 GTK_RESPONSE_CANCEL,
 												 NULL);
 
+	gtk_window_set_icon_name(GTK_WINDOW(newtask_dialog), "ptasker");
+
 	// Grid for widgets.
 	action_box = gtk_grid_new();
 	newtask_dialog_contentarea = gtk_dialog_get_content_area(GTK_DIALOG(newtask_dialog));

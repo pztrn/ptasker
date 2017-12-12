@@ -13,6 +13,7 @@ v1.0.1
    from Glade UI.
  * As well with buttons, removed search input field from Glade UI,
    it is now also dynamically generated.
+ * Fixed dialogs and window icon loading.
 
 v1.0.0
 ------
