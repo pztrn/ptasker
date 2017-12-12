@@ -235,6 +235,7 @@ void ui_toolbar_init(GtkBuilder *builder)
     ti_search_entry = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(ti_search_entry), "Search for tasks...");
     gtk_entry_set_icon_from_icon_name(GTK_ENTRY(ti_search_entry), GTK_ENTRY_ICON_PRIMARY, "gtk-find");
+    gtk_entry_set_width_chars(GTK_ENTRY(ti_search_entry), 25);
     gtk_container_add(GTK_CONTAINER(ti_search), GTK_WIDGET(ti_search_entry));
     g_signal_connect(ti_search_entry,
                      "changed", (GCallback)ui_toolbar_search_field_changed, NULL);
