@@ -21,6 +21,22 @@
 #include <string.h>
 #include <stdio.h>
 
+char *pstr_tolower(char *original)
+{
+	char *old = strdup(original);
+	char *new = (char *)malloc(sizeof(old));
+	size_t i;
+
+	for (i = 0; i < sizeof(old); i++)
+	{
+		new[i] = tolower(old[i]);
+	}
+
+	free(old);
+
+	return new;
+}
+
 void trim(char *str)
 {
 	char *p;

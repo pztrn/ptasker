@@ -30,6 +30,8 @@
 
 static GtkWidget *ti_status_cb;
 
+static GtkWidget *ti_search_entry;
+
 // Callback for new task button click.
 int newtask_clicked_cbk(GtkButton *btn, gpointer data)
 {
@@ -116,10 +118,10 @@ const char *ui_toolbar_get_status_filter()
 
 void ui_toolbar_search_field_changed(GtkEntry *entry, gchar *preedit, gpointer data)
 {
-    struct task **current_tasks;
-    current_tasks = (struct task **)ui_tasktree_get_current_tasks();
-
-    ui_tasktree_update(current_tasks);
+    const char *search_for;
+    search_for = gtk_entry_get_text(GTK_ENTRY(ti_search_entry));
+    log_info("Starting searching for '%s'...", search_for);
+    ui_tasktree_search_for(search_for);
 }
 
 // Toolbar initialization.
@@ -155,7 +157,6 @@ void ui_toolbar_init(GtkBuilder *builder)
     GtkToolItem *ti_sep_exp;
     // Search bar.
     GtkToolItem *ti_search;
-    GtkWidget *ti_search_entry;
 
     w_toolbar = GTK_TOOLBAR(gtk_builder_get_object(builder, "maintoolbar"));
 

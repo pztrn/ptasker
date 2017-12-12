@@ -319,7 +319,7 @@ static int match_search_keywords(struct task *task)
 	if (!task->description || !strlen(task->description))
 		return 0;
 
-	desc = g_ascii_strup(task->description, -1);
+	desc = g_utf8_strup(task->description, -1);
 
 	if (strstr(desc, search_keywords))
 		ret = 1;
@@ -337,7 +337,7 @@ static int match_search_keywords(struct task *task)
 
 	while (*tags)
 	{
-		tag = g_ascii_strup(*tags, -1);
+		tag = g_utf8_strup(*tags, -1);
 
 		if (strstr(tag, search_keywords))
 			ret = 1;
@@ -508,6 +508,12 @@ void tasktree_done_activate_cbk(GtkAction *action, gpointer data)
 	}
 
 	log_fct_exit();
+}
+
+void ui_tasktree_search_for(char *search_for)
+{
+	search_keywords = g_utf8_strup(search_for, -1);
+	ui_tasktree_update(current_tasks);
 }
 
 void tasktree_start_activate_cbk(GtkAction *action, gpointer data)
