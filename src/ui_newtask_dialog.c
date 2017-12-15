@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
  * Copyright (C) 2017, pztrn@pztrn.name
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -85,10 +85,16 @@ void ui_newtask_dialog()
 	GtkListStore *priority_store;
 	GtkTreeIter priority_iter;
 	GtkCellRenderer *priority_cb_column;
+	// Notes
+	GtkWidget *notes_label;
+	GtkWidget *notes_scroll;
+	GtkEntry *notes_entry;
+	GtkTextBuffer *notes_buffer;
+	GtkTextIter sIter, eIter;
 	// Dialog response.
 	gint result;
 	// Dialog data from fields.
-	const char *desc, *prj, *prio;
+	const char *desc, *note, *prj, *prio;
 
 	// The dialog.
 	newtask_dialog = gtk_dialog_new_with_buttons("Add new task",
@@ -101,6 +107,8 @@ void ui_newtask_dialog()
 												 NULL);
 
 	gtk_window_set_icon_name(GTK_WINDOW(newtask_dialog), "ptasker");
+	gtk_window_set_gravity(GTK_WINDOW(newtask_dialog), GDK_GRAVITY_NORTH_WEST);
+	gtk_window_set_default_size(GTK_WINDOW(newtask_dialog), 640, 480);
 
 	// Grid for widgets.
 	action_box = gtk_grid_new();
@@ -108,7 +116,7 @@ void ui_newtask_dialog()
 	gtk_box_set_spacing(GTK_BOX(newtask_dialog_contentarea), 10);
 	gtk_grid_set_row_spacing(GTK_GRID(action_box), 5);
 	gtk_grid_set_column_spacing(GTK_GRID(action_box), 10);
-	gtk_box_pack_start(GTK_BOX(newtask_dialog_contentarea), action_box, TRUE, TRUE, 5);
+	gtk_box_pack_start(GTK_BOX(newtask_dialog_contentarea), action_box, FALSE, TRUE, 5);
 
 	// Task description.
 	desc_label = gtk_label_new("Description:");
@@ -151,6 +159,17 @@ void ui_newtask_dialog()
 								   NULL);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(priority_cb), 0);
 
+	// Task description.
+	notes_label = gtk_label_new("Notes:");
+	gtk_grid_attach(GTK_GRID(action_box), notes_label, 0, 3, 1, 1);
+	notes_scroll = gtk_scrolled_window_new(NULL, NULL);
+	gtk_grid_attach(GTK_GRID(action_box), notes_scroll, 1, 3, 1, 1);
+	gtk_widget_set_vexpand(notes_scroll, TRUE);
+	notes_buffer = gtk_text_buffer_new(NULL);
+	notes_entry = gtk_text_view_new_with_buffer(notes_buffer);
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(notes_entry), GTK_WRAP_WORD);
+	gtk_container_add(GTK_CONTAINER(notes_scroll), notes_entry);
+
 	gtk_widget_show_all(newtask_dialog_contentarea);
 	result = gtk_dialog_run(GTK_DIALOG(newtask_dialog));
 
@@ -160,12 +179,16 @@ void ui_newtask_dialog()
 		desc = gtk_entry_get_text(desc_entry);
 		prj = gtk_combo_box_text_get_active_text(project_cb);
 		prio = ui_get_priority(priority_cb);
+
+		gtk_text_buffer_get_iter_at_offset(notes_buffer, &sIter, 0);
+		gtk_text_buffer_get_iter_at_offset(notes_buffer, &eIter, -1);
+		note = gtk_text_buffer_get_text(notes_buffer, &sIter, &eIter, TRUE);
 		log_info("ui_newtask(): description=%s project=%s priority=%d",
 				 desc,
 				 prj,
 				 prio);
 
-		tw_add(desc, prj, prio);
+		tw_add(desc, prj, prio, note);
 
 		refresh();
 	}

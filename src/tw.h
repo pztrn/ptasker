@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
  * Copyright (C) 2017, pztrn@pztrn.name
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -52,7 +52,7 @@ void tw_task_done(const char *uuid);
 void tw_task_start(const char *uuid);
 void tw_task_stop(const char *uuid);
 void tw_task_remove(const char *uuid);
-void tw_add(const char *newdesc, const char *prj, const char *prio);
+void tw_add(const char *newdesc, const char *prj, const char *prio, const char *note);
 void tw_task_list_free(struct task **tasks);
 struct project **tw_get_projects(struct task **tasks);
 void tw_project_list_free(struct project **);

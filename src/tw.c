@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2012-2016 jeanfi@gmail.com
  * Copyright (C) 2017, pztrn@pztrn.name
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -386,9 +386,33 @@ void tw_modify_priority(const char *uuid, const char *priority)
 	log_fct_exit();
 }
 
-void tw_add(const char *newdesc, const char *prj, const char *prio)
+char *tw_task_get_uuid_by_description(const char *desc) {
+	char *opts, *raw_uuid, *uuid;
+
+	// ToDo: description might be a number, ptasker should check for
+	// that.
+
+	opts = malloc(1 + strlen("description:'") + strlen(desc) + strlen("' uuids"));
+	sprintf(opts, " %s uuids", desc);
+	log_info("Opts: %s", opts);
+	raw_uuid = tw_exec(opts);
+
+	free(opts);
+
+	// Remove last character from obtained UUID, as it is '\n'.
+	uuid = malloc(strlen(raw_uuid));
+	strncpy(uuid, raw_uuid, strlen(raw_uuid)-1);
+	uuid[strlen(uuid)+1] = '\0';
+	free(raw_uuid);
+	log_info("Obtained UUID: %s", uuid);
+
+	return uuid;
+}
+
+// Adds task to taskwarrior database.
+void tw_add(const char *newdesc, const char *prj, const char *prio, const char *note)
 {
-	char *opts, *eprj;
+	char *opts, *eprj, *uuid;
 
 	log_fct_enter();
 
@@ -419,6 +443,15 @@ void tw_add(const char *newdesc, const char *prj, const char *prio)
 
 	free(opts);
 	free(eprj);
+
+	// Notes is our own extension which is incompatible with taskwarrior
+	// itself. In order to save it we should get UUID for just created
+	// task and write note to file named "$UUID.note".
+	if (note != NULL && strlen(note) != 0) {
+		log_info("Note length: %d", strlen(note));
+		uuid = tw_task_get_uuid_by_description(newdesc);
+		note_put(uuid, note);
+	}
 
 	log_fct_exit();
 }

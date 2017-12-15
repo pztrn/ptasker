@@ -14,6 +14,7 @@ v1.0.1
  * As well with buttons, removed search input field from Glade UI,
    it is now also dynamically generated.
  * Fixed dialogs and window icon loading.
+ * Added ability to make a note for task from task creation dialog.
 
 v1.0.0
 ------
